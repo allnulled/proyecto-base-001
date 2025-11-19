@@ -1,0 +1,15 @@
+{
+  "main": "index.html",
+  "name": "proyecto-base-001",
+  "description": "Punto de partida para el desarrollo de aplicaciones basadas en vue2 + win7 + socket.io.",
+  "window": {
+    "frame": false,
+    "transparent": false
+  },
+  "scripts": {
+    "build": "node assets/builder/bundle.js",
+    "dev": "npx nodemon -w 'assets/js' -w 'assets/css' -w 'assets/components' -e 'js,css,html' -x 'npm run build'",
+    "refresh": "node assets/reloader/starter.js",
+    "start": "nw ."
+  }
+}

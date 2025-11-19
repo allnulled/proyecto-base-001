@@ -1,0 +1,23 @@
+html,body {
+    margin: 0px;
+    padding: 0px;
+    background: transparent;
+}
+
+.main_window {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+
+.main_window > .window-body {
+    height: 100%;
+}
+
+.main_window > .title-bar {
+    -webkit-app-region: drag;
+}
