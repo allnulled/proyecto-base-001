@@ -17,3 +17,15 @@ Con estos 2 comandos, en consolas diferentes, automatizas la compilación al hab
 npm run dev
 npm run refresh
 ```
+
+Con este otro comando, compilas:
+
+```sh
+npm run build
+```
+
+Con este otro comando, arrancas la aplicación con `nw.js`:
+
+```sh
+npm start
+```
