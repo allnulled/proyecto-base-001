@@ -6,6 +6,7 @@ Punto de partida para el desarrollo de aplicaciones basadas en vue2 + win7 + soc
 
 ```sh
 git clone https://github.com/allnulled/proyecto-base-001.git .
+cd assets/reloader
 npm install
 ```
 
