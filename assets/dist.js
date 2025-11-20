@@ -1,11 +1,11 @@
 
-// @vuebundler[Traducciones_pdf_japones_application][0]=/home/carlos/Escritorio/Alvaro/2025-11-12. traducciones japones pdf/interfaz/assets/css/win7/win7.css
+// @vuebundler[Traducciones_pdf_japones_application][0]=/home/carlos/Escritorio/proyecto-base-001/assets/css/win7/win7.css
 
-// @vuebundler[Traducciones_pdf_japones_application][1]=/home/carlos/Escritorio/Alvaro/2025-11-12. traducciones japones pdf/interfaz/assets/css/one-framework/one-framework.css
+// @vuebundler[Traducciones_pdf_japones_application][1]=/home/carlos/Escritorio/proyecto-base-001/assets/css/one-framework/one-framework.css
 
-// @vuebundler[Traducciones_pdf_japones_application][2]=/home/carlos/Escritorio/Alvaro/2025-11-12. traducciones japones pdf/interfaz/assets/css/custom/custom.css
+// @vuebundler[Traducciones_pdf_japones_application][2]=/home/carlos/Escritorio/proyecto-base-001/assets/css/custom/custom.css
 
-// @vuebundler[Traducciones_pdf_japones_application][3]=/home/carlos/Escritorio/Alvaro/2025-11-12. traducciones japones pdf/interfaz/assets/js/vue2/vue2.js
+// @vuebundler[Traducciones_pdf_japones_application][3]=/home/carlos/Escritorio/proyecto-base-001/assets/js/vue2/vue2.js
 /*!
  * Vue.js v2.7.16
  * (c) 2014-2023 Evan You
@@ -11940,7 +11940,7 @@
 }));
 
 
-// @vuebundler[Traducciones_pdf_japones_application][4]=/home/carlos/Escritorio/Alvaro/2025-11-12. traducciones japones pdf/interfaz/assets/js/socket.io-client/socket.io-client.js
+// @vuebundler[Traducciones_pdf_japones_application][4]=/home/carlos/Escritorio/proyecto-base-001/assets/js/socket.io-client/socket.io-client.js
 /*!
  * Socket.IO v4.8.1
  * (c) 2014-2024 Guillermo Rauch
@@ -16851,7 +16851,7 @@
 
 
 
-// @vuebundler[Traducciones_pdf_japones_application][5]=/home/carlos/Escritorio/Alvaro/2025-11-12. traducciones japones pdf/interfaz/assets/reloader/reloadable.js
+// @vuebundler[Traducciones_pdf_japones_application][5]=/home/carlos/Escritorio/proyecto-base-001/assets/reloader/reloadable.js
 // @code.start: LswReloadable injection | @$section: LswReloader API » LswReloadable injection
 const serverUrl = 'http://127.0.0.1';
 const serverPort = 3000;
@@ -16865,9 +16865,9 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 }
 // @code.end: LswReloadable injection
 
-// @vuebundler[Traducciones_pdf_japones_application][6]=/home/carlos/Escritorio/Alvaro/2025-11-12. traducciones japones pdf/interfaz/assets/components/main-window/main-window.html
+// @vuebundler[Traducciones_pdf_japones_application][6]=/home/carlos/Escritorio/proyecto-base-001/assets/components/main-window/main-window.html
 
-// @vuebundler[Traducciones_pdf_japones_application][6]=/home/carlos/Escritorio/Alvaro/2025-11-12. traducciones japones pdf/interfaz/assets/components/main-window/main-window.js
+// @vuebundler[Traducciones_pdf_japones_application][6]=/home/carlos/Escritorio/proyecto-base-001/assets/components/main-window/main-window.js
 Vue.component("MainWindow", {
   template: `<div class="main_window_container">
     <div class="window main_window">
@@ -16894,11 +16894,11 @@ Vue.component("MainWindow", {
   }
 })
 
-// @vuebundler[Traducciones_pdf_japones_application][6]=/home/carlos/Escritorio/Alvaro/2025-11-12. traducciones japones pdf/interfaz/assets/components/main-window/main-window.css
+// @vuebundler[Traducciones_pdf_japones_application][6]=/home/carlos/Escritorio/proyecto-base-001/assets/components/main-window/main-window.css
 
-// @vuebundler[Traducciones_pdf_japones_application][7]=/home/carlos/Escritorio/Alvaro/2025-11-12. traducciones japones pdf/interfaz/assets/components/common-dialogs/common-dialogs.html
+// @vuebundler[Traducciones_pdf_japones_application][7]=/home/carlos/Escritorio/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html
 
-// @vuebundler[Traducciones_pdf_japones_application][7]=/home/carlos/Escritorio/Alvaro/2025-11-12. traducciones japones pdf/interfaz/assets/components/common-dialogs/common-dialogs.js
+// @vuebundler[Traducciones_pdf_japones_application][7]=/home/carlos/Escritorio/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js
 Vue.component("CommonDialogs", {
   template: `<div class="common_dialogs_container">
     Common dialogs here
@@ -16914,4 +16914,4 @@ Vue.component("CommonDialogs", {
   }
 })
 
-// @vuebundler[Traducciones_pdf_japones_application][7]=/home/carlos/Escritorio/Alvaro/2025-11-12. traducciones japones pdf/interfaz/assets/components/common-dialogs/common-dialogs.css
+// @vuebundler[Traducciones_pdf_japones_application][7]=/home/carlos/Escritorio/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css
