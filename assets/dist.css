@@ -1,5 +1,5 @@
 
-/* @vuebundler[Traducciones_pdf_japones_application][0]=/home/carlos/Escritorio/proyecto-base-001/assets/css/win7/win7.css*/
+/* @vuebundler[Proyecto_base_001][0]=/home/carlos/Escritorio/proyecto-base-001/assets/css/win7/win7.css*/
 /*! 7.css v0.21.1 - https://khang-nd.github.io/7.css */
 :root {
     --w7-font: 9pt "Segoe UI", "SegoeUI", "Noto Sans", sans-serif;
@@ -2168,10 +2168,10 @@ a:hover {
 
 /*# sourceMappingURL=7.css.map */
 
-/* @vuebundler[Traducciones_pdf_japones_application][1]=/home/carlos/Escritorio/proyecto-base-001/assets/css/one-framework/one-framework.css*/
+/* @vuebundler[Proyecto_base_001][1]=/home/carlos/Escritorio/proyecto-base-001/assets/css/one-framework/one-framework.css*/
 
 
-/* @vuebundler[Traducciones_pdf_japones_application][2]=/home/carlos/Escritorio/proyecto-base-001/assets/css/custom/custom.css*/
+/* @vuebundler[Proyecto_base_001][2]=/home/carlos/Escritorio/proyecto-base-001/assets/css/custom/custom.css*/
 html,body {
     margin: 0px;
     padding: 0px;
@@ -2196,24 +2196,24 @@ html,body {
     -webkit-app-region: drag;
 }
 
-/* @vuebundler[Traducciones_pdf_japones_application][3]=/home/carlos/Escritorio/proyecto-base-001/assets/js/vue2/vue2.js*/
+/* @vuebundler[Proyecto_base_001][3]=/home/carlos/Escritorio/proyecto-base-001/assets/js/vue2/vue2.js*/
 
-/* @vuebundler[Traducciones_pdf_japones_application][4]=/home/carlos/Escritorio/proyecto-base-001/assets/js/socket.io-client/socket.io-client.js*/
+/* @vuebundler[Proyecto_base_001][4]=/home/carlos/Escritorio/proyecto-base-001/assets/js/socket.io-client/socket.io-client.js*/
 
-/* @vuebundler[Traducciones_pdf_japones_application][5]=/home/carlos/Escritorio/proyecto-base-001/assets/reloader/reloadable.js*/
+/* @vuebundler[Proyecto_base_001][5]=/home/carlos/Escritorio/proyecto-base-001/assets/reloader/reloadable.js*/
 
-/* @vuebundler[Traducciones_pdf_japones_application][6]=/home/carlos/Escritorio/proyecto-base-001/assets/components/main-window/main-window.html*/
+/* @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/proyecto-base-001/assets/components/main-window/main-window.html*/
 
-/* @vuebundler[Traducciones_pdf_japones_application][6]=/home/carlos/Escritorio/proyecto-base-001/assets/components/main-window/main-window.js*/
+/* @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/proyecto-base-001/assets/components/main-window/main-window.js*/
 
-/* @vuebundler[Traducciones_pdf_japones_application][6]=/home/carlos/Escritorio/proyecto-base-001/assets/components/main-window/main-window.css*/
+/* @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/proyecto-base-001/assets/components/main-window/main-window.css*/
 .main_window_container {}
 .main_window {}
 
-/* @vuebundler[Traducciones_pdf_japones_application][7]=/home/carlos/Escritorio/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html*/
+/* @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html*/
 
-/* @vuebundler[Traducciones_pdf_japones_application][7]=/home/carlos/Escritorio/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js*/
+/* @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js*/
 
-/* @vuebundler[Traducciones_pdf_japones_application][7]=/home/carlos/Escritorio/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css*/
+/* @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css*/
 .common_dialogs_container {}
 .common_dialogs {}
