@@ -7,9 +7,13 @@
     "transparent": false
   },
   "scripts": {
+    "install:all": "npm install && npm run install:reloader",
+    "install:reloader": "cd assets/reloader && npm install",
     "build": "node assets/builder/bundle.js",
     "dev": "npx nodemon -w 'assets/js' -w 'assets/css' -w 'assets/components' -e 'js,css,html' -x 'npm run build'",
     "refresh": "node assets/reloader/starter.js",
-    "start": "nw ."
+    "start": "nw .",
+    "ui": "nw .",
+    "ui:own": "~/.node-webkit/nw/nwjs-sdk-v0.82.0-linux-x64/nw ."
   }
 }
