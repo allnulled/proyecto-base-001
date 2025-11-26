@@ -2169,7 +2169,58 @@ a:hover {
 /*# sourceMappingURL=7.css.map */
 
 /* @vuebundler[Proyecto_base_001][1]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/one-framework/one-framework.css*/
+button {
+    cursor: pointer;
+}
+button.mini {
+    min-width: auto;
+    padding: 2px;
+}
+.no_wrap {
+    white-space: nowrap;
+}
+.width_100 {
+    width: 100%;
+}
+.width_1 {
+    width: 1%;
+}
+.width_auto {
+    width: auto;
+}
+.flex_row {
+    display: flex;
+    flex-direction: row;
+}
+.flex_100 {
+    flex: 100;
+}
+.flex_1 {
+    flex: 1;
+}
+.flex_row.centered {
+    align-items: center;
+}
 
+.font_weight_bold {
+    font-weight: bold;
+}
+
+.pad_1 {
+    padding: 2px;
+}
+.pad_top_1 {
+    padding-top: 2px;
+}
+.pad_bottom_1 {
+    padding-bottom: 2px;
+}
+.pad_left_1 {
+    padding-left: 2px;
+}
+.pad_right_1 {
+    padding-right: 2px;
+}
 
 /* @vuebundler[Proyecto_base_001][2]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/custom/custom.css*/
 html,body {
@@ -2247,7 +2298,7 @@ html,body {
     display: flex;
     flex-direction: column;
     position: fixed;
-    top: 20px;
+    top: auto;
     left: 10px;
     right: 10px;
     bottom: 20px;

@@ -16885,7 +16885,7 @@ Vue.component("CommonDialogs", {
                     {{ dialog }}
                 </div>
                 <div class="status-bar">
-                    <p class="status-bar-field">En esta ventana se ven los diálogos activos.</p>
+                    <p class="status-bar-field no_wrap">En esta ventana se ven los diálogos activos.</p>
                     <p class="status-bar-field width_100"></p>
                 </div>
             </div>
@@ -16952,7 +16952,7 @@ Vue.component("CommonToasts", {
                     {{ toast }}
                 </div>
                 <div class="status-bar">
-                    <p class="status-bar-field">En esta ventana se ven los avisos activos.</p>
+                    <p class="status-bar-field no_wrap">En esta ventana se ven los avisos activos.</p>
                     <p class="status-bar-field width_100"></p>
                 </div>
             </div>
@@ -17019,7 +17019,7 @@ Vue.component("CommonErrors", {
                     {{ error }}
                 </div>
                 <div class="status-bar">
-                    <p class="status-bar-field">En esta ventana se ven los errores activos.</p>
+                    <p class="status-bar-field no_wrap">En esta ventana se ven los errores activos.</p>
                     <p class="status-bar-field width_100"></p>
                 </div>
             </div>
@@ -17082,7 +17082,15 @@ Vue.component("MainWindow", {
             <div class="title-bar-text">Proyecto base 002</div>
         </div>
         <div class="window-body has-space">
-            <button v-on:click="() => \$dialogs.open({title: 'Ejemplo', template: '<div>Okkk</div>'})">Mostrar diálogo de ejemplo</button>
+            <div class="pad_bottom_1">
+                <button v-on:click="() => \$dialogs.open({title: 'Ejemplo', template: '<div>Okkk</div>'})">Mostrar diálogo de ejemplo</button>
+            </div>
+            <div class="pad_bottom_1">
+                <button v-on:click="() => \$toasts.open({title: 'Ejemplo', template: '<div>Okkk</div>'})">Mostrar toast de ejemplo</button>
+            </div>
+            <div class="pad_bottom_1">
+                <button v-on:click="() => \$errors.showError(new \$window.Error('Algo fue mal'))">Mostrar error de ejemplo</button>
+            </div>
         </div>
         <div class="status-bar">
             <p class="status-bar-field">Bienvenido</p>

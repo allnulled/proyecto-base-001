@@ -6,14 +6,18 @@ Punto de partida para el desarrollo de aplicaciones basadas nw.js.
 
 - [proyecto-base-001](#proyecto-base-001)
 - [Índice](#índice)
-- [Dependencias](#dependencias)
+- [Dependencias previas](#dependencias-previas)
 - [Instalación](#instalación)
-- [Comandos](#comandos)
+- [Comandos del proyecto](#comandos-del-proyecto)
   - [Comando 1: iniciar interfaz gráfica](#comando-1-iniciar-interfaz-gráfica)
   - [Comando 2: compilar los fuentes](#comando-2-compilar-los-fuentes)
   - [Comando 3: modo desarrollo](#comando-3-modo-desarrollo)
+- [Principales APIs](#principales-apis)
+  - [API de Diálogos](#api-de-diálogos)
+  - [API de Mensajes emergentes](#api-de-mensajes-emergentes)
+  - [API de Errores](#api-de-errores)
 
-# Dependencias
+# Dependencias previas
 
 Se necesita tener accesible desde línea de comandos:
 
@@ -34,7 +38,7 @@ Segundo, instalar dependencias de `node_modules`:
 npm run install:all
 ```
 
-# Comandos
+# Comandos del proyecto
 
 A continuación se listan los principales comandos del proyecto:
 
@@ -83,3 +87,55 @@ La tercera consola sería para arrancar la interfaz gráfica:
 ```sh
 npm start
 ```
+
+# Principales APIs
+
+A continuación se exponen las APIs globales principales.
+
+## API de Diálogos
+
+Para mostrar un diálogo:
+
+```js
+const respuesta = await CommonDialogs.open({
+    title: "Título del diálogo",
+    template: "<div>Contenido</div>",
+});
+```
+
+La global `CommonDialogs` también está accesible:
+
+- globalmente desde `Vue.prototype.$dialogs`
+- localmente desde `this.$dialogs` en un componente
+
+## API de Mensajes emergentes
+
+Para mostrar un mensaje emergente:
+
+```js
+const respuesta = await CommonToasts.open({
+    title: "Título del diálogo",
+    template: "<div>Contenido</div>",
+});
+```
+
+La global `CommonToasts` también está accesible:
+
+- globalmente desde `Vue.prototype.$toasts`
+- localmente desde `this.$toasts` en un componente
+
+## API de Errores
+
+Para mostrar un mensaje emergente:
+
+```js
+const respuesta = await CommonErrors.open({
+    title: "Título del diálogo",
+    template: "<div>Contenido</div>",
+});
+```
+
+La global `CommonErrors` también está accesible:
+
+- globalmente desde `Vue.prototype.$errors`
+- localmente desde `this.$errors` en un componente
