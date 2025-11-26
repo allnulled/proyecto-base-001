@@ -1,11 +1,11 @@
 
-// @vuebundler[Proyecto_base_001][0]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/win7/win7.css
+// @vuebundler[Proyecto_base_001][0]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/libraries/win7/win7.css
 
 // @vuebundler[Proyecto_base_001][1]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/one-framework/one-framework.css
 
 // @vuebundler[Proyecto_base_001][2]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/custom/custom.css
 
-// @vuebundler[Proyecto_base_001][3]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/js/vue2/vue2.js
+// @vuebundler[Proyecto_base_001][3]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/libraries/vue2/vue2.js
 /*!
  * Vue.js v2.7.16
  * (c) 2014-2023 Evan You
@@ -11940,7 +11940,7 @@
 }));
 
 
-// @vuebundler[Proyecto_base_001][4]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/js/socket.io-client/socket.io-client.js
+// @vuebundler[Proyecto_base_001][4]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/libraries/socket.io-client/socket.io-client.js
 /*!
  * Socket.IO v4.8.1
  * (c) 2014-2024 Guillermo Rauch
@@ -16865,9 +16865,344 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 }
 // @code.end: LswReloadable injection
 
-// @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html
+// @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-boot.js
+(function (factory) {
+  const mod = factory();
+  if (typeof window !== 'undefined') {
+    window['NwtFramework'] = mod;
+  }
+  if (typeof global !== 'undefined') {
+    global['NwtFramework'] = mod;
+  }
+  if (typeof module !== 'undefined') {
+    module.exports = mod;
+  }
+})(function () {
+  
+  const NwtFramework = class {
 
-// @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js
+    static default = this;
+
+  };
+
+  return NwtFramework;
+
+});
+
+// @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-asserter.js
+(function (factory) {
+  const mod = factory();
+  if (typeof window !== 'undefined') {
+    window['NwtAsserter'] = mod;
+  }
+  if (typeof global !== 'undefined') {
+    global['NwtAsserter'] = mod;
+  }
+  if (typeof module !== 'undefined') {
+    module.exports = mod;
+  }
+})(function () {
+
+  const NwtAsserter = class {
+
+    static AssertionError = class extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "AssertionError";
+      }
+    }
+
+    static assertion(condition, errorMessage) {
+      if(!condition) {
+        const assertionError = new this.AssertionError(errorMessage);
+        this.onAssertionError(assertionError, errorMessage, condition);
+        throw assertionError;
+      }
+    }
+
+    static exportAsGlobals() {
+      if (typeof window !== 'undefined') {
+        window['assertion'] = this.assertion.bind(this);
+      }
+      if (typeof global !== 'undefined') {
+        global['assertion'] = this.assertion.bind(this);
+      }
+    }
+
+    static setErrorHandler(callback) {
+      this.onAssertionError = callback;
+    }
+
+    static onAssertionError(errorMessage, condition) {
+      console.log("Aserción falló:");
+      console.log("Mensaje de aserción fallida:", errorMessage);
+    }
+
+  }
+
+  NwtAsserter.exportAsGlobals();
+
+  return NwtAsserter;
+
+});
+
+// @vuebundler[Proyecto_base_001][8]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-settings.js
+(function (factory) {
+  const mod = factory();
+  if (typeof window !== 'undefined') {
+    window['NwtSettings'] = mod;
+  }
+  if (typeof global !== 'undefined') {
+    global['NwtSettings'] = mod;
+  }
+  if (typeof module !== 'undefined') {
+    module.exports = mod;
+  }
+})(function () {
+  
+  const NwtSettings = class {
+
+    
+
+  };
+
+  return NwtSettings;
+
+});
+
+// @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-utils.js
+(function (factory) {
+  const mod = factory();
+  if (typeof window !== 'undefined') {
+    window['NwtUtils'] = mod;
+  }
+  if (typeof global !== 'undefined') {
+    global['NwtUtils'] = mod;
+  }
+  if (typeof module !== 'undefined') {
+    module.exports = mod;
+  }
+})(function () {
+  
+  const NwtUtils = class {
+
+  };
+
+  return NwtUtils;
+
+});
+
+// @vuebundler[Proyecto_base_001][10]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-timer.js
+(function (factory) {
+  const mod = factory();
+  if (typeof window !== 'undefined') {
+    window['NwtTimer'] = mod;
+  }
+  if (typeof global !== 'undefined') {
+    global['NwtTimer'] = mod;
+  }
+  if (typeof module !== 'undefined') {
+    module.exports = mod;
+  }
+})(function () {
+
+  const NwtTimer = class {
+
+    static fromDateToString(d, options = {}) {
+      // d puede ser Date, número (timestamp) o cadena aceptada por Date
+      const date = d instanceof Date ? d : new Date(d);
+      const utc = !!options.utc;
+      const Y = utc ? date.getUTCFullYear() : date.getFullYear();
+      const M = (utc ? date.getUTCMonth() : date.getMonth()) + 1; // 0..11 -> 1..12
+      const D = utc ? date.getUTCDate() : date.getDate();
+      const hh = utc ? date.getUTCHours() : date.getHours();
+      const mm = utc ? date.getUTCMinutes() : date.getMinutes();
+      const ss = utc ? date.getUTCSeconds() : date.getSeconds();
+      const ms = utc ? date.getUTCMilliseconds() : date.getMilliseconds();
+      const pad = (n, width = 2) => {
+        const s = String(n);
+        return s.length >= width ? s : '0'.repeat(width - s.length) + s;
+      };
+      return (
+        String(Y).padStart(4, '0') + '-' +
+        pad(M) + '-' +
+        pad(D) + ' ' +
+        pad(hh) + ':' +
+        pad(mm) + ':' +
+        pad(ss) + '.' +
+        pad(ms, 3)
+      );
+    }
+
+  };
+
+  return NwtTimer;
+
+});
+
+// @vuebundler[Proyecto_base_001][11]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-randomizer.js
+(function (factory) {
+  const mod = factory();
+  if (typeof window !== 'undefined') {
+    window['NwtRandomizer'] = mod;
+  }
+  if (typeof global !== 'undefined') {
+    global['NwtRandomizer'] = mod;
+  }
+  if (typeof module !== 'undefined') {
+    module.exports = mod;
+  }
+})(function () {
+
+  const NwtRandomizer = class {
+
+    static fromNumbers(start, end) {
+      if (typeof start !== "number" || typeof end !== "number") {
+        throw new TypeError("Parámetros «start» y «end» deben ser números en «NwtRandomizer.fromNumbers»");
+      }
+      if (end < start) {
+        throw new RangeError("end no puede ser menor que start");
+      }
+      return Math.floor(Math.random() * (end - start + 1)) + start;
+    }
+
+    // Devuelve un ítem aleatorio de la lista
+    static fromList(list) {
+      if (!Array.isArray(list)) {
+        throw new TypeError("list debe ser un array");
+      }
+      if (list.length === 0) {
+        return undefined;
+      }
+      const i = Math.floor(Math.random() * list.length);
+      return list[i];
+    }
+
+    static alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+
+    static numerical = "0123456789".split("");
+    
+    static alphanumerical = "abcdefghijklmnopqrstuvwxyz0123456789".split("");
+
+    static fromAlphabet(len = 10, alphabet = this.alphabet) {
+      let out = "";
+      while(out.length < len) {
+        out += this.fromList(alphabet);
+      }
+      return out;
+    }
+
+  };
+
+  return NwtRandomizer;
+
+});
+
+// @vuebundler[Proyecto_base_001][12]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tester.js
+(function (factory) {
+  const mod = factory();
+  if (typeof window !== 'undefined') {
+    window['NwtTester'] = mod;
+  }
+  if (typeof global !== 'undefined') {
+    global['NwtTester'] = mod;
+  }
+  if (typeof module !== 'undefined') {
+    module.exports = mod;
+  }
+})(function () {
+  
+  const NwtTester = class {
+
+    static default = this;
+
+  };
+
+  return NwtTester;
+
+});
+
+// @vuebundler[Proyecto_base_001][13]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js
+/**
+ * 
+ * # Nwt Global API
+ * 
+ * Está expuesta en:
+ * 
+ * ```js
+ * Object.assign(NwtFramework, {
+ *   // BOOT
+ *   settings: NwtSettings,
+ *   timer: NwtTimer,
+ *   utils: NwtUtils,
+ *   asserter: NwtAsserter,
+ *   randomizer: NwtRandomizer,
+ *   tester: NwtTester,
+ *   // PACK
+ * });
+ * ```
+ * 
+ * También puede encontrarse en:
+ * 
+ * ```js
+ * Vue.prototype.$nwt
+ * ```
+ * 
+ */
+(function () {
+  
+  Object.assign(NwtFramework, {
+    // BOOT
+    settings: NwtSettings,
+    timer: NwtTimer,
+    utils: NwtUtils,
+    asserter: NwtAsserter,
+    randomizer: NwtRandomizer,
+    tester: NwtTester,
+    // PACK
+  });
+
+})();
+
+// @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html
+
+// @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js
+/**
+ * 
+ * # Nwt Dialogs API
+ * 
+ * Está expuesta en las globales:
+ * 
+ * ```js
+ * CommonDialogs
+ * NwtDialogs
+ * Vue.prototype.$dialogs
+ * ```
+ * 
+ * ## Crear un diálogo con formulario y extraer la respuesta
+ * 
+ * ```js
+ * const respuesta = await CommonDialogs.open({
+ *     title: "Formulario simple",
+ *     template: `
+ *         <div>
+ *             <input type="text" v-model="user" />
+ *             <input type="password" v-model="password" />
+ *             <hr/>
+ *             <button v-on:click="accept">Aceptar</button>
+ *             <button v-on:click="cancel">Cancelar</button>
+ *         </div>
+ *     `,
+ *     factory: {
+ *         data: {
+ *             user: "",
+ *             password: "",
+ *         }
+ *     }
+ * });
+ * ```
+ * 
+ */
 Vue.component("CommonDialogs", {
   template: `<div class="common_dialogs_container">
     <div class="common_dialogs_container_2" v-if="activeDialogs.length">
@@ -16875,7 +17210,7 @@ Vue.component("CommonDialogs", {
             <div class="window common_dialogs_window"
                 v-bind:key="'dialog_' + dialogIndex">
                 <div class="title-bar">
-                    <div class="title-bar-text">Diálogos activos</div>
+                    <div class="title-bar-text">{{ dialog.title }}</div>
                     <div class="title-bar-controls">
                         <button aria-label="Close"
                             v-on:click="() => closeDialogByIndex(dialogIndex)"></button>
@@ -16884,9 +17219,8 @@ Vue.component("CommonDialogs", {
                 <div class="window-body has-space">
                     {{ dialog }}
                 </div>
-                <div class="status-bar">
-                    <p class="status-bar-field no_wrap">En esta ventana se ven los diálogos activos.</p>
-                    <p class="status-bar-field width_100"></p>
+                <div class="status-bar" v-if="dialog.footer">
+                    <p class="status-bar-field no_wrap">{{ dialog.footer }}</p>
                 </div>
             </div>
         </template>
@@ -16899,24 +17233,93 @@ Vue.component("CommonDialogs", {
     };
   },
   methods: {
-    assertion(condition, errorMessage) {
-      if(!condition) {
-        throw new Error(errorMessage);
+    expandDialogDefinition(baseDialog) {
+      const finalDialog = {};
+      finalDialog.factory = {};
+      Expand_props: {
+        finalDialog.factory.props = (function () {
+          const userProps = baseDialog.props || {};
+          const defaultProps = {
+            // Default props of dialog component:
+          };
+          return Object.assign({}, defaultProps, userProps);
+        })();
       }
+      Expand_data: {
+        finalDialog.factory.data = (() => {
+          const userData = baseDialog.data || {};
+          assertion(typeof userData === "object", "Parameter «data» in dialogs must be an object or omitted on «CommonDialogs.methods.expandDialogDefinition»");
+          const dialogState = Promise.withResolvers();
+          finalDialog.state = dialogState;
+          const defaultData = {
+            // Default data of dialog component:
+            value: undefined,
+            state: dialogState,
+          };
+          const finalData = Object.assign({}, defaultData, userData);
+          return () => finalData;
+        })();
+      }
+      Expand_methods: {
+        finalDialog.factory.methods = (() => {
+          const userMethods = baseDialog.methods || {};
+          const defaultMethods = {
+            // Default methods of dialog component:
+            accept(userValue = undefined) {
+              if (typeof userValue !== "undefined") {
+                this.value = userValue;
+              }
+              this.state.resolve(this.value);
+              return this.state.promise;
+            },
+            cancel(error) {
+              this.state.reject(error);
+              return this.state.promise;
+            }
+          };
+          const finalMethods = Object.assign({}, userMethods, defaultMethods);
+          return finalMethods;
+        })();
+      }
+      Expand_title: {
+        finalDialog.title = baseDialog.title || "Sin título";
+      }
+      Expand_footer: {
+        finalDialog.footer = baseDialog.footer || "";
+      }
+      Expand_template: {
+        finalDialog.template = baseDialog.template;
+        finalDialog.factory.template = baseDialog.template;
+      }
+      Expand_custom_component: {
+        Vue.component()
+      }
+      return finalDialog;
     },
-    validateDialog(dialogDefinition) {
-      this.assertion(typeof dialogDefinition === "object", `Parameter «dialogDefinition» must be an object on «CommonDialogs.prototype.validateDialog»`);
-      this.assertion(typeof dialogDefinition.title === "string", `Parameter «dialogDefinition.title» must be a string on «CommonDialogs.prototype.validateDialog»`);
-      this.assertion(typeof dialogDefinition.template === "string", `Parameter «dialogDefinition.template» must be a string on «CommonDialogs.prototype.validateDialog»`);
-      dialogDefinition.methods = Object.assign(dialogDefinition.methods || {}, {});
+    validateDialog(userDialogDefinition) {
+      const dialogDefinition = this.expandDialogDefinition(userDialogDefinition);
       console.log(dialogDefinition);
+      assertion(typeof dialogDefinition === "object", `Parameter «dialogDefinition» must be an object on «CommonDialogs.prototype.validateDialog»`);
+      assertion(typeof dialogDefinition.title === "string", `Parameter «dialogDefinition.title» must be a string on «CommonDialogs.prototype.validateDialog»`);
+      assertion(typeof dialogDefinition.template === "string", `Parameter «dialogDefinition.template» must be a string on «CommonDialogs.prototype.validateDialog»`);
+      assertion(typeof dialogDefinition.footer === "string", `Parameter «dialogDefinition.footer» must be an string on «CommonDialogs.prototype.validateDialog»`);
+      assertion(typeof dialogDefinition.factory === "object", `Parameter «dialogDefinition.factory» must be an object on «CommonDialogs.prototype.validateDialog»`);
+      assertion(typeof dialogDefinition.factory.props === "object", `Parameter «dialogDefinition.factory.props» must be an object on «CommonDialogs.prototype.validateDialog»`);
+      assertion(typeof dialogDefinition.factory.methods === "object", `Parameter «dialogDefinition.factory.methods» must be an object on «CommonDialogs.prototype.validateDialog»`);
+      assertion(typeof dialogDefinition.factory.data === "function", `Parameter «dialogDefinition.factory.data» must be a function on «CommonDialogs.prototype.validateDialog»`);
+      assertion(typeof dialogDefinition.state === "object", `Parameter «dialogDefinition.state» must be an object on «CommonDialogs.prototype.validateDialog»`);
+      assertion(typeof dialogDefinition.state.promise === "object", `Parameter «dialogDefinition.state.promise» must be an object on «CommonDialogs.prototype.validateDialog»`);
+      assertion(typeof dialogDefinition.state.resolve === "function", `Parameter «dialogDefinition.state.resolve» must be a function on «CommonDialogs.prototype.validateDialog»`);
+      assertion(typeof dialogDefinition.state.reject === "function", `Parameter «dialogDefinition.state.reject» must be a function on «CommonDialogs.prototype.validateDialog»`);
+      return dialogDefinition;
     },
-    open(dialogDefinition) {
+    open(userDialogDefinition) {
       try {
-        this.validateDialog(dialogDefinition);
+        const dialogDefinition = this.validateDialog(userDialogDefinition);
         this.activeDialogs.push(dialogDefinition);
+        return dialogDefinition.state.promise;
       } catch (error) {
-        this.$toasts.showError(error);
+        this.$errors.showError(error);
       }
     },
     closeDialogByIndex(dialogIndex) {
@@ -16926,15 +17329,39 @@ Vue.component("CommonDialogs", {
   mounted() {
     console.log("[*] CommonDialogs mounted!");
     window.CommonDialogs = this;
+    window.NwtDialogs = this;
     Vue.prototype.$dialogs = this;
   }
 })
 
-// @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css
+// @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css
 
-// @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html
+// @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html
 
-// @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js
+// @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js
+/**
+ * 
+ * # Nwt Toasts API
+ * 
+ * Está expuesta en las globales:
+ * 
+ * ```js
+ * CommonToasts
+ * NwtToasts
+ * Vue.prototype.$errors
+ * ```
+ * 
+ * ## Mostrar un error
+ * 
+ * ```js
+ * CommonToasts.open({
+ *   title: "Titulo",
+ *   text: "texto",
+ *   footer: "Pie de texto opcional"
+ * });
+ * ```
+ * 
+ */
 Vue.component("CommonToasts", {
   template: `<div class="common_toasts_container">
     <div class="common_toasts_container_2" v-if="activeToasts.length">
@@ -16942,18 +17369,17 @@ Vue.component("CommonToasts", {
             <div class="window common_toasts_window"
                 v-bind:key="'toast_' + toastIndex">
                 <div class="title-bar">
-                    <div class="title-bar-text">Avisos activos</div>
+                    <div class="title-bar-text">{{ toast.title }}</div>
                     <div class="title-bar-controls">
                         <button aria-label="Close"
                             v-on:click="() => closeToastByIndex(toastIndex)"></button>
                     </div>
                 </div>
                 <div class="window-body has-space">
-                    {{ toast }}
+                    {{ toast.text }}
                 </div>
-                <div class="status-bar">
-                    <p class="status-bar-field no_wrap">En esta ventana se ven los avisos activos.</p>
-                    <p class="status-bar-field width_100"></p>
+                <div class="status-bar" v-if="toast.footer">
+                    <p class="status-bar-field no_wrap">{{ toast.footer }}</p>
                 </div>
             </div>
         </template>
@@ -16966,21 +17392,23 @@ Vue.component("CommonToasts", {
     };
   },
   methods: {
-    assertion(condition, errorMessage) {
-      if(!condition) {
-        throw new Error(errorMessage);
-      }
+    expandToastDefinition(userToastDefinition) {
+      const toastDefinition = {};
+      toastDefinition.title = userToastDefinition.title;
+      toastDefinition.text = userToastDefinition.text;
+      toastDefinition.footer = userToastDefinition.footer || "";
+      return toastDefinition;
     },
-    validateDialog(toastDefinition) {
-      this.assertion(typeof toastDefinition === "object", `Parameter «toastDefinition» must be an object on «CommonToasts.prototype.validateDialog»`);
-      this.assertion(typeof toastDefinition.title === "string", `Parameter «toastDefinition.title» must be a string on «CommonToasts.prototype.validateDialog»`);
-      this.assertion(typeof toastDefinition.template === "string", `Parameter «toastDefinition.template» must be a string on «CommonToasts.prototype.validateDialog»`);
-      toastDefinition.methods = Object.assign(toastDefinition.methods || {}, {});
-      console.log(toastDefinition);
+    validateToast(userToastDefinition) {
+      const toastDefinition = this.expandToastDefinition(userToastDefinition);
+      assertion(typeof toastDefinition === "object", `Parameter «toastDefinition» must be an object on «CommonToasts.prototype.validateToast»`);
+      assertion(typeof toastDefinition.title === "string", `Parameter «toastDefinition.title» must be a string on «CommonToasts.prototype.validateToast»`);
+      assertion(typeof toastDefinition.text === "string", `Parameter «toastDefinition.text» must be a string on «CommonToasts.prototype.validateToast»`);
+      assertion(typeof toastDefinition.footer === "string", `Parameter «toastDefinition.footer» must be a string on «CommonToasts.prototype.validateToast»`);
     },
     open(toastDefinition) {
       try {
-        // this.validateDialog(toastDefinition);
+        this.validateToast(toastDefinition);
         this.activeToasts.push(toastDefinition);
       } catch (error) {
         this.$errors.showError(error);
@@ -16997,11 +17425,30 @@ Vue.component("CommonToasts", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css
+// @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css
 
-// @vuebundler[Proyecto_base_001][8]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html
+// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html
 
-// @vuebundler[Proyecto_base_001][8]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js
+// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js
+/**
+ * 
+ * # Nwt Errors API
+ * 
+ * Está expuesta en las globales:
+ * 
+ * ```js
+ * CommonErrors
+ * NwtErrors
+ * Vue.prototype.$errors
+ * ```
+ * 
+ * ## Mostrar un error
+ * 
+ * ```js
+ * CommonErrors.showError(new Error("Cualquier cosa"));
+ * ```
+ * 
+ */
 Vue.component("CommonErrors", {
   template: `<div class="common_errors_container">
     <div class="common_errors_container_2" v-if="activeErrors.length">
@@ -17009,18 +17456,24 @@ Vue.component("CommonErrors", {
             <div class="window common_errors_window"
                 v-bind:key="'error_' + errorIndex">
                 <div class="title-bar">
-                    <div class="title-bar-text">Errores activos</div>
+                    <div class="title-bar-text">{{ error.name }}</div>
                     <div class="title-bar-controls">
                         <button aria-label="Close"
                             v-on:click="() => closeErrorByIndex(errorIndex)"></button>
                     </div>
                 </div>
                 <div class="window-body has-space">
-                    {{ error }}
+                    <div class="error_name">Tipo: {{ error.name }}</div>
+                    <hr />
+                    <div class="error_message">Mensaje: {{ error.message }}</div>
+                    <hr />
+                    <div class="float_right position_relative">
+                        <button class="position_absolute_top_right no_wrap" style="top:4px; right:4px;" v-on:click="() => copyErrorToClipboard(error)">Copiar error</button>
+                    </div>
+                    <div class="error_stack" ref="stack_tracer">Traza completa del error:\n\n{{ error.name }} » {{ error.message }}\n\n{{ error.stack }}\n\n\n</div>
                 </div>
                 <div class="status-bar">
-                    <p class="status-bar-field no_wrap">En esta ventana se ven los errores activos.</p>
-                    <p class="status-bar-field width_100"></p>
+                    <p class="status-bar-field no_wrap">{{ \$nwt.timer.fromDateToString(currentDate) }}</p>
                 </div>
             </div>
         </template>
@@ -17029,52 +17482,48 @@ Vue.component("CommonErrors", {
   props: {},
   data() {
     return {
+      currentDate: new Date(),
+      stackSplitter: new RegExp("[\r\n\t ]+at[\r\n\t ]+", "g"),
       activeErrors: [],
     };
   },
   methods: {
-    assertion(condition, errorMessage) {
-      if(!condition) {
-        throw new Error(errorMessage);
-      }
-    },
-    validateDialog(errorDefinition) {
-      this.assertion(typeof errorDefinition === "object", `Parameter «errorDefinition» must be an object on «CommonErrors.prototype.validateDialog»`);
-      this.assertion(typeof errorDefinition.title === "string", `Parameter «errorDefinition.title» must be a string on «CommonErrors.prototype.validateDialog»`);
-      this.assertion(typeof errorDefinition.template === "string", `Parameter «errorDefinition.template» must be a string on «CommonErrors.prototype.validateDialog»`);
-      errorDefinition.methods = Object.assign(errorDefinition.methods || {}, {});
+    validateError(errorDefinition) {
+      assertion(typeof errorDefinition === "object", `Parameter «errorDefinition» must be an object on «CommonErrors.prototype.validateError»`);
+      assertion(typeof errorDefinition.name === "string", `Parameter «errorDefinition.name» must be a string on «CommonErrors.prototype.validateError»`);
+      assertion(typeof errorDefinition.message === "string", `Parameter «errorDefinition.message» must be a string on «CommonErrors.prototype.validateError»`);
+      assertion(typeof errorDefinition.stack === "string", `Parameter «errorDefinition.stack» must be a string on «CommonErrors.prototype.validateError»`);
       console.log(errorDefinition);
     },
     showError(error) {
-      if(error !== false) {
-        console.log(error);
-      }
+      this.validateError(error);
       this.activeErrors.push(error);
-    },
-    open(errorDefinition) {
-      try {
-        // this.validateDialog(errorDefinition);
-        this.activeErrors.push(errorDefinition);
-      } catch (error) {
-        this.showError(error);
-      }
     },
     closeErrorByIndex(errorIndex) {
       this.activeErrors.splice(errorIndex, 1);
+    },
+    copyErrorToClipboard(error) {
+      const text = `Traza completa del error:\n\n${ error.name } » ${ error.message }\n\n${ error.stack }`;
+      console.log(text);
+      navigator.clipboard.writeText(text);
     }
   },
   mounted() {
     console.log("[*] CommonErrors mounted!");
     window.CommonErrors = this;
+    window.NwtErrors = this;
     Vue.prototype.$errors = this;
+    NwtAsserter.setErrorHandler(error => this.showError(error))
   }
 })
 
-// @vuebundler[Proyecto_base_001][8]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css
 
-// @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
 
-// @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
+// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css
+
+// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
+
+// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
 Vue.component("MainWindow", {
   template: `<div class="main_window_container">
     <div class="window main_window">
@@ -17083,10 +17532,10 @@ Vue.component("MainWindow", {
         </div>
         <div class="window-body has-space">
             <div class="pad_bottom_1">
-                <button v-on:click="() => \$dialogs.open({title: 'Ejemplo', template: '<div>Okkk</div>'})">Mostrar diálogo de ejemplo</button>
+                <button ref="btn1" v-on:click="() => \$dialogs.open({title: 'Ejemplo', template: '<div>Okkk</div>'})">Mostrar diálogo de ejemplo</button>
             </div>
             <div class="pad_bottom_1">
-                <button v-on:click="() => \$toasts.open({title: 'Ejemplo', template: '<div>Okkk</div>'})">Mostrar toast de ejemplo</button>
+                <button v-on:click="() => \$toasts.open({title: 'Ejemplo', text: '<div>Okkk</div>'})">Mostrar toast de ejemplo</button>
             </div>
             <div class="pad_bottom_1">
                 <button v-on:click="() => \$errors.showError(new \$window.Error('Algo fue mal'))">Mostrar error de ejemplo</button>
@@ -17109,7 +17558,8 @@ Vue.component("MainWindow", {
   },
   mounted() {
     console.log("Main window mounted!");
+    this.$refs.btn1.click();
   }
 })
 
-// @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css
+// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css

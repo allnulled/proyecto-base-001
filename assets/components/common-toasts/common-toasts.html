@@ -4,18 +4,17 @@
             <div class="window common_toasts_window"
                 v-bind:key="'toast_' + toastIndex">
                 <div class="title-bar">
-                    <div class="title-bar-text">Avisos activos</div>
+                    <div class="title-bar-text">{{ toast.title }}</div>
                     <div class="title-bar-controls">
                         <button aria-label="Close"
                             v-on:click="() => closeToastByIndex(toastIndex)"></button>
                     </div>
                 </div>
                 <div class="window-body has-space">
-                    {{ toast }}
+                    {{ toast.text }}
                 </div>
-                <div class="status-bar">
-                    <p class="status-bar-field no_wrap">En esta ventana se ven los avisos activos.</p>
-                    <p class="status-bar-field width_100"></p>
+                <div class="status-bar" v-if="toast.footer">
+                    <p class="status-bar-field no_wrap">{{ toast.footer }}</p>
                 </div>
             </div>
         </template>

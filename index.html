@@ -15,6 +15,7 @@
     <script>
         window.addEventListener("load", function () {
             Vue.prototype.$window = window;
+            Vue.prototype.$nwt = NwtFramework;
             new Vue({
                 render: h => h(Vue.options.components.MainWindow),
             }).$mount("#app");

@@ -4,18 +4,24 @@
             <div class="window common_errors_window"
                 v-bind:key="'error_' + errorIndex">
                 <div class="title-bar">
-                    <div class="title-bar-text">Errores activos</div>
+                    <div class="title-bar-text">{{ error.name }}</div>
                     <div class="title-bar-controls">
                         <button aria-label="Close"
                             v-on:click="() => closeErrorByIndex(errorIndex)"></button>
                     </div>
                 </div>
                 <div class="window-body has-space">
-                    {{ error }}
+                    <div class="error_name">Tipo: {{ error.name }}</div>
+                    <hr />
+                    <div class="error_message">Mensaje: {{ error.message }}</div>
+                    <hr />
+                    <div class="float_right position_relative">
+                        <button class="position_absolute_top_right no_wrap" style="top:4px; right:4px;" v-on:click="() => copyErrorToClipboard(error)">Copiar error</button>
+                    </div>
+                    <div class="error_stack" ref="stack_tracer">Traza completa del error:\n\n{{ error.name }} » {{ error.message }}\n\n{{ error.stack }}\n\n\n</div>
                 </div>
                 <div class="status-bar">
-                    <p class="status-bar-field no_wrap">En esta ventana se ven los errores activos.</p>
-                    <p class="status-bar-field width_100"></p>
+                    <p class="status-bar-field no_wrap">{{ $nwt.timer.fromDateToString(currentDate) }}</p>
                 </div>
             </div>
         </template>

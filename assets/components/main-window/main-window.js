@@ -8,5 +8,6 @@ Vue.component("MainWindow", {
   },
   mounted() {
     console.log("Main window mounted!");
+    this.$refs.btn1.click();
   }
 })

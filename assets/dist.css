@@ -1,5 +1,5 @@
 
-/* @vuebundler[Proyecto_base_001][0]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/win7/win7.css*/
+/* @vuebundler[Proyecto_base_001][0]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/libraries/win7/win7.css*/
 /*! 7.css v0.21.1 - https://khang-nd.github.io/7.css */
 :root {
     --w7-font: 9pt "Segoe UI", "SegoeUI", "Noto Sans", sans-serif;
@@ -2169,6 +2169,11 @@ a:hover {
 /*# sourceMappingURL=7.css.map */
 
 /* @vuebundler[Proyecto_base_001][1]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/one-framework/one-framework.css*/
+html,body {
+    margin: 0px;
+    padding: 0px;
+    background: transparent;
+}
 button {
     cursor: pointer;
 }
@@ -2222,13 +2227,27 @@ button.mini {
     padding-right: 2px;
 }
 
-/* @vuebundler[Proyecto_base_001][2]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/custom/custom.css*/
-html,body {
-    margin: 0px;
-    padding: 0px;
-    background: transparent;
+.float_right {
+    float: right;
 }
 
+.float_left {
+    float: left;
+}
+
+.position_relative {
+    position: relative;
+}
+
+.position_absolute_top_right {
+    position: absolute;
+    top: 0px;
+    bottom: auto;
+    left: auto;
+    right: 0px;
+}
+
+/* @vuebundler[Proyecto_base_001][2]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/custom/custom.css*/
 .main_window {
     display: flex;
     flex-direction: column;
@@ -2247,17 +2266,33 @@ html,body {
     -webkit-app-region: drag;
 }
 
-/* @vuebundler[Proyecto_base_001][3]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/js/vue2/vue2.js*/
+/* @vuebundler[Proyecto_base_001][3]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/libraries/vue2/vue2.js*/
 
-/* @vuebundler[Proyecto_base_001][4]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/js/socket.io-client/socket.io-client.js*/
+/* @vuebundler[Proyecto_base_001][4]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/libraries/socket.io-client/socket.io-client.js*/
 
 /* @vuebundler[Proyecto_base_001][5]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/reloader/reloadable.js*/
 
-/* @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html*/
+/* @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-boot.js*/
 
-/* @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js*/
+/* @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-asserter.js*/
 
-/* @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css*/
+/* @vuebundler[Proyecto_base_001][8]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-settings.js*/
+
+/* @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-utils.js*/
+
+/* @vuebundler[Proyecto_base_001][10]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-timer.js*/
+
+/* @vuebundler[Proyecto_base_001][11]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-randomizer.js*/
+
+/* @vuebundler[Proyecto_base_001][12]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tester.js*/
+
+/* @vuebundler[Proyecto_base_001][13]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js*/
+
+/* @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html*/
+
+/* @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js*/
+
+/* @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css*/
 .common_dialogs_container {}
 .common_dialogs_container_2 {
     position: fixed;
@@ -2280,11 +2315,11 @@ html,body {
     height: 100%;
 }
 
-/* @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html*/
+/* @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html*/
 
-/* @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js*/
+/* @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js*/
 
-/* @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css*/
+/* @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css*/
 .common_toasts_container {}
 .common_toasts_container_2 {
     position: fixed;
@@ -2307,11 +2342,11 @@ html,body {
     height: 100%;
 }
 
-/* @vuebundler[Proyecto_base_001][8]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html*/
+/* @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html*/
 
-/* @vuebundler[Proyecto_base_001][8]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js*/
+/* @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js*/
 
-/* @vuebundler[Proyecto_base_001][8]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css*/
+/* @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css*/
 .common_errors_container {}
 .common_errors_container_2 {
     position: fixed;
@@ -2337,11 +2372,19 @@ html,body {
 .common_errors_window.window > .window-body {
     height: 100%;
 }
+.error_stack {
+    border: 1px solid black;
+    padding: 4px;
+    white-space: pre;
+    overflow: scroll;
+    background-color: #e98d8d;
+    color: black;
+}
 
-/* @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html*/
+/* @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html*/
 
-/* @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js*/
+/* @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js*/
 
-/* @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css*/
+/* @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css*/
 .main_window_container {}
 .main_window {}

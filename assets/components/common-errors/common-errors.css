@@ -23,3 +23,11 @@
 .common_errors_window.window > .window-body {
     height: 100%;
 }
+.error_stack {
+    border: 1px solid black;
+    padding: 4px;
+    white-space: pre;
+    overflow: scroll;
+    background-color: #e98d8d;
+    color: black;
+}

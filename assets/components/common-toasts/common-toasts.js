@@ -1,3 +1,26 @@
+/**
+ * 
+ * # Nwt Toasts API
+ * 
+ * Está expuesta en las globales:
+ * 
+ * ```js
+ * CommonToasts
+ * NwtToasts
+ * Vue.prototype.$errors
+ * ```
+ * 
+ * ## Mostrar un error
+ * 
+ * ```js
+ * CommonToasts.open({
+ *   title: "Titulo",
+ *   text: "texto",
+ *   footer: "Pie de texto opcional"
+ * });
+ * ```
+ * 
+ */
 Vue.component("CommonToasts", {
   template: $template,
   props: {},
@@ -7,21 +30,23 @@ Vue.component("CommonToasts", {
     };
   },
   methods: {
-    assertion(condition, errorMessage) {
-      if(!condition) {
-        throw new Error(errorMessage);
-      }
+    expandToastDefinition(userToastDefinition) {
+      const toastDefinition = {};
+      toastDefinition.title = userToastDefinition.title;
+      toastDefinition.text = userToastDefinition.text;
+      toastDefinition.footer = userToastDefinition.footer || "";
+      return toastDefinition;
     },
-    validateDialog(toastDefinition) {
-      this.assertion(typeof toastDefinition === "object", `Parameter «toastDefinition» must be an object on «CommonToasts.prototype.validateDialog»`);
-      this.assertion(typeof toastDefinition.title === "string", `Parameter «toastDefinition.title» must be a string on «CommonToasts.prototype.validateDialog»`);
-      this.assertion(typeof toastDefinition.template === "string", `Parameter «toastDefinition.template» must be a string on «CommonToasts.prototype.validateDialog»`);
-      toastDefinition.methods = Object.assign(toastDefinition.methods || {}, {});
-      console.log(toastDefinition);
+    validateToast(userToastDefinition) {
+      const toastDefinition = this.expandToastDefinition(userToastDefinition);
+      assertion(typeof toastDefinition === "object", `Parameter «toastDefinition» must be an object on «CommonToasts.prototype.validateToast»`);
+      assertion(typeof toastDefinition.title === "string", `Parameter «toastDefinition.title» must be a string on «CommonToasts.prototype.validateToast»`);
+      assertion(typeof toastDefinition.text === "string", `Parameter «toastDefinition.text» must be a string on «CommonToasts.prototype.validateToast»`);
+      assertion(typeof toastDefinition.footer === "string", `Parameter «toastDefinition.footer» must be a string on «CommonToasts.prototype.validateToast»`);
     },
     open(toastDefinition) {
       try {
-        // this.validateDialog(toastDefinition);
+        this.validateToast(toastDefinition);
         this.activeToasts.push(toastDefinition);
       } catch (error) {
         this.$errors.showError(error);

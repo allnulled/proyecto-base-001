@@ -1,3 +1,8 @@
+html,body {
+    margin: 0px;
+    padding: 0px;
+    background: transparent;
+}
 button {
     cursor: pointer;
 }
@@ -49,4 +54,24 @@ button.mini {
 }
 .pad_right_1 {
     padding-right: 2px;
+}
+
+.float_right {
+    float: right;
+}
+
+.float_left {
+    float: left;
+}
+
+.position_relative {
+    position: relative;
+}
+
+.position_absolute_top_right {
+    position: absolute;
+    top: 0px;
+    bottom: auto;
+    left: auto;
+    right: 0px;
 }

@@ -9,11 +9,15 @@
   "scripts": {
     "install:all": "npm install && npm run install:reloader",
     "install:reloader": "cd assets/reloader && npm install",
+    "build:docs": "node assets/builder/build-docs.js",
     "build": "node assets/builder/bundle.js",
-    "dev": "npx nodemon -w 'assets/js' -w 'assets/css' -w 'assets/components' -e 'js,css,html' -x 'npm run build'",
+    "dev": "npx nodemon -w 'assets/framework' -w 'assets/components' -w 'assets/css' -e 'js,css,html' -x 'npm run build'",
     "refresh": "node assets/reloader/starter.js",
     "start": "nw .",
     "ui": "nw .",
     "ui:own": "~/.node-webkit/nw/nwjs-sdk-v0.82.0-linux-x64/nw ."
+  },
+  "devDependencies": {
+    "@allnulled/javadoc-brute": "^1.0.4"
   }
 }

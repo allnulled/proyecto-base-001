@@ -12,10 +12,7 @@ Punto de partida para el desarrollo de aplicaciones basadas nw.js.
   - [Comando 1: iniciar interfaz gráfica](#comando-1-iniciar-interfaz-gráfica)
   - [Comando 2: compilar los fuentes](#comando-2-compilar-los-fuentes)
   - [Comando 3: modo desarrollo](#comando-3-modo-desarrollo)
-- [Principales APIs](#principales-apis)
-  - [API de Diálogos](#api-de-diálogos)
-  - [API de Mensajes emergentes](#api-de-mensajes-emergentes)
-  - [API de Errores](#api-de-errores)
+- [Referencia de API](#referencia-de-api)
 
 # Dependencias previas
 
@@ -88,54 +85,17 @@ La tercera consola sería para arrancar la interfaz gráfica:
 npm start
 ```
 
-# Principales APIs
+# Referencia de API
 
-A continuación se exponen las APIs globales principales.
+Las referencias de las APIs para el desarrollo están aquí:
 
-## API de Diálogos
-
-Para mostrar un diálogo:
-
-```js
-const respuesta = await CommonDialogs.open({
-    title: "Título del diálogo",
-    template: "<div>Contenido</div>",
-});
-```
-
-La global `CommonDialogs` también está accesible:
-
-- globalmente desde `Vue.prototype.$dialogs`
-- localmente desde `this.$dialogs` en un componente
-
-## API de Mensajes emergentes
-
-Para mostrar un mensaje emergente:
-
-```js
-const respuesta = await CommonToasts.open({
-    title: "Título del diálogo",
-    template: "<div>Contenido</div>",
-});
-```
-
-La global `CommonToasts` también está accesible:
-
-- globalmente desde `Vue.prototype.$toasts`
-- localmente desde `this.$toasts` en un componente
-
-## API de Errores
-
-Para mostrar un mensaje emergente:
-
-```js
-const respuesta = await CommonErrors.open({
-    title: "Título del diálogo",
-    template: "<div>Contenido</div>",
-});
-```
-
-La global `CommonErrors` también está accesible:
-
-- globalmente desde `Vue.prototype.$errors`
-- localmente desde `this.$errors` en un componente
+- [🌐 Nwt Globals API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/globals-api.md)
+- [💬 Nwt Dialogs API - Vue2 component](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/dialogs-api.md)
+- [💡 Nwt Toasts API - Vue2 component](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/toasts-api.md)
+- [⛔️ Nwt Errors API - Vue2 component](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/errors-api.md)
+- [🪖 Nwt Asserter API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/asserter-api.md)
+- [🧪 Nwt Tester API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/tester-api.md)
+- [💈 Nwt Randomizer API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/randomizer-api.md)
+- [⚙️ Nwt Settings API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/settings-api.md)
+- [⏰ Nwt Timer API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/timer-api.md)
+- [🧰 Nwt Utils API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/utils-api.md)
