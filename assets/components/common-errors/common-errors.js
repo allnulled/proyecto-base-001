@@ -53,7 +53,7 @@ Vue.component("CommonErrors", {
     window.CommonErrors = this;
     window.NwtErrors = this;
     Vue.prototype.$errors = this;
-    NwtAsserter.setErrorHandler(error => this.showError(error))
+    assertion.setErrorCallback(error => this.showError(error))
   }
 })
 

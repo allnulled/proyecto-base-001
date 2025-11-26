@@ -8,15 +8,14 @@
                 <button ref="btn1" v-on:click="() => $dialogs.open({title: 'Ejemplo', template: '<div>Okkk</div>'})">Mostrar diálogo de ejemplo</button>
             </div>
             <div class="pad_bottom_1">
-                <button v-on:click="() => $toasts.open({title: 'Ejemplo', text: '<div>Okkk</div>'})">Mostrar toast de ejemplo</button>
+                <button v-on:click="() => $toasts.open({title: 'Ejemplo', text: '<div>Okkk' + (toastCounter++) + '</div>'})">Mostrar toast de ejemplo</button>
             </div>
             <div class="pad_bottom_1">
                 <button v-on:click="() => $errors.showError(new $window.Error('Algo fue mal'))">Mostrar error de ejemplo</button>
             </div>
         </div>
         <div class="status-bar">
-            <p class="status-bar-field">Bienvenido</p>
-            <p class="status-bar-field width_100"></p>
+            <p class="status-bar-field">Inicio de la aplicación.</p>
         </div>
     </div>
     <common-dialogs />

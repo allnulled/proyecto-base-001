@@ -3,7 +3,7 @@ Vue.component("MainWindow", {
   props: {},
   data() {
     return {
-
+      toastCounter: 0
     };
   },
   mounted() {

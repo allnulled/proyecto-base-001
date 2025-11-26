@@ -35,6 +35,7 @@ Vue.component("CommonToasts", {
       toastDefinition.title = userToastDefinition.title;
       toastDefinition.text = userToastDefinition.text;
       toastDefinition.footer = userToastDefinition.footer || "";
+      toastDefinition.timeout = userToastDefinition.timeout || 3000;
       return toastDefinition;
     },
     validateToast(userToastDefinition) {
@@ -43,17 +44,22 @@ Vue.component("CommonToasts", {
       assertion(typeof toastDefinition.title === "string", `Parameter «toastDefinition.title» must be a string on «CommonToasts.prototype.validateToast»`);
       assertion(typeof toastDefinition.text === "string", `Parameter «toastDefinition.text» must be a string on «CommonToasts.prototype.validateToast»`);
       assertion(typeof toastDefinition.footer === "string", `Parameter «toastDefinition.footer» must be a string on «CommonToasts.prototype.validateToast»`);
+      assertion(typeof toastDefinition.timeout === "number", `Parameter «toastDefinition.timeout» must be a number on «CommonToasts.prototype.validateToast»`);
+      setTimeout(() => {
+        this.closeToast(toastDefinition);
+      }, toastDefinition.timeout);
     },
     open(toastDefinition) {
       try {
         this.validateToast(toastDefinition);
-        this.activeToasts.push(toastDefinition);
+        this.activeToasts.unshift(toastDefinition);
       } catch (error) {
         this.$errors.showError(error);
       }
     },
-    closeToastByIndex(toastIndex) {
-      this.activeToasts.splice(toastIndex, 1);
+    closeToast(toast) {
+      const pos = this.activeToasts.indexOf(toast);
+      this.activeToasts.splice(pos, 1);
     }
   },
   mounted() {

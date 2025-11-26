@@ -1,11 +1,11 @@
 
-// @vuebundler[Proyecto_base_001][0]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/libraries/win7/win7.css
+// @vuebundler[Proyecto_base_001][0]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/win7/win7.css
 
 // @vuebundler[Proyecto_base_001][1]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/one-framework/one-framework.css
 
 // @vuebundler[Proyecto_base_001][2]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/custom/custom.css
 
-// @vuebundler[Proyecto_base_001][3]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/libraries/vue2/vue2.js
+// @vuebundler[Proyecto_base_001][3]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/vue2/vue2.js
 /*!
  * Vue.js v2.7.16
  * (c) 2014-2023 Evan You
@@ -11940,7 +11940,7 @@
 }));
 
 
-// @vuebundler[Proyecto_base_001][4]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/libraries/socket.io-client/socket.io-client.js
+// @vuebundler[Proyecto_base_001][4]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/socket.io-client/socket.io-client.js
 /*!
  * Socket.IO v4.8.1
  * (c) 2014-2024 Guillermo Rauch
@@ -16890,6 +16890,50 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 });
 
 // @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-asserter.js
+/**
+ * 
+ * # Nwt Asserter API
+ * 
+ * Se expone a través de:
+ * 
+ * ```js
+ * NwtAsserter
+ * NwtAsserter.global // instancia
+ * assertion // instancia
+ * NwtAsserter.global === assertion
+ * ```
+ * 
+ * Se usa así:
+ * 
+ * ```js
+ * assertion(1 === 2, "1 must equal 1");
+ * ```
+ * 
+ * Para personalizar el gestor de errores y aciertos:
+ * 
+ * ```js
+ * assertion.setErrorCallback(error => {
+ *   // Do something with the AssertionError
+ * });
+ * assertion.setSuccessCallback(errorMessage => {
+ *   // Do something with the success and the non-thrown error message
+ * });
+ * ```
+ * 
+ * Puedes crear un nuevo assertion así:
+ * 
+ * ```js
+ * const otherAssertion = NwtAsserter.createAssertion((message) => {
+ *   console.log("[*] Assertion succeded: " + message);
+ * }, error => {
+ *   console.log("[!] Assertion failed: " + error.message);
+ * });
+ * otherAssertion(true, "Assertion 1");
+ * otherAssertion(true, "Assertion 2");
+ * otherAssertion(false, "Assertion 3");
+ * ```
+ * 
+ */
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -16912,41 +16956,162 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
       }
     }
 
-    static assertion(condition, errorMessage) {
-      if(!condition) {
-        const assertionError = new this.AssertionError(errorMessage);
-        this.onAssertionError(assertionError, errorMessage, condition);
+    static noop() {}
+
+    static createAssertion(onSuccess = this.noop, onError = this.noop) {
+      const asserter = function(condition, errorMessage) {
+        if(condition) {
+          return asserter.onSuccess(errorMessage);
+        }
+        const assertionError = new NwtAsserter.AssertionError(errorMessage);
+        const avoidThrowing = asserter.onError(assertionError);
+        if(typeof avoidThrowing !== "undefined") {
+          return avoidThrowing;
+        }
         throw assertionError;
+      };
+      asserter.onSuccess = onSuccess;
+      asserter.onError = onError;
+      asserter.setSuccessCallback = function(onSuccessCallback) {
+        asserter.onSuccess = onSuccessCallback;
       }
+      asserter.setErrorCallback = function(onErrorCallback) {
+        asserter.onError = onErrorCallback;
+      };
+      return asserter;
     }
 
-    static exportAsGlobals() {
-      if (typeof window !== 'undefined') {
-        window['assertion'] = this.assertion.bind(this);
+    static globalizeAssertion(assertion) {
+      if(typeof window !== "undefined") {
+        window.assertion = assertion;
       }
-      if (typeof global !== 'undefined') {
-        global['assertion'] = this.assertion.bind(this);
+      if(typeof global !== "undefined") {
+        global.assertion = assertion;
       }
-    }
-
-    static setErrorHandler(callback) {
-      this.onAssertionError = callback;
-    }
-
-    static onAssertionError(errorMessage, condition) {
-      console.log("Aserción falló:");
-      console.log("Mensaje de aserción fallida:", errorMessage);
     }
 
   }
 
-  NwtAsserter.exportAsGlobals();
+  NwtAsserter.global = NwtAsserter.createAssertion();
+
+  NwtAsserter.globalizeAssertion(NwtAsserter.global);
 
   return NwtAsserter;
 
 });
 
-// @vuebundler[Proyecto_base_001][8]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-settings.js
+// @vuebundler[Proyecto_base_001][8]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-importer.js
+/**
+ * 
+ * # Nwt Importer API
+ * 
+ * API para importar scripts y estilos.
+ * 
+ * Se expone a través de:
+ * 
+ * ```js
+ * NwtImporter
+ * ```
+ * 
+ * Puede usarse así:
+ * 
+ * ```js
+ * await NwtImporter.scriptSrc("https://domain.com/script.js");
+ * await NwtImporter.linkStylesheet("https://domain.com/styles.css");
+ * ```
+ * 
+ */
+(function (factory) {
+  const mod = factory();
+  if (typeof window !== 'undefined') {
+    window['NwtImporter'] = mod;
+  }
+  if (typeof global !== 'undefined') {
+    global['NwtImporter'] = mod;
+  }
+  if (typeof module !== 'undefined') {
+    module.exports = mod;
+  }
+})(function () {
+
+  const NwtImporter = class {
+
+    static scriptSrc(url) {
+      return new Promise((resolve, reject) => {
+        if (!url) return reject(new Error("URL no válida"));
+        const script = document.createElement("script");
+        script.src = url;
+        script.async = true;
+        script.onload = () => resolve(script);
+        script.onerror = () => reject(new Error("Error cargando script: " + url));
+        document.head.appendChild(script);
+      });
+    }
+
+    static linkStylesheet(url) {
+      return new Promise((resolve, reject) => {
+        if (!url) return reject(new Error("URL no válida"));
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = url;
+        link.onload = () => resolve(link);
+        link.onerror = () => reject(new Error("Error cargando stylesheet: " + url));
+        document.head.appendChild(link);
+      });
+    }
+
+  };
+
+  return NwtImporter;
+
+});
+
+// @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-lazy-loader.js
+(function (factory) {
+  const mod = factory();
+  if (typeof window !== 'undefined') {
+    window['NwtLazyLoader'] = mod;
+  }
+  if (typeof global !== 'undefined') {
+    global['NwtLazyLoader'] = mod;
+  }
+  if (typeof module !== 'undefined') {
+    module.exports = mod;
+  }
+})(function () {
+  
+  const NwtLazyLoader = class {
+
+    static validateLazyLoadable(lazyLoadable) {
+      assertion(typeof lazyLoadable === "object", "Parameter «lazyLoadable» must be an object on «NwtLazyLoader»");
+      assertion(typeof lazyLoadable.id === "string", "Parameter «lazyLoadable.id» must be an string on «NwtLazyLoader»");
+      assertion(typeof lazyLoadable.url === "string", "Parameter «lazyLoadable.url» must be an string on «NwtLazyLoader»");
+      assertion(typeof lazyLoadable.type === "string", "Parameter «lazyLoadable.type» must be an string on «NwtLazyLoader»");
+      assertion(["scriptSrc", "linkStylesheet"].indexOf(lazyLoadable.type) !== -1, "Parameter «lazyLoadable.type» must be a known type on «NwtLazyLoader»");
+      assertion(typeof lazyLoadable.checker === "function", "Parameter «lazyLoadable.checker» must be an function on «NwtLazyLoader»");
+    }
+
+    static lazyLoad(lazyLoadable) {
+      this.validateLazyLoadable(lazyLoadable);
+      const isLoaded = lazyLoadable.checker();
+      if(isLoaded) {
+        return false;
+      }
+      if(lazyLoadable.type === "scriptSrc") {
+        return NwtImporter.scriptSrc(lazyLoadable.url);
+      }
+      if(lazyLoadable.type === "linkStylesheet") {
+        return NwtImporter.linkStylesheet(lazyLoadable.url);
+      }
+    }
+
+  };
+
+  return NwtLazyLoader;
+
+});
+
+// @vuebundler[Proyecto_base_001][10]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-settings.js
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -16970,7 +17135,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-utils.js
+// @vuebundler[Proyecto_base_001][11]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-utils.js
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -16992,7 +17157,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][10]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-timer.js
+// @vuebundler[Proyecto_base_001][12]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-timer.js
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -17040,7 +17205,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][11]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-randomizer.js
+// @vuebundler[Proyecto_base_001][13]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-randomizer.js
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -17098,7 +17263,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][12]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tester.js
+// @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tester.js
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -17122,7 +17287,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][13]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js
+// @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js
 /**
  * 
  * # Nwt Global API
@@ -17164,9 +17329,9 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 })();
 
-// @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html
+// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html
 
-// @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js
+// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js
 /**
  * 
  * # Nwt Dialogs API
@@ -17334,11 +17499,11 @@ Vue.component("CommonDialogs", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css
+// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css
 
-// @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html
+// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html
 
-// @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js
+// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js
 /**
  * 
  * # Nwt Toasts API
@@ -17364,25 +17529,31 @@ Vue.component("CommonDialogs", {
  */
 Vue.component("CommonToasts", {
   template: `<div class="common_toasts_container">
-    <div class="common_toasts_container_2" v-if="activeToasts.length">
-        <template v-for="toast, toastIndex in activeToasts">
-            <div class="window common_toasts_window"
-                v-bind:key="'toast_' + toastIndex">
-                <div class="title-bar">
-                    <div class="title-bar-text">{{ toast.title }}</div>
-                    <div class="title-bar-controls">
-                        <button aria-label="Close"
-                            v-on:click="() => closeToastByIndex(toastIndex)"></button>
+    <div class="common_toasts_container_2"
+        v-if="activeToasts.length">
+        <div class="common_toasts_container_3">
+            <template v-for="toast, toastIndex in activeToasts">
+                <div class="common_toasts_container_4"
+                    v-bind:key="'toast_' + toastIndex">
+                    <div class="window common_toasts_window">
+                        <div class="title-bar">
+                            <div class="title-bar-text">{{ toast.title }}</div>
+                            <div class="title-bar-controls">
+                                <button aria-label="Close"
+                                    v-on:click="() => closeToast(toast)"></button>
+                            </div>
+                        </div>
+                        <div class="window-body has-space">
+                            {{ toast.text }}
+                        </div>
+                        <div class="status-bar"
+                            v-if="toast.footer">
+                            <p class="status-bar-field no_wrap">{{ toast.footer }}</p>
+                        </div>
                     </div>
                 </div>
-                <div class="window-body has-space">
-                    {{ toast.text }}
-                </div>
-                <div class="status-bar" v-if="toast.footer">
-                    <p class="status-bar-field no_wrap">{{ toast.footer }}</p>
-                </div>
-            </div>
-        </template>
+            </template>
+        </div>
     </div>
 </div>`,
   props: {},
@@ -17397,6 +17568,7 @@ Vue.component("CommonToasts", {
       toastDefinition.title = userToastDefinition.title;
       toastDefinition.text = userToastDefinition.text;
       toastDefinition.footer = userToastDefinition.footer || "";
+      toastDefinition.timeout = userToastDefinition.timeout || 3000;
       return toastDefinition;
     },
     validateToast(userToastDefinition) {
@@ -17405,17 +17577,22 @@ Vue.component("CommonToasts", {
       assertion(typeof toastDefinition.title === "string", `Parameter «toastDefinition.title» must be a string on «CommonToasts.prototype.validateToast»`);
       assertion(typeof toastDefinition.text === "string", `Parameter «toastDefinition.text» must be a string on «CommonToasts.prototype.validateToast»`);
       assertion(typeof toastDefinition.footer === "string", `Parameter «toastDefinition.footer» must be a string on «CommonToasts.prototype.validateToast»`);
+      assertion(typeof toastDefinition.timeout === "number", `Parameter «toastDefinition.timeout» must be a number on «CommonToasts.prototype.validateToast»`);
+      setTimeout(() => {
+        this.closeToast(toastDefinition);
+      }, toastDefinition.timeout);
     },
     open(toastDefinition) {
       try {
         this.validateToast(toastDefinition);
-        this.activeToasts.push(toastDefinition);
+        this.activeToasts.unshift(toastDefinition);
       } catch (error) {
         this.$errors.showError(error);
       }
     },
-    closeToastByIndex(toastIndex) {
-      this.activeToasts.splice(toastIndex, 1);
+    closeToast(toast) {
+      const pos = this.activeToasts.indexOf(toast);
+      this.activeToasts.splice(pos, 1);
     }
   },
   mounted() {
@@ -17425,11 +17602,11 @@ Vue.component("CommonToasts", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css
+// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css
 
-// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html
+// @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html
 
-// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js
+// @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js
 /**
  * 
  * # Nwt Errors API
@@ -17513,17 +17690,17 @@ Vue.component("CommonErrors", {
     window.CommonErrors = this;
     window.NwtErrors = this;
     Vue.prototype.$errors = this;
-    NwtAsserter.setErrorHandler(error => this.showError(error))
+    assertion.setErrorCallback(error => this.showError(error))
   }
 })
 
 
 
-// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css
+// @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css
 
-// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
+// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
 
-// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
+// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
 Vue.component("MainWindow", {
   template: `<div class="main_window_container">
     <div class="window main_window">
@@ -17535,15 +17712,14 @@ Vue.component("MainWindow", {
                 <button ref="btn1" v-on:click="() => \$dialogs.open({title: 'Ejemplo', template: '<div>Okkk</div>'})">Mostrar diálogo de ejemplo</button>
             </div>
             <div class="pad_bottom_1">
-                <button v-on:click="() => \$toasts.open({title: 'Ejemplo', text: '<div>Okkk</div>'})">Mostrar toast de ejemplo</button>
+                <button v-on:click="() => \$toasts.open({title: 'Ejemplo', text: '<div>Okkk' + (toastCounter++) + '</div>'})">Mostrar toast de ejemplo</button>
             </div>
             <div class="pad_bottom_1">
                 <button v-on:click="() => \$errors.showError(new \$window.Error('Algo fue mal'))">Mostrar error de ejemplo</button>
             </div>
         </div>
         <div class="status-bar">
-            <p class="status-bar-field">Bienvenido</p>
-            <p class="status-bar-field width_100"></p>
+            <p class="status-bar-field">Inicio de la aplicación.</p>
         </div>
     </div>
     <common-dialogs />
@@ -17553,7 +17729,7 @@ Vue.component("MainWindow", {
   props: {},
   data() {
     return {
-
+      toastCounter: 0
     };
   },
   mounted() {
@@ -17562,4 +17738,4 @@ Vue.component("MainWindow", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css
+// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css
