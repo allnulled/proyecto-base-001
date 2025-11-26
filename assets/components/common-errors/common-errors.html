@@ -1,0 +1,23 @@
+<div class="common_errors_container">
+    <div class="common_errors_container_2" v-if="activeErrors.length">
+        <template v-for="error, errorIndex in activeErrors">
+            <div class="window common_errors_window"
+                v-bind:key="'error_' + errorIndex">
+                <div class="title-bar">
+                    <div class="title-bar-text">Errores activos</div>
+                    <div class="title-bar-controls">
+                        <button aria-label="Close"
+                            v-on:click="() => closeErrorByIndex(errorIndex)"></button>
+                    </div>
+                </div>
+                <div class="window-body has-space">
+                    {{ error }}
+                </div>
+                <div class="status-bar">
+                    <p class="status-bar-field">En esta ventana se ven los errores activos.</p>
+                    <p class="status-bar-field width_100"></p>
+                </div>
+            </div>
+        </template>
+    </div>
+</div>

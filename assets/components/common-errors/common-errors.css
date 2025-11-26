@@ -1,0 +1,25 @@
+.common_errors_container {}
+.common_errors_container_2 {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.common_errors {}
+.common_errors_window.window {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 20px;
+    left: 10px;
+    right: 10px;
+    bottom: 20px;
+}
+.common_errors_window.window:before,
+.common_errors_window.window > .title-bar {
+    background-color: #cb3c3c;
+}
+.common_errors_window.window > .window-body {
+    height: 100%;
+}

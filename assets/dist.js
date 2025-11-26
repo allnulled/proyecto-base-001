@@ -1,11 +1,11 @@
 
-// @vuebundler[Proyecto_base_001][0]=/home/carlos/Escritorio/proyecto-base-001/assets/css/win7/win7.css
+// @vuebundler[Proyecto_base_001][0]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/win7/win7.css
 
-// @vuebundler[Proyecto_base_001][1]=/home/carlos/Escritorio/proyecto-base-001/assets/css/one-framework/one-framework.css
+// @vuebundler[Proyecto_base_001][1]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/one-framework/one-framework.css
 
-// @vuebundler[Proyecto_base_001][2]=/home/carlos/Escritorio/proyecto-base-001/assets/css/custom/custom.css
+// @vuebundler[Proyecto_base_001][2]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/custom/custom.css
 
-// @vuebundler[Proyecto_base_001][3]=/home/carlos/Escritorio/proyecto-base-001/assets/js/vue2/vue2.js
+// @vuebundler[Proyecto_base_001][3]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/js/vue2/vue2.js
 /*!
  * Vue.js v2.7.16
  * (c) 2014-2023 Evan You
@@ -11940,7 +11940,7 @@
 }));
 
 
-// @vuebundler[Proyecto_base_001][4]=/home/carlos/Escritorio/proyecto-base-001/assets/js/socket.io-client/socket.io-client.js
+// @vuebundler[Proyecto_base_001][4]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/js/socket.io-client/socket.io-client.js
 /*!
  * Socket.IO v4.8.1
  * (c) 2014-2024 Guillermo Rauch
@@ -16851,7 +16851,7 @@
 
 
 
-// @vuebundler[Proyecto_base_001][5]=/home/carlos/Escritorio/proyecto-base-001/assets/reloader/reloadable.js
+// @vuebundler[Proyecto_base_001][5]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/reloader/reloadable.js
 // @code.start: LswReloadable injection | @$section: LswReloader API » LswReloadable injection
 const serverUrl = 'http://127.0.0.1';
 const serverPort = 3000;
@@ -16865,23 +16865,233 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 }
 // @code.end: LswReloadable injection
 
-// @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/proyecto-base-001/assets/components/main-window/main-window.html
+// @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html
 
-// @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/proyecto-base-001/assets/components/main-window/main-window.js
+// @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js
+Vue.component("CommonDialogs", {
+  template: `<div class="common_dialogs_container">
+    <div class="common_dialogs_container_2" v-if="activeDialogs.length">
+        <template v-for="dialog, dialogIndex in activeDialogs">
+            <div class="window common_dialogs_window"
+                v-bind:key="'dialog_' + dialogIndex">
+                <div class="title-bar">
+                    <div class="title-bar-text">Diálogos activos</div>
+                    <div class="title-bar-controls">
+                        <button aria-label="Close"
+                            v-on:click="() => closeDialogByIndex(dialogIndex)"></button>
+                    </div>
+                </div>
+                <div class="window-body has-space">
+                    {{ dialog }}
+                </div>
+                <div class="status-bar">
+                    <p class="status-bar-field">En esta ventana se ven los diálogos activos.</p>
+                    <p class="status-bar-field width_100"></p>
+                </div>
+            </div>
+        </template>
+    </div>
+</div>`,
+  props: {},
+  data() {
+    return {
+      activeDialogs: [],
+    };
+  },
+  methods: {
+    assertion(condition, errorMessage) {
+      if(!condition) {
+        throw new Error(errorMessage);
+      }
+    },
+    validateDialog(dialogDefinition) {
+      this.assertion(typeof dialogDefinition === "object", `Parameter «dialogDefinition» must be an object on «CommonDialogs.prototype.validateDialog»`);
+      this.assertion(typeof dialogDefinition.title === "string", `Parameter «dialogDefinition.title» must be a string on «CommonDialogs.prototype.validateDialog»`);
+      this.assertion(typeof dialogDefinition.template === "string", `Parameter «dialogDefinition.template» must be a string on «CommonDialogs.prototype.validateDialog»`);
+      dialogDefinition.methods = Object.assign(dialogDefinition.methods || {}, {});
+      console.log(dialogDefinition);
+    },
+    open(dialogDefinition) {
+      try {
+        this.validateDialog(dialogDefinition);
+        this.activeDialogs.push(dialogDefinition);
+      } catch (error) {
+        this.$toasts.showError(error);
+      }
+    },
+    closeDialogByIndex(dialogIndex) {
+      this.activeDialogs.splice(dialogIndex, 1);
+    }
+  },
+  mounted() {
+    console.log("[*] CommonDialogs mounted!");
+    window.CommonDialogs = this;
+    Vue.prototype.$dialogs = this;
+  }
+})
+
+// @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css
+
+// @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html
+
+// @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js
+Vue.component("CommonToasts", {
+  template: `<div class="common_toasts_container">
+    <div class="common_toasts_container_2" v-if="activeToasts.length">
+        <template v-for="toast, toastIndex in activeToasts">
+            <div class="window common_toasts_window"
+                v-bind:key="'toast_' + toastIndex">
+                <div class="title-bar">
+                    <div class="title-bar-text">Avisos activos</div>
+                    <div class="title-bar-controls">
+                        <button aria-label="Close"
+                            v-on:click="() => closeToastByIndex(toastIndex)"></button>
+                    </div>
+                </div>
+                <div class="window-body has-space">
+                    {{ toast }}
+                </div>
+                <div class="status-bar">
+                    <p class="status-bar-field">En esta ventana se ven los avisos activos.</p>
+                    <p class="status-bar-field width_100"></p>
+                </div>
+            </div>
+        </template>
+    </div>
+</div>`,
+  props: {},
+  data() {
+    return {
+      activeToasts: [],
+    };
+  },
+  methods: {
+    assertion(condition, errorMessage) {
+      if(!condition) {
+        throw new Error(errorMessage);
+      }
+    },
+    validateDialog(toastDefinition) {
+      this.assertion(typeof toastDefinition === "object", `Parameter «toastDefinition» must be an object on «CommonToasts.prototype.validateDialog»`);
+      this.assertion(typeof toastDefinition.title === "string", `Parameter «toastDefinition.title» must be a string on «CommonToasts.prototype.validateDialog»`);
+      this.assertion(typeof toastDefinition.template === "string", `Parameter «toastDefinition.template» must be a string on «CommonToasts.prototype.validateDialog»`);
+      toastDefinition.methods = Object.assign(toastDefinition.methods || {}, {});
+      console.log(toastDefinition);
+    },
+    open(toastDefinition) {
+      try {
+        // this.validateDialog(toastDefinition);
+        this.activeToasts.push(toastDefinition);
+      } catch (error) {
+        this.$errors.showError(error);
+      }
+    },
+    closeToastByIndex(toastIndex) {
+      this.activeToasts.splice(toastIndex, 1);
+    }
+  },
+  mounted() {
+    console.log("[*] CommonToasts mounted!");
+    window.CommonToasts = this;
+    Vue.prototype.$toasts = this;
+  }
+})
+
+// @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css
+
+// @vuebundler[Proyecto_base_001][8]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html
+
+// @vuebundler[Proyecto_base_001][8]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js
+Vue.component("CommonErrors", {
+  template: `<div class="common_errors_container">
+    <div class="common_errors_container_2" v-if="activeErrors.length">
+        <template v-for="error, errorIndex in activeErrors">
+            <div class="window common_errors_window"
+                v-bind:key="'error_' + errorIndex">
+                <div class="title-bar">
+                    <div class="title-bar-text">Errores activos</div>
+                    <div class="title-bar-controls">
+                        <button aria-label="Close"
+                            v-on:click="() => closeErrorByIndex(errorIndex)"></button>
+                    </div>
+                </div>
+                <div class="window-body has-space">
+                    {{ error }}
+                </div>
+                <div class="status-bar">
+                    <p class="status-bar-field">En esta ventana se ven los errores activos.</p>
+                    <p class="status-bar-field width_100"></p>
+                </div>
+            </div>
+        </template>
+    </div>
+</div>`,
+  props: {},
+  data() {
+    return {
+      activeErrors: [],
+    };
+  },
+  methods: {
+    assertion(condition, errorMessage) {
+      if(!condition) {
+        throw new Error(errorMessage);
+      }
+    },
+    validateDialog(errorDefinition) {
+      this.assertion(typeof errorDefinition === "object", `Parameter «errorDefinition» must be an object on «CommonErrors.prototype.validateDialog»`);
+      this.assertion(typeof errorDefinition.title === "string", `Parameter «errorDefinition.title» must be a string on «CommonErrors.prototype.validateDialog»`);
+      this.assertion(typeof errorDefinition.template === "string", `Parameter «errorDefinition.template» must be a string on «CommonErrors.prototype.validateDialog»`);
+      errorDefinition.methods = Object.assign(errorDefinition.methods || {}, {});
+      console.log(errorDefinition);
+    },
+    showError(error) {
+      if(error !== false) {
+        console.log(error);
+      }
+      this.activeErrors.push(error);
+    },
+    open(errorDefinition) {
+      try {
+        // this.validateDialog(errorDefinition);
+        this.activeErrors.push(errorDefinition);
+      } catch (error) {
+        this.showError(error);
+      }
+    },
+    closeErrorByIndex(errorIndex) {
+      this.activeErrors.splice(errorIndex, 1);
+    }
+  },
+  mounted() {
+    console.log("[*] CommonErrors mounted!");
+    window.CommonErrors = this;
+    Vue.prototype.$errors = this;
+  }
+})
+
+// @vuebundler[Proyecto_base_001][8]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css
+
+// @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
+
+// @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
 Vue.component("MainWindow", {
   template: `<div class="main_window_container">
     <div class="window main_window">
         <div class="title-bar">
-            <div class="title-bar-text">Proyecto base 001</div>
+            <div class="title-bar-text">Proyecto base 002</div>
         </div>
         <div class="window-body has-space">
-            
+            <button v-on:click="() => \$dialogs.open({title: 'Ejemplo', template: '<div>Okkk</div>'})">Mostrar diálogo de ejemplo</button>
         </div>
         <div class="status-bar">
             <p class="status-bar-field">Bienvenido</p>
             <p class="status-bar-field width_100"></p>
         </div>
     </div>
+    <common-dialogs />
+    <common-toasts />
+    <common-errors />
 </div>`,
   props: {},
   data() {
@@ -16894,24 +17104,4 @@ Vue.component("MainWindow", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/proyecto-base-001/assets/components/main-window/main-window.css
-
-// @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html
-
-// @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js
-Vue.component("CommonDialogs", {
-  template: `<div class="common_dialogs_container">
-    Common dialogs here
-</div>`,
-  props: {},
-  data() {
-    return {
-
-    };
-  },
-  mounted() {
-    console.log("Common dialogs mounted!");
-  }
-})
-
-// @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css
+// @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css

@@ -1,14 +1,17 @@
 <div class="main_window_container">
     <div class="window main_window">
         <div class="title-bar">
-            <div class="title-bar-text">Proyecto base 001</div>
+            <div class="title-bar-text">Proyecto base 002</div>
         </div>
         <div class="window-body has-space">
-            
+            <button v-on:click="() => $dialogs.open({title: 'Ejemplo', template: '<div>Okkk</div>'})">Mostrar diálogo de ejemplo</button>
         </div>
         <div class="status-bar">
             <p class="status-bar-field">Bienvenido</p>
             <p class="status-bar-field width_100"></p>
         </div>
     </div>
+    <common-dialogs />
+    <common-toasts />
+    <common-errors />
 </div>

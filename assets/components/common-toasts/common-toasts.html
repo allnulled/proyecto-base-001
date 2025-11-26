@@ -1,0 +1,23 @@
+<div class="common_toasts_container">
+    <div class="common_toasts_container_2" v-if="activeToasts.length">
+        <template v-for="toast, toastIndex in activeToasts">
+            <div class="window common_toasts_window"
+                v-bind:key="'toast_' + toastIndex">
+                <div class="title-bar">
+                    <div class="title-bar-text">Avisos activos</div>
+                    <div class="title-bar-controls">
+                        <button aria-label="Close"
+                            v-on:click="() => closeToastByIndex(toastIndex)"></button>
+                    </div>
+                </div>
+                <div class="window-body has-space">
+                    {{ toast }}
+                </div>
+                <div class="status-bar">
+                    <p class="status-bar-field">En esta ventana se ven los avisos activos.</p>
+                    <p class="status-bar-field width_100"></p>
+                </div>
+            </div>
+        </template>
+    </div>
+</div>

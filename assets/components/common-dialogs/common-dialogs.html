@@ -1,3 +1,23 @@
 <div class="common_dialogs_container">
-    Common dialogs here
+    <div class="common_dialogs_container_2" v-if="activeDialogs.length">
+        <template v-for="dialog, dialogIndex in activeDialogs">
+            <div class="window common_dialogs_window"
+                v-bind:key="'dialog_' + dialogIndex">
+                <div class="title-bar">
+                    <div class="title-bar-text">Diálogos activos</div>
+                    <div class="title-bar-controls">
+                        <button aria-label="Close"
+                            v-on:click="() => closeDialogByIndex(dialogIndex)"></button>
+                    </div>
+                </div>
+                <div class="window-body has-space">
+                    {{ dialog }}
+                </div>
+                <div class="status-bar">
+                    <p class="status-bar-field">En esta ventana se ven los diálogos activos.</p>
+                    <p class="status-bar-field width_100"></p>
+                </div>
+            </div>
+        </template>
+    </div>
 </div>

@@ -48,6 +48,12 @@ npm start
 
 Este comando requiere de tener `nw` accesible desde línea de comandos.
 
+Opcionalmente, si quieres personalizar la ruta de `nw`, puedes cambiar el valor de este comando en el `package.json`:
+
+```sh
+npm run ui:own
+```
+
 ## Comando 2: compilar los fuentes
 
 Con este otro comando, compilas el código fuente:
