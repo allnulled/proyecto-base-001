@@ -1,6 +1,6 @@
 # proyecto-base-001
 
-Punto de partida para el desarrollo de aplicaciones basadas en vue2 + win7 + socket.io. Opcionalmente nw.js también.
+Punto de partida para el desarrollo de aplicaciones basadas nw.js.
 
 # Índice
 
