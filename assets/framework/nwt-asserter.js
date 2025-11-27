@@ -2,6 +2,8 @@
  * 
  * # Nwt Asserter API
  * 
+ * ## Exposición
+ * 
  * Se expone a través de:
  * 
  * ```js
@@ -10,6 +12,8 @@
  * assertion // instancia
  * NwtAsserter.global === assertion
  * ```
+ * 
+ * ## Ventajas
  * 
  * Se usa así:
  * 

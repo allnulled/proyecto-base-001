@@ -16992,6 +16992,8 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
  * 
  * # Nwt Asserter API
  * 
+ * ## Exposición
+ * 
  * Se expone a través de:
  * 
  * ```js
@@ -17000,6 +17002,8 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
  * assertion // instancia
  * NwtAsserter.global === assertion
  * ```
+ * 
+ * ## Ventajas
  * 
  * Se usa así:
  * 
