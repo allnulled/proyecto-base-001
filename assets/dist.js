@@ -17323,6 +17323,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
  * 
  * ```js
  * NwtUtils.jsonify({circular JSON is accepted too});
+ * NwtUtils.noop();
  * ```
  * 
  */
@@ -17340,6 +17341,8 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 })(function () {
 
   const NwtUtils = class {
+
+    static noop() {}
 
     static jsonify(obj, space = 2) {
       const seen = new WeakSet();
@@ -18347,6 +18350,16 @@ Vue.component("CommonToasts", {
  * ```js
  * CommonErrors.showError(new Error("Cualquier cosa"));
  * ```
+ * 
+ * ## Captura automática de aserciones globales
+ * 
+ * El componente hace:
+ * 
+ * ```js
+ * assertion.setErrorCallback(error => this.showError(error))
+ * ```
+ * 
+ * Esto implica que las aserciones globales mostrarán su error en este widget.
  * 
  */
 Vue.component("CommonErrors", {

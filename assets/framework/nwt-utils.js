@@ -20,6 +20,7 @@
  * 
  * ```js
  * NwtUtils.jsonify({circular JSON is accepted too});
+ * NwtUtils.noop();
  * ```
  * 
  */
@@ -37,6 +38,8 @@
 })(function () {
 
   const NwtUtils = class {
+
+    static noop() {}
 
     static jsonify(obj, space = 2) {
       const seen = new WeakSet();

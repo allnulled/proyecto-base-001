@@ -18,5 +18,6 @@ Permite hacer algunas cosas como:
 
 ```js
 NwtUtils.jsonify({circular JSON is accepted too});
+NwtUtils.noop();
 ```
 

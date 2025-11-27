@@ -20,6 +20,16 @@
  * CommonErrors.showError(new Error("Cualquier cosa"));
  * ```
  * 
+ * ## Captura automática de aserciones globales
+ * 
+ * El componente hace:
+ * 
+ * ```js
+ * assertion.setErrorCallback(error => this.showError(error))
+ * ```
+ * 
+ * Esto implica que las aserciones globales mostrarán su error en este widget.
+ * 
  */
 Vue.component("CommonErrors", {
   template: $template,
