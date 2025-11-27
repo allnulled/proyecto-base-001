@@ -44,8 +44,8 @@
     Importer: NwtImporter,
     LazyLoader: NwtLazyLoader,
     Globalizer: NwtGlobalizer,
+    Tester: NwtTester,
     // Injected later:
-    Tester: null,
     Errors: null,
     Dialogs: null,
     Toasts: null,

@@ -1,6 +1,10 @@
 Vue.component("NwtTesterViewer", {
   template: $template,
   props: {
+    title: {
+      type: String,
+      default: () => "",
+    },
     tester: {
       type: Object,
       required: true

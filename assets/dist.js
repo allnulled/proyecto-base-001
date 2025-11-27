@@ -16890,6 +16890,44 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 });
 
 // @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tracer.js
+/**
+ * 
+ * # Nwt Tracer API
+ * 
+ * API para trazar la ejecución del programa.
+ * 
+ * ## Exposición
+ * 
+ * Se expone a través de:
+ * 
+ * ```js
+ * // La clase global
+ * NwtTracer
+ * NwtFramework.Tracer
+ * Vue.prototype.$nwt.Tracer
+ * 
+ * // La instancia global
+ * NwtTracer.global // instancia
+ * Vue.prototype.$tracer === NwtTracer.global // instancia
+ * 
+ * // La función global
+ * trace // Función de traceo global
+ * Vue.prototype.$trace === trace // Función de traceo
+ * ```
+ * 
+ * ## Ventajas
+ * 
+ * La API permite algunas cosas como:
+ * 
+ * ```js
+ * NwtTracer.global.activate();
+ * NwtTracer.global.deactivate();
+ * NwtTracer.global.trace();
+ * const traceFunction = NwtTracer.global.createTrace();
+ * traceFunction("method", [1,2,3]);
+ * ```
+ * 
+ */
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -16983,7 +17021,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
  * Puedes crear un nuevo assertion así:
  * 
  * ```js
- * const otherAssertion = NwtAsserter.createAssertion((message) => {
+ * const otherAssertion = NwtAsserter.createAssertionFunction((message) => {
  *   console.log("[*] Assertion succeded: " + message);
  * }, error => {
  *   console.log("[!] Assertion failed: " + error.message);
@@ -17018,8 +17056,8 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
     static noop() {}
 
-    static createAssertion(onSuccess = this.noop, onError = this.noop) {
-      trace("NwtAsserter.createAssertion");
+    static createAssertionFunction(onSuccess = this.noop, onError = this.noop) {
+      trace("NwtAsserter.createAssertionFunction");
       const asserter = function(condition, errorMessage) {
         if(condition) {
           return asserter.onSuccess(errorMessage);
@@ -17054,7 +17092,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
   }
 
-  NwtAsserter.global = NwtAsserter.createAssertion();
+  NwtAsserter.global = NwtAsserter.createAssertionFunction();
 
   NwtAsserter.globalizeAssertion(NwtAsserter.global);
 
@@ -17069,11 +17107,15 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
  * 
  * API para importar scripts y estilos.
  * 
+ * ## Exposición
+ * 
  * Se expone a través de:
  * 
  * ```js
  * NwtImporter
  * ```
+ * 
+ * ## Ventajas
  * 
  * Puede usarse así:
  * 
@@ -17131,6 +17173,41 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 });
 
 // @vuebundler[Proyecto_base_001][10]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-lazy-loader.js
+/**
+ * 
+ * # Nwt Lazy Loader API
+ * 
+ * API para carga cacheable de recursos JS y CSS.
+ * 
+ * ## Exposición
+ * 
+ * La API se expone a través de:
+ * 
+ * ```js
+ * NwtLazyLoader
+ * NwtFramework.LazyLoader
+ * Vue.prototype.$nwt.LazyLoader
+ * ```
+ * 
+ * ## Ventajas
+ * 
+ * La API permite algunas cosas como:
+ * 
+ * ```js
+ * await NwtLazyLoader.lazyLoad({
+ *   id: "jquery",
+ *   type: "scriptSrc",
+ *   url: "https://cdn.js/jquery.js",
+ *   checker: typeof jQuery !== "undefined",
+ * });
+ * await NwtLazyLoader.lazyLoad({
+ *   id: "styles",
+ *   type: "linkStylesheet",
+ *   url: "https://cdn.js/styles.css",
+ * });
+ * ```
+ * 
+ */
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -17178,6 +17255,28 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 });
 
 // @vuebundler[Proyecto_base_001][11]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-settings.js
+/**
+ * 
+ * # Nwt Settings API
+ * 
+ * API para gestionar configuraciones globalmente.
+ * 
+ * ## Exposición
+ * 
+ * La API se expone a través de:
+ * 
+ * ```js
+ * NwtSettings
+ * NwtFramework.Settings
+ * Vue.prototype.$nwt.Settings
+ * ```
+ * 
+ * ## Ventajas
+ * 
+ * De momento, no hace nada.
+ * 
+ */
+
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -17202,6 +17301,31 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 });
 
 // @vuebundler[Proyecto_base_001][12]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-utils.js
+/**
+ * 
+ * # Nwt Utils API
+ * 
+ * API global de utilidades residuales.
+ * 
+ * ## Exposición
+ * 
+ * La API se expone a través de:
+ * 
+ * ```js
+ * NwtUtils
+ * NwtFramework.Utils
+ * Vue.prototype.$nwt.Utils
+ * ```
+ * 
+ * ## Ventajas
+ * 
+ * Permite hacer algunas cosas como:
+ * 
+ * ```js
+ * NwtUtils.jsonify({circular JSON is accepted too});
+ * ```
+ * 
+ */
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -17237,6 +17361,34 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 });
 
 // @vuebundler[Proyecto_base_001][13]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-timer.js
+/**
+ * 
+ * # Nwt Timer API
+ * 
+ * API para hacer gestiones relacionadas con el tiempo.
+ * 
+ * ## Exposición
+ * 
+ * La API se expone a través de:
+ * 
+ * ```js
+ * NwtTimer
+ * NwtFramework.Timer
+ * Vue.prototype.$nwt.Timer
+ * ```
+ * 
+ * ## Ventajas
+ * 
+ * Permite algunas cosas como:
+ * 
+ * ```js
+ * NwtTimer.fromDateToString(new Date())
+ * NwtTimer.fromMillisecondsToSeconds(5500)
+ * NwtTimer.secondsDiff(oneDate, anotherDate)
+ * await NwtTimer.timeout(5000)
+ * ```
+ * 
+ */
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -17305,6 +17457,34 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 });
 
 // @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-randomizer.js
+/**
+ * 
+ * # Nwt Randomizer API
+ * 
+ * API para gestionar aleatoriedad.
+ * 
+ * ## Exposición
+ * 
+ * La API se expone a través de:
+ * 
+ * ```js
+ * NwtRandomizer
+ * NwtFramework.Randomizer
+ * Vue.prototype.$nwt.Randomizer
+ * ```
+ * 
+ * ## Ventajas
+ * 
+ * Permite algunas cosas como:
+ * 
+ * ```js
+ * NwtRandomizer.fromNumbers(0,10);
+ * NwtRandomizer.fromList([0,1,2,3,4,5]);
+ * NwtRandomizer.fromAlphabet(10);
+ * NwtRandomizer.fromAlphabet(10, "abcdef".split(""));
+ * ```
+ * 
+ */
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -17366,6 +17546,32 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 });
 
 // @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-globalizer.js
+/**
+ * 
+ * # Nwt Globalizer API
+ * 
+ * API para globalizar variables en todos los entornos.
+ * 
+ * ## Exposición
+ * 
+ * La API se expone a través de:
+ * 
+ * ```js
+ * NwtGlobalizer
+ * NwtFramework.Globalizer
+ * Vue.prototype.$nwt.Globalizer
+ * ```
+ * 
+ * ## Ventajas
+ * 
+ * La API permite algunas cosas como:
+ * 
+ * ```js
+ * NwtGlobalizer.exportTo("NombreDeGlobal", {});
+ * ```
+ * 
+ */
+
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -17406,6 +17612,8 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
  * 
  * API para ejecutar tests asíncronos encadenados.
  * 
+ * ## Exposición
+ * 
  * Se expone a través de:
  * 
  * ```js
@@ -17420,57 +17628,163 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
  * Vue.prototype.$tester === NwtTester.global // instancia
  * ```
  * 
- * Se usa así:
+ * ## Ventajas
+ * 
+ * La API permite:
+ * 
+ * - encadenar un test dentro de otro con `test.define` y `test.run`
+ * - definir un test para ejecutar luego con `test.define`
+ * - ejecutar un test con `test.run`
+ * - hacer una aserción con `assertion`
+ * - enlazarlo con un widget gráfico automático con `<nwt-tester-viewer :tester="tester" />`
+ * 
+ * ## API
+ * 
+ * La API se acaba exponiendo por:
  * 
  * ```js
- * NwtTester.global.run("1 - Test", async test => {
+ * tester.define("Test ID", (subtest, assertion) => {
+ *   subtest.define("Test ID", (subtest, assertion) => {
+ *     assertion(true, "Assertion message");
+ *     assertion(true, "Assertion message");
+ *     assertion(true, "Assertion message");
+ *   });
+ * });
+ * await tester.run("Test ID", (subtest, assertion) => {
+ *   subtest.define("Test ID", (subtest, assertion) => {
+ *     assertion(false, "Assertion message"); // No lanza un error
+ *     assertion(true, "Assertion message");
+ *     assertion(true, "Assertion message");
+ *   });
+ * });
+ * ```
+ * 
+ * Así que son:
+ * 
+ * - `tester.define(name:String, callback:AsyncFunction)`
+ *    - para definir tests tardíos
+ *    - útil para dejar la traza de lo que se va a hacer desde el principio
+ *    - donde el callback recibe:
+ *       - `subtest:NwtTester`: subtest del que pueden colgar sus propios hijos
+ *       - `assertion:Function`: método para añadir aserciones al test
+ * - `tester.run(name:String, callback:AsyncFunction)`
+ *    - para correr tests inmediatos
+ *    - útil en instancias ya iniciadas, tests dinámicos y predecir mejor el comportamiento
+ *    - donde el callback recibe lo mismo que `tester.define`
+ * - `assertion(condition:Boolean, message:String)`
+ * 
+ * 
+ * ## Test de ejemplo
+ * 
+ * El test de ejemplo es este:
+ * 
+ * ```js
+ * NwtTester.global.define("1 - Test", async test => {
  *   await NwtTimer.timeout(1000);
  *   await test.run("1.0 - Test inicial", async (test, assertion) => {
  *     assertion(true, "Test suite is working");
+ *     assertion(true, "Test suite is working");
+ *     assertion(true, "Test suite is working");
+ *     assertion(true, "Test suite is working");
+ *     assertion(true, "Test suite is working");
+ *     assertion(true, "Test suite is working");
+ *     await NwtTimer.timeout(1000);
  *     await test.run("1.0.1 - Test inicial 1", async (test, assertion) => {
+ *       assertion(true, "Test suite is working 0/5");
  *       assertion(true, "Test suite is working 1/5");
+ *       assertion(true, "Test suite is working 2/5");
+ *       assertion(true, "Test suite is working 3/5");
+ *       assertion(true, "Test suite is working 4/5");
+ *       assertion(true, "Test suite is working 5/5");
  *     });
+ *     await NwtTimer.timeout(1000);
  *     await test.run("1.0.2 - Test inicial 2", async (test, assertion) => {
  *       assertion(true, "Test suite is working 2/5");
+ *       assertion(true, "Test suite is working 2/5");
+ *       assertion(true, "Test suite is working 2/5");
+ *       assertion(true, "Test suite is working 2/5");
  *     });
+ *     await NwtTimer.timeout(1000);
  *     await test.run("1.0.3 - Test inicial 3", async (test, assertion) => {
  *       assertion(true, "Test suite is working 3/5");
  *     });
+ *     await NwtTimer.timeout(1000);
  *     await test.run("1.0.4 - Test inicial 4", async (test, assertion) => {
  *       assertion(true, "Test suite is working 4/5");
  *     });
+ *     await NwtTimer.timeout(1000);
  *     await test.run("1.0.5 - Test inicial 5", async (test, assertion) => {
  *       assertion(true, "Test suite is working 5/5");
  *     });
  *   });
  *   test.define("1.1 - Test de globales", async (test, assertion) => {
+ *     await NwtTimer.timeout(1000);
  *     test.define("1.1.1 - Global NwtFramework", async () => {
+ *       await NwtTimer.timeout(1000);
  *       assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
  *     });
+ *     await NwtTimer.timeout(1000);
  *     test.define("1.1.2 - Global NwtAsserter", async () => {
+ *       await NwtTimer.timeout(1000);
  *       assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
  *     });
+ *     await NwtTimer.timeout(1000);
  *     test.define("1.1.3 - Global NwtTester", async () => {
+ *       await NwtTimer.timeout(1000);
  *       assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
  *     });
  *   });
- *   test.define("2.1 - Test de globales 2", async (test, assertion) => {
- *     test.define("2.1.1 - Global NwtFramework", async () => {
+ *   test.define("1.2 - Test de globales 2", async (test, assertion) => {
+ *     await NwtTimer.timeout(1000);
+ *     test.define("1.2.1 - Global NwtFramework", async () => {
+ *       await NwtTimer.timeout(1000);
  *       assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
  *     });
- *     test.define("2.1.2 - Global NwtAsserter", async () => {
+ *     await NwtTimer.timeout(1000);
+ *     test.define("1.2.2 - Global NwtAsserter", async () => {
+ *       await NwtTimer.timeout(1000);
  *       assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
  *     });
- *     test.define("2.1.3 - Global NwtTester", async () => {
+ *     await NwtTimer.timeout(1000);
+ *     test.define("1.2.3 - Global NwtTester", async () => {
+ *       await NwtTimer.timeout(1000);
  *       assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
  *     });
  *   });
- * }, {
- *   onTestDefined: t => trace(`TEST: ${t.name}`),
- *   onTestSuccess: t => trace(`OK TEST: ${t.name}`),
- *   onTestFailure: e => trace(`FAIL TEST: ${e.name} ${e.message}`),
- *   onAssertionSuccess: (m) => trace(`OK ASSERTION ✔ ${m}`),
- *   onAssertionFailure: (e) => trace(`FAIL ASSERTION ✘ ${e}`),
+ *   test.define("1.3 - Test de globales 3", async (test, assertion) => {
+ *     await NwtTimer.timeout(1000);
+ *     test.define("1.3.1 - Global NwtFramework", async () => {
+ *       await NwtTimer.timeout(1000);
+ *       assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
+ *     });
+ *     await NwtTimer.timeout(1000);
+ *     test.define("1.3.2 - Global NwtAsserter", async () => {
+ *       await NwtTimer.timeout(1000);
+ *       assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
+ *     });
+ *     await NwtTimer.timeout(1000);
+ *     test.define("1.3.3 - Global NwtTester", async () => {
+ *       await NwtTimer.timeout(1000);
+ *       assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
+ *     });
+ *   });
+ *   test.define("1.4 - Test de globales 4", async (test, assertion) => {
+ *     await NwtTimer.timeout(1000);
+ *     test.define("1.4.1 - Global NwtFramework", async () => {
+ *       await NwtTimer.timeout(1000);
+ *       assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
+ *     });
+ *     await NwtTimer.timeout(1000);
+ *     test.define("1.4.2 - Global NwtAsserter", async () => {
+ *       await NwtTimer.timeout(1000);
+ *       assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
+ *     });
+ *     await NwtTimer.timeout(1000);
+ *     test.define("1.4.3 - Global NwtTester", async () => {
+ *       await NwtTimer.timeout(1000);
+ *       assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
+ *     });
+ *   });
  * });
  * ```
  * 
@@ -17488,7 +17802,35 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
   }
 })(function () {
 
-  const NwtTester = class {
+  let NwtTester = undefined;
+
+  const NwtTesterAssertion = class {
+
+    static create(...args) {
+      return new this(...args);
+    }
+
+    constructor(message, condition, level, tester) {
+      if (typeof name !== "string") {
+        throw new NwtAsserter.AssertionError("Parameter «name» must be a string on «NwtTesterAssertion.constructor»");
+      }
+      this.name = message;
+      this.status = condition ? "ok" : "failed";
+      this.level = level;
+      if(this.status === "failed") {
+        this.errorMoment = NwtTimer.secondsDiff(new Date(), (tester.root || tester).startedAt);
+      } else if(this.status === "ok") {
+        this.successMoment = NwtTimer.secondsDiff(new Date(), (tester.root || tester).startedAt);
+      }
+      this.totalTime = NwtTimer.secondsDiff(new Date(), tester.startedAt);
+      this.parent = tester;
+    }
+
+  };
+  
+  NwtTester = class {
+
+    static Assertion = NwtTesterAssertion;
 
     static default = this;
 
@@ -17520,7 +17862,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
     define(name, callback) {
       const test = new NwtTester(name, callback, this.hooks, this, this.root || this, this.level+1);
-      this.children.unshift(test);
+      this.children.push(test);
       this.hooks.onTestDefined?.(test);
       return test;
     }
@@ -17536,16 +17878,27 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
       while(parent !== null) {
         subtest.status = "failed";
         subtest.accumulatedErrors.push(error);
-        parent = subtest.parent;
+        parent = subtest.parent || null;
       }
     }
 
     async start() {
       try {
         this.startedAt = new Date();
-        const assertion = NwtAsserter.createAssertion(
-          message => this.hooks.onAssertionSuccess?.(message),
-          error => this.hooks.onAssertionFailure?.(error)
+        const tester = this;
+        const assertion = NwtAsserter.createAssertionFunction(
+          message => {
+            const assertionItem = NwtTesterAssertion.create(message, true, tester.level + 1, tester);
+            tester.children.push(assertionItem);
+          },
+          error => {
+            const assertionItem = NwtTesterAssertion.create(error.name + ":" + error.message, false, tester.level + 1, tester);
+            console.error("Error asserting on test: " + tester.name);
+            console.error(error);
+            tester.children.push(assertionItem);
+            tester.failBranch(tester);
+            return true;
+          }
         );
         if (this.status === "pending") {
           try {
@@ -17557,7 +17910,9 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
         }
         for (const subtest of this.children) {
           try {
-            await subtest.start();
+            if(subtest.start) {
+              await subtest.start();
+            }
           } catch (error) {
             this.failBranch(subtest, error);
           }
@@ -17629,8 +17984,8 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
     Importer: NwtImporter,
     LazyLoader: NwtLazyLoader,
     Globalizer: NwtGlobalizer,
+    Tester: NwtTester,
     // Injected later:
-    Tester: null,
     Errors: null,
     Dialogs: null,
     Toasts: null,
@@ -17644,7 +17999,20 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
  * 
  * # Nwt Injection API
  * 
- * Con `NwtInjection`...
+ * La `Nwt Injection API` consiste en la inyección al DOM.
+ * 
+ * En este paso:
+ * 
+ * - Se espera al evento `load` de la `window`
+ * - Se inyectan las APIs en `Vue.prototype`
+ *    - `Vue.prototype.$window`
+ *    - `Vue.prototype.$nwt`
+ *    - `Vue.prototype.$tracer`
+ *    - `Vue.prototype.$trace`
+ * - Se inicia la aplicación basándose en el componente:
+ *    - `Vue.options.components.MainWindow`
+ * 
+ * Pero no se expone una API como tal en este punto.
  * 
  */
 
@@ -17930,6 +18298,9 @@ Vue.component("CommonToasts", {
         this.$errors.showError(error);
       }
     },
+    showError(error) {
+      // @TODO...
+    },
     closeToast(toast) {
       trace("CommonToasts.methods.closeToast");
       const pos = this.activeToasts.indexOf(toast);
@@ -18125,13 +18496,18 @@ Vue.component("CommonErrors", {
 // @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js
 Vue.component("NwtTesterViewer", {
   template: `<div class="nwt_tester_viewer">
+    <div class="title" v-if="title">{{ title }}</div>
     <div class="tester_viewer_box_container">
-        <div class="tester_viewer_box" :class="{all_passed: tester.status === 'ok'}">
-            <nwt-tester-node :node="tester" />
+        <div class="tester_viewer_box" :class="{all_passed: tester.status === 'ok'}" ref="viewerBox">
+            <nwt-tester-node :node="tester" :viewer="this" />
         </div>
     </div>
 </div>`,
   props: {
+    title: {
+      type: String,
+      default: () => "",
+    },
     tester: {
       type: Object,
       required: true
@@ -18164,44 +18540,85 @@ Vue.component("NwtTesterViewer", {
 // @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.js
 Vue.component("NwtTesterNode", {
   template: `<div class="nwt_tester_node">
-
-    <div :class="'test ' + node.status">
-        <div class="flex_row centered">
+    <template v-if="node instanceof \$nwt.Tester.Assertion">
+        <div :class="'test ' + node.status" class="flex_row centered">
             <div class="flex_1"
                 style="min-width: 8px;"
                 v-for="it, index in new Array(node.level)"
                 v-bind:key="'node_tab_' + node.name + '_iteration_' + index"></div>
             <div class="flex_1">
-                <template v-if="node.status === 'pending'">⚪️</template>
-                <template v-if="node.status === 'running'">🟡</template>
-                <template v-if="node.status === 'ok'">🟢</template>
-                <template v-if="node.status === 'failed'">🔴</template>
+                <template v-if="node.status === 'ok'">✅</template>
+                <template v-else-if="node.status === 'failed'">❌</template>
             </div>
-            <div class="flex_100 no_wrap" style="color: #333;">
+            <div class="flex_1 no_wrap"
+                style="color: #333;">
                 {{ node.name }}
             </div>
-            <div class="flex_1 no_wrap times_cell">
-                <template v-if="node.successMoment">
-                    <span>@{{ node.successMoment }}</span>
-                    <span></span>
-                    <b>+{{ node.totalTime }}</b>
+            <div class="flex_100 no_wrap times_cell pad_left_1">
+                <template v-if="node.status === 'ok'">
+                    <template v-if="node.successMoment">
+                        <span>@{{ node.successMoment }}</span>
+                        <span></span>
+                        <b>+{{ node.totalTime }}</b>
+                    </template>
                 </template>
-                <template v-else>
-                    <span>⏳</span>
+                <template v-if="node.status === 'failed'">
+                    <template v-if="node.errorMoment">
+                        <span>@{{ node.errorMoment }}</span>
+                        <span></span>
+                        <b>+{{ node.totalTime }}</b>
+                    </template>
                 </template>
             </div>
         </div>
-    </div>
-    
-    <div class="children">
-        <nwt-tester-node v-for="(child,i) in node.children"
-            v-bind:key="'node_' + node.name + '_child_' + i"
-            :node="child" />
-    </div>
-
+    </template>
+    <template v-else>
+        <div :class="'test ' + node.status">
+            <div class="flex_row centered">
+                <div class="flex_1"
+                    style="min-width: 8px;"
+                    v-for="it, index in new Array(node.level)"
+                    v-bind:key="'node_tab_' + node.name + '_iteration_' + index"></div>
+                <div class="flex_1">
+                    <template v-if="node.status === 'pending'">⚪️</template>
+                    <template v-if="node.status === 'running'">🟡</template>
+                    <template v-if="node.status === 'ok'">🟢</template>
+                    <template v-if="node.status === 'failed'">🔴</template>
+                </div>
+                <div class="flex_1 no_wrap"
+                    style="color: #333;">
+                    {{ node.name }}
+                </div>
+                <div class="flex_100 no_wrap times_cell pad_left_1">
+                    <template v-if="node.successMoment">
+                        <span>@{{ node.successMoment }}</span>
+                        <span></span>
+                        <b>+{{ node.totalTime }}</b>
+                    </template>
+                    <template v-else-if="node.status === 'pending'">
+                        <span>📎</span>
+                    </template>
+                    <template v-else>
+                        <span>⏳</span>
+                    </template>
+                </div>
+            </div>
+        </div>
+        <div class="children">
+            <nwt-tester-node v-for="(child,i) in node.children"
+                v-bind:key="'node_' + node.name + '_child_' + i"
+                :node="child"
+                :viewer="viewer"
+            />
+        </div>
+    </template>
 </div>`,
   props: {
     node: {
+      type: Object,
+      required: true,
+    },
+    viewer: {
       type: Object,
       required: true,
     }
@@ -18211,7 +18628,7 @@ Vue.component("NwtTesterNode", {
     return {};
   },
   mounted() {
-    
+    this.viewer.$refs.viewerBox.scrollTop = this.viewer.$refs.viewerBox.scrollHeight - this.viewer.$refs.viewerBox.clientHeight;
   }
 });
 
@@ -18221,6 +18638,12 @@ Vue.component("NwtTesterNode", {
 // @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
 
 // @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
+/**
+ * 
+ * 
+ * 
+ * 
+ */
 Vue.component("MainWindow", {
   template: `<div class="main_window_container">
     <div class="window main_window">
@@ -18240,7 +18663,7 @@ Vue.component("MainWindow", {
             <div class="pad_bottom_1">
                 <button v-on:click="showMultipleErrors">Mostrar múltiples errores simultáneos</button>
             </div>
-            <nwt-tester-viewer :tester="currentTester" />
+            <nwt-tester-viewer :tester="currentTester" title="Test global de prueba:" />
         </div>
         <div class="status-bar">
             <p class="status-bar-field">Inicio de la aplicación.</p>
@@ -18257,12 +18680,25 @@ Vue.component("MainWindow", {
       await NwtTimer.timeout(1000);
       await test.run("1.0 - Test inicial", async (test, assertion) => {
         assertion(true, "Test suite is working");
+        assertion(true, "Test suite is working");
+        assertion(true, "Test suite is working");
+        assertion(true, "Test suite is working");
+        assertion(true, "Test suite is working");
+        assertion(true, "Test suite is working");
         await NwtTimer.timeout(1000);
         await test.run("1.0.1 - Test inicial 1", async (test, assertion) => {
+          assertion(true, "Test suite is working 0/5");
           assertion(true, "Test suite is working 1/5");
+          assertion(true, "Test suite is working 2/5");
+          assertion(true, "Test suite is working 3/5");
+          assertion(true, "Test suite is working 4/5");
+          assertion(true, "Test suite is working 5/5");
         });
         await NwtTimer.timeout(1000);
         await test.run("1.0.2 - Test inicial 2", async (test, assertion) => {
+          assertion(true, "Test suite is working 2/5");
+          assertion(true, "Test suite is working 2/5");
+          assertion(true, "Test suite is working 2/5");
           assertion(true, "Test suite is working 2/5");
         });
         await NwtTimer.timeout(1000);
@@ -18308,6 +18744,40 @@ Vue.component("MainWindow", {
         });
         await NwtTimer.timeout(1000);
         test.define("1.2.3 - Global NwtTester", async () => {
+          await NwtTimer.timeout(1000);
+          assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
+        });
+      });
+      test.define("1.3 - Test de globales 3", async (test, assertion) => {
+        await NwtTimer.timeout(1000);
+        test.define("1.3.1 - Global NwtFramework", async () => {
+          await NwtTimer.timeout(1000);
+          assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
+        });
+        await NwtTimer.timeout(1000);
+        test.define("1.3.2 - Global NwtAsserter", async () => {
+          await NwtTimer.timeout(1000);
+          assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
+        });
+        await NwtTimer.timeout(1000);
+        test.define("1.3.3 - Global NwtTester", async () => {
+          await NwtTimer.timeout(1000);
+          assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
+        });
+      });
+      test.define("1.4 - Test de globales 4", async (test, assertion) => {
+        await NwtTimer.timeout(1000);
+        test.define("1.4.1 - Global NwtFramework", async () => {
+          await NwtTimer.timeout(1000);
+          assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
+        });
+        await NwtTimer.timeout(1000);
+        test.define("1.4.2 - Global NwtAsserter", async () => {
+          await NwtTimer.timeout(1000);
+          assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
+        });
+        await NwtTimer.timeout(1000);
+        test.define("1.4.3 - Global NwtTester", async () => {
           await NwtTimer.timeout(1000);
           assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
         });

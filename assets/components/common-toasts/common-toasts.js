@@ -62,6 +62,9 @@ Vue.component("CommonToasts", {
         this.$errors.showError(error);
       }
     },
+    showError(error) {
+      // @TODO...
+    },
     closeToast(toast) {
       trace("CommonToasts.methods.closeToast");
       const pos = this.activeToasts.indexOf(toast);

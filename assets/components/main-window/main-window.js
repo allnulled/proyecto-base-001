@@ -1,3 +1,9 @@
+/**
+ * 
+ * 
+ * 
+ * 
+ */
 Vue.component("MainWindow", {
   template: $template,
   props: {},
@@ -7,12 +13,25 @@ Vue.component("MainWindow", {
       await NwtTimer.timeout(1000);
       await test.run("1.0 - Test inicial", async (test, assertion) => {
         assertion(true, "Test suite is working");
+        assertion(true, "Test suite is working");
+        assertion(true, "Test suite is working");
+        assertion(true, "Test suite is working");
+        assertion(true, "Test suite is working");
+        assertion(true, "Test suite is working");
         await NwtTimer.timeout(1000);
         await test.run("1.0.1 - Test inicial 1", async (test, assertion) => {
+          assertion(true, "Test suite is working 0/5");
           assertion(true, "Test suite is working 1/5");
+          assertion(true, "Test suite is working 2/5");
+          assertion(true, "Test suite is working 3/5");
+          assertion(true, "Test suite is working 4/5");
+          assertion(true, "Test suite is working 5/5");
         });
         await NwtTimer.timeout(1000);
         await test.run("1.0.2 - Test inicial 2", async (test, assertion) => {
+          assertion(true, "Test suite is working 2/5");
+          assertion(true, "Test suite is working 2/5");
+          assertion(true, "Test suite is working 2/5");
           assertion(true, "Test suite is working 2/5");
         });
         await NwtTimer.timeout(1000);
@@ -58,6 +77,40 @@ Vue.component("MainWindow", {
         });
         await NwtTimer.timeout(1000);
         test.define("1.2.3 - Global NwtTester", async () => {
+          await NwtTimer.timeout(1000);
+          assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
+        });
+      });
+      test.define("1.3 - Test de globales 3", async (test, assertion) => {
+        await NwtTimer.timeout(1000);
+        test.define("1.3.1 - Global NwtFramework", async () => {
+          await NwtTimer.timeout(1000);
+          assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
+        });
+        await NwtTimer.timeout(1000);
+        test.define("1.3.2 - Global NwtAsserter", async () => {
+          await NwtTimer.timeout(1000);
+          assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
+        });
+        await NwtTimer.timeout(1000);
+        test.define("1.3.3 - Global NwtTester", async () => {
+          await NwtTimer.timeout(1000);
+          assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
+        });
+      });
+      test.define("1.4 - Test de globales 4", async (test, assertion) => {
+        await NwtTimer.timeout(1000);
+        test.define("1.4.1 - Global NwtFramework", async () => {
+          await NwtTimer.timeout(1000);
+          assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
+        });
+        await NwtTimer.timeout(1000);
+        test.define("1.4.2 - Global NwtAsserter", async () => {
+          await NwtTimer.timeout(1000);
+          assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
+        });
+        await NwtTimer.timeout(1000);
+        test.define("1.4.3 - Global NwtTester", async () => {
           await NwtTimer.timeout(1000);
           assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
         });

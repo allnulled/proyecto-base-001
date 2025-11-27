@@ -2358,17 +2358,20 @@ button.bg_danger.active {
 .common_toasts_container_2 {
     position: fixed;
     top: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    opacity: 0.8;
 }
 .common_toasts {}
 .common_toasts_container_3 {
     max-height: 250px;
     overflow-y: scroll;
-    background-color: rgba(255,255,255,0.6);
     padding-top: 4px;
-    border-top: 1px solid black;
+    border: 1px solid #888;
+    background-color: #EEE;
+    box-shadow: 2px 2px 0px black;
+    background-color: transparent;
 }
 .common_toasts_container_4 {
     padding-bottom: 4px;
@@ -2434,23 +2437,34 @@ button.bg_danger.active {
 /* @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js*/
 
 /* @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.css*/
+.nwt_tester_viewer {
+    
+}
 .nwt_tester_viewer .tester_viewer_box_container {
-    padding: 4px;
+    padding: 0px;
 }
 .nwt_tester_viewer .tester_viewer_box {
     border: 1px solid #888;
     background-color: #EEE;
     box-shadow: 2px 2px 0px black;
     padding: 4px;
+    max-height: 300px;
+    overflow: scroll;
 }
 .nwt_tester_viewer .tester_viewer_box.all_passed {
-    background-color: #97ea88;
+    background-color: #e1e8df;
 }
-.nwt_tester_viewer { }
 .nwt_tester_viewer .test.pending { color: gray; }
 .nwt_tester_viewer .test.running { color: rgb(205, 189, 17); }
 .nwt_tester_viewer .test.ok { color: #2ecc71; }
 .nwt_tester_viewer .test.failed { color: #e74c3c; }
+
+.nwt_tester_viewer > .title {
+    padding: 4px;
+    background-color: #1c5a93;
+    color: #FFF;
+    box-shadow: 2px 2px 0px black;
+}
 
 /* @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.html*/
 

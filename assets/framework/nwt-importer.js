@@ -4,11 +4,15 @@
  * 
  * API para importar scripts y estilos.
  * 
+ * ## Exposición
+ * 
  * Se expone a través de:
  * 
  * ```js
  * NwtImporter
  * ```
+ * 
+ * ## Ventajas
  * 
  * Puede usarse así:
  * 

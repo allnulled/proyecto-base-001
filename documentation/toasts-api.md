@@ -9,16 +9,17 @@ Está expuesta en las globales:
 ```js
 CommonToasts
 NwtToasts
-Vue.prototype.$errors
+Vue.prototype.$toasts
 ```
 
-## Mostrar un error
+## Mostrar un mensaje emergente:
 
 ```js
-CommonToasts.open({
+CommonToasts.show({
   title: "Titulo",
   text: "texto",
-  footer: "Pie de texto opcional"
+  footer: "Pie de texto opcional",
+  timeout: 5000,
 });
 ```
 

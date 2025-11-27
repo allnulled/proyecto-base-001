@@ -3,14 +3,21 @@
 Está expuesta en:
 
 ```js
+trace("Packing NwtFramework");
 Object.assign(NwtFramework, {
   // BOOT
-  settings: NwtSettings,
-  timer: NwtTimer,
-  utils: NwtUtils,
-  asserter: NwtAsserter,
-  randomizer: NwtRandomizer,
-  tester: NwtTester,
+  Settings: NwtSettings,
+  Timer: NwtTimer,
+  Utils: NwtUtils,
+  Asserter: NwtAsserter,
+  Randomizer: NwtRandomizer,
+  Importer: NwtImporter,
+  LazyLoader: NwtLazyLoader,
+  Globalizer: NwtGlobalizer,
+  Tester: NwtTester,
+  Errors: NwtErrors,
+  Dialogs: NwtDialogs,
+  Toasts: NwtToasts,
   // PACK
 });
 ```

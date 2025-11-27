@@ -31,7 +31,7 @@
  * Puedes crear un nuevo assertion así:
  * 
  * ```js
- * const otherAssertion = NwtAsserter.createAssertion((message) => {
+ * const otherAssertion = NwtAsserter.createAssertionFunction((message) => {
  *   console.log("[*] Assertion succeded: " + message);
  * }, error => {
  *   console.log("[!] Assertion failed: " + error.message);
@@ -66,8 +66,8 @@
 
     static noop() {}
 
-    static createAssertion(onSuccess = this.noop, onError = this.noop) {
-      trace("NwtAsserter.createAssertion");
+    static createAssertionFunction(onSuccess = this.noop, onError = this.noop) {
+      trace("NwtAsserter.createAssertionFunction");
       const asserter = function(condition, errorMessage) {
         if(condition) {
           return asserter.onSuccess(errorMessage);
@@ -102,7 +102,7 @@
 
   }
 
-  NwtAsserter.global = NwtAsserter.createAssertion();
+  NwtAsserter.global = NwtAsserter.createAssertionFunction();
 
   NwtAsserter.globalizeAssertion(NwtAsserter.global);
 

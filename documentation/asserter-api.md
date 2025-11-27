@@ -29,7 +29,7 @@ assertion.setSuccessCallback(errorMessage => {
 Puedes crear un nuevo assertion así:
 
 ```js
-const otherAssertion = NwtAsserter.createAssertion((message) => {
+const otherAssertion = NwtAsserter.createAssertionFunction((message) => {
   console.log("[*] Assertion succeded: " + message);
 }, error => {
   console.log("[!] Assertion failed: " + error.message);

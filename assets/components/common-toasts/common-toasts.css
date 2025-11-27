@@ -2,17 +2,20 @@
 .common_toasts_container_2 {
     position: fixed;
     top: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    opacity: 0.8;
 }
 .common_toasts {}
 .common_toasts_container_3 {
     max-height: 250px;
     overflow-y: scroll;
-    background-color: rgba(255,255,255,0.6);
     padding-top: 4px;
-    border-top: 1px solid black;
+    border: 1px solid #888;
+    background-color: #EEE;
+    box-shadow: 2px 2px 0px black;
+    background-color: transparent;
 }
 .common_toasts_container_4 {
     padding-bottom: 4px;
