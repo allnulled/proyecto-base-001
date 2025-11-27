@@ -34,6 +34,7 @@
   const NwtImporter = class {
 
     static scriptSrc(url) {
+      trace("NwtImporter.scriptSrc");
       return new Promise((resolve, reject) => {
         if (!url) return reject(new Error("URL no válida"));
         const script = document.createElement("script");
@@ -46,6 +47,7 @@
     }
 
     static linkStylesheet(url) {
+      trace("NwtImporter.linkStylesheet");
       return new Promise((resolve, reject) => {
         if (!url) return reject(new Error("URL no válida"));
         const link = document.createElement("link");

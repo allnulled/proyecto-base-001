@@ -38,12 +38,14 @@ Vue.component("CommonDialogs", {
   template: $template,
   props: {},
   data() {
+    trace("CommonDialogs.data");
     return {
       activeDialogs: [],
     };
   },
   methods: {
     expandDialogDefinition(baseDialog) {
+      trace("CommonDialogs.methods.expandDialogDefinition");
       const finalDialog = {};
       finalDialog.factory = {};
       Expand_props: {
@@ -107,8 +109,8 @@ Vue.component("CommonDialogs", {
       return finalDialog;
     },
     validateDialog(userDialogDefinition) {
+      trace("CommonDialogs.methods.validateDialog");
       const dialogDefinition = this.expandDialogDefinition(userDialogDefinition);
-      console.log(dialogDefinition);
       assertion(typeof dialogDefinition === "object", `Parameter «dialogDefinition» must be an object on «CommonDialogs.prototype.validateDialog»`);
       assertion(typeof dialogDefinition.title === "string", `Parameter «dialogDefinition.title» must be a string on «CommonDialogs.prototype.validateDialog»`);
       assertion(typeof dialogDefinition.template === "string", `Parameter «dialogDefinition.template» must be a string on «CommonDialogs.prototype.validateDialog»`);
@@ -124,6 +126,7 @@ Vue.component("CommonDialogs", {
       return dialogDefinition;
     },
     open(userDialogDefinition) {
+      trace("CommonDialogs.methods.userDialogDefinition");
       try {
         const dialogDefinition = this.validateDialog(userDialogDefinition);
         this.activeDialogs.push(dialogDefinition);
@@ -133,13 +136,14 @@ Vue.component("CommonDialogs", {
       }
     },
     closeDialogByIndex(dialogIndex) {
+      trace("CommonDialogs.methods.closeDialogByIndex");
       this.activeDialogs.splice(dialogIndex, 1);
     }
   },
   mounted() {
-    console.log("[*] CommonDialogs mounted!");
-    window.CommonDialogs = this;
-    window.NwtDialogs = this;
+    trace("CommonDialogs.mounted");
+    NwtGlobalizer.exportTo("CommonDialogs", this);
+    NwtGlobalizer.exportTo("NwtDialogs", this);
     Vue.prototype.$dialogs = this;
   }
 })

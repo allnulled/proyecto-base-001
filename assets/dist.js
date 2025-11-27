@@ -16889,7 +16889,67 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-asserter.js
+// @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tracer.js
+(function (factory) {
+  const mod = factory();
+  if (typeof window !== 'undefined') {
+    window['NwtTracer'] = mod;
+  }
+  if (typeof global !== 'undefined') {
+    global['NwtTracer'] = mod;
+  }
+  if (typeof module !== 'undefined') {
+    module.exports = mod;
+  }
+})(function () {
+  
+  const NwtTracer = class {
+
+    static default = this;
+
+    constructor(id, isActivated = false) {
+      this.id = id;
+      this.isActivated = isActivated;
+    }
+
+    activate() {
+      this.isActivated = true;
+    }
+
+    deactivate() {
+      this.isActivated = false;
+    }
+
+    trace(message, args = []) {
+      if(this.isActivated) {
+        console.log(`[trace][${this.id}] ${message}`, args);
+      }
+    }
+
+    createTrace() {
+      return this.trace.bind(this);
+    }
+
+    exportToGlobal() {
+      if(typeof window !== "undefined") {
+        window.trace = this.createTrace();
+      }
+      if(typeof global !== "undefined") {
+        global.trace = this.createTrace();
+      }
+    }
+
+  };
+
+  NwtTracer.global = new NwtTracer("global", true);
+
+  NwtTracer.global.exportToGlobal();
+
+  return NwtTracer;
+
+});
+
+// @vuebundler[Proyecto_base_001][8]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-asserter.js
 /**
  * 
  * # Nwt Asserter API
@@ -16959,6 +17019,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
     static noop() {}
 
     static createAssertion(onSuccess = this.noop, onError = this.noop) {
+      trace("NwtAsserter.createAssertion");
       const asserter = function(condition, errorMessage) {
         if(condition) {
           return asserter.onSuccess(errorMessage);
@@ -16982,6 +17043,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
     }
 
     static globalizeAssertion(assertion) {
+      trace("NwtAsserter.globalizeAssertion");
       if(typeof window !== "undefined") {
         window.assertion = assertion;
       }
@@ -17000,7 +17062,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][8]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-importer.js
+// @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-importer.js
 /**
  * 
  * # Nwt Importer API
@@ -17037,6 +17099,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
   const NwtImporter = class {
 
     static scriptSrc(url) {
+      trace("NwtImporter.scriptSrc");
       return new Promise((resolve, reject) => {
         if (!url) return reject(new Error("URL no válida"));
         const script = document.createElement("script");
@@ -17049,6 +17112,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
     }
 
     static linkStylesheet(url) {
+      trace("NwtImporter.linkStylesheet");
       return new Promise((resolve, reject) => {
         if (!url) return reject(new Error("URL no válida"));
         const link = document.createElement("link");
@@ -17066,7 +17130,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-lazy-loader.js
+// @vuebundler[Proyecto_base_001][10]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-lazy-loader.js
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -17083,6 +17147,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
   const NwtLazyLoader = class {
 
     static validateLazyLoadable(lazyLoadable) {
+      trace("NwtLazyLoader.validateLazyLoadable");
       assertion(typeof lazyLoadable === "object", "Parameter «lazyLoadable» must be an object on «NwtLazyLoader»");
       assertion(typeof lazyLoadable.id === "string", "Parameter «lazyLoadable.id» must be an string on «NwtLazyLoader»");
       assertion(typeof lazyLoadable.url === "string", "Parameter «lazyLoadable.url» must be an string on «NwtLazyLoader»");
@@ -17092,6 +17157,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
     }
 
     static lazyLoad(lazyLoadable) {
+      trace("NwtLazyLoader.lazyLoad");
       this.validateLazyLoadable(lazyLoadable);
       const isLoaded = lazyLoadable.checker();
       if(isLoaded) {
@@ -17111,7 +17177,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][10]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-settings.js
+// @vuebundler[Proyecto_base_001][11]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-settings.js
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -17135,7 +17201,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][11]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-utils.js
+// @vuebundler[Proyecto_base_001][12]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-utils.js
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -17148,8 +17214,21 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
     module.exports = mod;
   }
 })(function () {
-  
+
   const NwtUtils = class {
+
+    static jsonify(obj, space = 2) {
+      const seen = new WeakSet();
+      return JSON.stringify(obj, function (key, value) {
+        if (typeof value === "object" && value !== null) {
+          if (seen.has(value)) {
+            return undefined; // "[Circular]";
+          }
+          seen.add(value);
+        }
+        return value;
+      }, space);
+    }
 
   };
 
@@ -17157,7 +17236,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][12]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-timer.js
+// @vuebundler[Proyecto_base_001][13]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-timer.js
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -17174,6 +17253,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
   const NwtTimer = class {
 
     static fromDateToString(d, options = {}) {
+      trace("NwtTimer.fromDateToString");
       // d puede ser Date, número (timestamp) o cadena aceptada por Date
       const date = d instanceof Date ? d : new Date(d);
       const utc = !!options.utc;
@@ -17199,13 +17279,32 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
       );
     }
 
+    static fromMillisecondsToSeconds(ms) {
+      const seconds = Math.floor(ms / 1000);
+      const milliseconds = Math.abs(ms % 1000);
+      return seconds + "." + String(milliseconds).padStart(3, "0");
+    }
+
+    static secondsDiff(date1, date2) {
+      return this.fromMillisecondsToSeconds(date1 - date2);
+    }
+
+    static timeout(ms) {
+      trace("NwtTimer.timeout");
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve();
+        }, ms);
+      });
+    }
+
   };
 
   return NwtTimer;
 
 });
 
-// @vuebundler[Proyecto_base_001][13]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-randomizer.js
+// @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-randomizer.js
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -17222,6 +17321,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
   const NwtRandomizer = class {
 
     static fromNumbers(start, end) {
+      trace("NwtRandomizer.fromNumbers");
       if (typeof start !== "number" || typeof end !== "number") {
         throw new TypeError("Parámetros «start» y «end» deben ser números en «NwtRandomizer.fromNumbers»");
       }
@@ -17233,6 +17333,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
     // Devuelve un ítem aleatorio de la lista
     static fromList(list) {
+      trace("NwtRandomizer.fromList");
       if (!Array.isArray(list)) {
         throw new TypeError("list debe ser un array");
       }
@@ -17250,6 +17351,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
     static alphanumerical = "abcdefghijklmnopqrstuvwxyz0123456789".split("");
 
     static fromAlphabet(len = 10, alphabet = this.alphabet) {
+      trace("NwtRandomizer.fromAlphabet");
       let out = "";
       while(out.length < len) {
         out += this.fromList(alphabet);
@@ -17263,7 +17365,116 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tester.js
+// @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-globalizer.js
+(function (factory) {
+  const mod = factory();
+  if (typeof window !== 'undefined') {
+    window['NwtGlobalizer'] = mod;
+  }
+  if (typeof global !== 'undefined') {
+    global['NwtGlobalizer'] = mod;
+  }
+  if (typeof module !== 'undefined') {
+    module.exports = mod;
+  }
+})(function () {
+  
+  const NwtGlobalizer = class {
+
+    static exportTo(id, value) {
+      trace("NwtGlobalizer.exportTo");
+      if(typeof window !== "undefined") {
+        // assertion(typeof window[id] === "undefined", `Global «window[${id}]» must be undefined on «NwtGlobalizer.exportTo»`);
+        window[id] = value;
+      }
+      if(typeof global !== "undefined") {
+        // assertion(typeof global[id] === "undefined", `Global «global[${id}]» must be undefined on «NwtGlobalizer.exportTo»`);
+        global[id] = value;
+      }
+    }
+
+  };
+
+  return NwtGlobalizer;
+
+});
+
+// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tester.js
+/**
+ * 
+ * # Nwt Tester API
+ * 
+ * API para ejecutar tests asíncronos encadenados.
+ * 
+ * Se expone a través de:
+ * 
+ * ```js
+ * // Clase:
+ * NwtTester
+ * NwtFramework.Tester
+ * Vue.prototype.$nwt.tester
+ * 
+ * // Instancia global:
+ * NwtTester.global // instancia
+ * Vue.prototype.$tester // instancia
+ * Vue.prototype.$tester === NwtTester.global // instancia
+ * ```
+ * 
+ * Se usa así:
+ * 
+ * ```js
+ * NwtTester.global.run("1 - Test", async test => {
+ *   await NwtTimer.timeout(1000);
+ *   await test.run("1.0 - Test inicial", async (test, assertion) => {
+ *     assertion(true, "Test suite is working");
+ *     await test.run("1.0.1 - Test inicial 1", async (test, assertion) => {
+ *       assertion(true, "Test suite is working 1/5");
+ *     });
+ *     await test.run("1.0.2 - Test inicial 2", async (test, assertion) => {
+ *       assertion(true, "Test suite is working 2/5");
+ *     });
+ *     await test.run("1.0.3 - Test inicial 3", async (test, assertion) => {
+ *       assertion(true, "Test suite is working 3/5");
+ *     });
+ *     await test.run("1.0.4 - Test inicial 4", async (test, assertion) => {
+ *       assertion(true, "Test suite is working 4/5");
+ *     });
+ *     await test.run("1.0.5 - Test inicial 5", async (test, assertion) => {
+ *       assertion(true, "Test suite is working 5/5");
+ *     });
+ *   });
+ *   test.define("1.1 - Test de globales", async (test, assertion) => {
+ *     test.define("1.1.1 - Global NwtFramework", async () => {
+ *       assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
+ *     });
+ *     test.define("1.1.2 - Global NwtAsserter", async () => {
+ *       assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
+ *     });
+ *     test.define("1.1.3 - Global NwtTester", async () => {
+ *       assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
+ *     });
+ *   });
+ *   test.define("2.1 - Test de globales 2", async (test, assertion) => {
+ *     test.define("2.1.1 - Global NwtFramework", async () => {
+ *       assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
+ *     });
+ *     test.define("2.1.2 - Global NwtAsserter", async () => {
+ *       assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
+ *     });
+ *     test.define("2.1.3 - Global NwtTester", async () => {
+ *       assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
+ *     });
+ *   });
+ * }, {
+ *   onTestDefined: t => trace(`TEST: ${t.name}`),
+ *   onTestSuccess: t => trace(`OK TEST: ${t.name}`),
+ *   onTestFailure: e => trace(`FAIL TEST: ${e.name} ${e.message}`),
+ *   onAssertionSuccess: (m) => trace(`OK ASSERTION ✔ ${m}`),
+ *   onAssertionFailure: (e) => trace(`FAIL ASSERTION ✘ ${e}`),
+ * });
+ * ```
+ * 
+ */
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -17276,18 +17487,102 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
     module.exports = mod;
   }
 })(function () {
-  
+
   const NwtTester = class {
 
     static default = this;
 
+    static createTest(...args) {
+      return new this(...args);
+    }
+
+    constructor(name, callback, hooks = {}, parent = null, root = null, level = 0) {
+      if (typeof name !== "string") {
+        throw new NwtAsserter.AssertionError("Parameter «name» must be a string on «NwtTester.constructor»");
+      }
+      if (typeof callback !== "function") {
+        throw new NwtAsserter.AssertionError("Parameter «callback» must be a function on «NwtTester.constructor»");
+      }
+      if (typeof hooks !== "object") {
+        throw new NwtAsserter.AssertionError("Parameter «hooks» must be an object on «NwtTester.constructor»");
+      }
+      this.name = name;
+      this.callback = callback;
+      this.hooks = hooks || {};
+      this.children = [];
+      this.parent = parent;
+      this.level = level;
+      this.root = root;
+      this.accumulatedErrors = [];
+      this.status = "pending";
+      this.startedAt = null;
+    }
+
+    define(name, callback) {
+      const test = new NwtTester(name, callback, this.hooks, this, this.root || this, this.level+1);
+      this.children.unshift(test);
+      this.hooks.onTestDefined?.(test);
+      return test;
+    }
+
+    async run(name, callback) {
+      const test = this.define(name, callback);
+      await test.start();
+      return test;
+    }
+
+    failBranch(subtest, error) {
+      let parent = subtest.parent;
+      while(parent !== null) {
+        subtest.status = "failed";
+        subtest.accumulatedErrors.push(error);
+        parent = subtest.parent;
+      }
+    }
+
+    async start() {
+      try {
+        this.startedAt = new Date();
+        const assertion = NwtAsserter.createAssertion(
+          message => this.hooks.onAssertionSuccess?.(message),
+          error => this.hooks.onAssertionFailure?.(error)
+        );
+        if (this.status === "pending") {
+          try {
+            this.status = "running";
+            await this.callback(this, assertion);
+          } catch (error) {
+            this.failBranch(this, error);
+          }
+        }
+        for (const subtest of this.children) {
+          try {
+            await subtest.start();
+          } catch (error) {
+            this.failBranch(subtest, error);
+          }
+        }
+        if(this.accumulatedErrors.length) {
+          throw new Error(`Test «${this.name}» failed with ${this.accumulatedErrors.length} errors`);
+        }
+        this.status = "ok";
+        this.successMoment = NwtTimer.secondsDiff(new Date(), (this.root || this).startedAt);
+        this.totalTime = NwtTimer.secondsDiff(new Date(), this.startedAt);
+        this.hooks.onTestSuccess?.(this);
+      } catch (err) {
+        this.hooks.onTestFailure?.(this, err);
+      }
+    }
+
   };
+
+  NwtTester.global = new NwtTester("Global tester instance", async function () {});
 
   return NwtTester;
 
 });
 
-// @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js
+// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js
 /**
  * 
  * # Nwt Global API
@@ -17295,14 +17590,21 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
  * Está expuesta en:
  * 
  * ```js
+ * trace("Packing NwtFramework");
  * Object.assign(NwtFramework, {
  *   // BOOT
- *   settings: NwtSettings,
- *   timer: NwtTimer,
- *   utils: NwtUtils,
- *   asserter: NwtAsserter,
- *   randomizer: NwtRandomizer,
- *   tester: NwtTester,
+ *   Settings: NwtSettings,
+ *   Timer: NwtTimer,
+ *   Utils: NwtUtils,
+ *   Asserter: NwtAsserter,
+ *   Randomizer: NwtRandomizer,
+ *   Importer: NwtImporter,
+ *   LazyLoader: NwtLazyLoader,
+ *   Globalizer: NwtGlobalizer,
+ *   Tester: NwtTester,
+ *   Errors: NwtErrors,
+ *   Dialogs: NwtDialogs,
+ *   Toasts: NwtToasts,
  *   // PACK
  * });
  * ```
@@ -17316,22 +17618,51 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
  */
 (function () {
   
+  trace("Packing NwtFramework");
   Object.assign(NwtFramework, {
     // BOOT
-    settings: NwtSettings,
-    timer: NwtTimer,
-    utils: NwtUtils,
-    asserter: NwtAsserter,
-    randomizer: NwtRandomizer,
-    tester: NwtTester,
+    Settings: NwtSettings,
+    Timer: NwtTimer,
+    Utils: NwtUtils,
+    Asserter: NwtAsserter,
+    Randomizer: NwtRandomizer,
+    Importer: NwtImporter,
+    LazyLoader: NwtLazyLoader,
+    Globalizer: NwtGlobalizer,
+    // Injected later:
+    Tester: null,
+    Errors: null,
+    Dialogs: null,
+    Toasts: null,
     // PACK
   });
 
 })();
 
-// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html
+// @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-injection.js
+/**
+ * 
+ * # Nwt Injection API
+ * 
+ * Con `NwtInjection`...
+ * 
+ */
 
-// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js
+
+window.addEventListener("load", function () {
+    trace("Nwt injection on Vue.prototype.$*");
+    Vue.prototype.$window = window;
+    Vue.prototype.$nwt = NwtFramework;
+    Vue.prototype.$tracer = NwtTracer.global;
+    Vue.prototype.$trace = NwtTracer.global.createTrace();
+    new Vue({
+        render: h => h(Vue.options.components.MainWindow),
+    }).$mount("#app");
+});
+
+// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html
+
+// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js
 /**
  * 
  * # Nwt Dialogs API
@@ -17393,12 +17724,14 @@ Vue.component("CommonDialogs", {
 </div>`,
   props: {},
   data() {
+    trace("CommonDialogs.data");
     return {
       activeDialogs: [],
     };
   },
   methods: {
     expandDialogDefinition(baseDialog) {
+      trace("CommonDialogs.methods.expandDialogDefinition");
       const finalDialog = {};
       finalDialog.factory = {};
       Expand_props: {
@@ -17462,8 +17795,8 @@ Vue.component("CommonDialogs", {
       return finalDialog;
     },
     validateDialog(userDialogDefinition) {
+      trace("CommonDialogs.methods.validateDialog");
       const dialogDefinition = this.expandDialogDefinition(userDialogDefinition);
-      console.log(dialogDefinition);
       assertion(typeof dialogDefinition === "object", `Parameter «dialogDefinition» must be an object on «CommonDialogs.prototype.validateDialog»`);
       assertion(typeof dialogDefinition.title === "string", `Parameter «dialogDefinition.title» must be a string on «CommonDialogs.prototype.validateDialog»`);
       assertion(typeof dialogDefinition.template === "string", `Parameter «dialogDefinition.template» must be a string on «CommonDialogs.prototype.validateDialog»`);
@@ -17479,6 +17812,7 @@ Vue.component("CommonDialogs", {
       return dialogDefinition;
     },
     open(userDialogDefinition) {
+      trace("CommonDialogs.methods.userDialogDefinition");
       try {
         const dialogDefinition = this.validateDialog(userDialogDefinition);
         this.activeDialogs.push(dialogDefinition);
@@ -17488,22 +17822,23 @@ Vue.component("CommonDialogs", {
       }
     },
     closeDialogByIndex(dialogIndex) {
+      trace("CommonDialogs.methods.closeDialogByIndex");
       this.activeDialogs.splice(dialogIndex, 1);
     }
   },
   mounted() {
-    console.log("[*] CommonDialogs mounted!");
-    window.CommonDialogs = this;
-    window.NwtDialogs = this;
+    trace("CommonDialogs.mounted");
+    NwtGlobalizer.exportTo("CommonDialogs", this);
+    NwtGlobalizer.exportTo("NwtDialogs", this);
     Vue.prototype.$dialogs = this;
   }
 })
 
-// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css
+// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css
 
-// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html
+// @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html
 
-// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js
+// @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js
 /**
  * 
  * # Nwt Toasts API
@@ -17513,16 +17848,17 @@ Vue.component("CommonDialogs", {
  * ```js
  * CommonToasts
  * NwtToasts
- * Vue.prototype.$errors
+ * Vue.prototype.$toasts
  * ```
  * 
- * ## Mostrar un error
+ * ## Mostrar un mensaje emergente:
  * 
  * ```js
- * CommonToasts.open({
+ * CommonToasts.show({
  *   title: "Titulo",
  *   text: "texto",
- *   footer: "Pie de texto opcional"
+ *   footer: "Pie de texto opcional",
+ *   timeout: 5000,
  * });
  * ```
  * 
@@ -17558,12 +17894,14 @@ Vue.component("CommonToasts", {
 </div>`,
   props: {},
   data() {
+    trace("CommonToasts.data");
     return {
       activeToasts: [],
     };
   },
   methods: {
     expandToastDefinition(userToastDefinition) {
+      trace("CommonToasts.methods.expandToastsDefinition");
       const toastDefinition = {};
       toastDefinition.title = userToastDefinition.title;
       toastDefinition.text = userToastDefinition.text;
@@ -17572,6 +17910,7 @@ Vue.component("CommonToasts", {
       return toastDefinition;
     },
     validateToast(userToastDefinition) {
+      trace("CommonToasts.methods.validateToast");
       const toastDefinition = this.expandToastDefinition(userToastDefinition);
       assertion(typeof toastDefinition === "object", `Parameter «toastDefinition» must be an object on «CommonToasts.prototype.validateToast»`);
       assertion(typeof toastDefinition.title === "string", `Parameter «toastDefinition.title» must be a string on «CommonToasts.prototype.validateToast»`);
@@ -17582,7 +17921,8 @@ Vue.component("CommonToasts", {
         this.closeToast(toastDefinition);
       }, toastDefinition.timeout);
     },
-    open(toastDefinition) {
+    show(toastDefinition) {
+      trace("CommonToasts.methods.show");
       try {
         this.validateToast(toastDefinition);
         this.activeToasts.unshift(toastDefinition);
@@ -17591,22 +17931,24 @@ Vue.component("CommonToasts", {
       }
     },
     closeToast(toast) {
+      trace("CommonToasts.methods.closeToast");
       const pos = this.activeToasts.indexOf(toast);
       this.activeToasts.splice(pos, 1);
     }
   },
   mounted() {
-    console.log("[*] CommonToasts mounted!");
-    window.CommonToasts = this;
+    trace("CommonToasts.mounted");
+    NwtGlobalizer.exportTo("CommonToasts", this);
+    NwtGlobalizer.exportTo("NwtToasts", this);
     Vue.prototype.$toasts = this;
   }
 })
 
-// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css
+// @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css
 
-// @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html
+// @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html
 
-// @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js
+// @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js
 /**
  * 
  * # Nwt Errors API
@@ -17628,67 +17970,147 @@ Vue.component("CommonToasts", {
  */
 Vue.component("CommonErrors", {
   template: `<div class="common_errors_container">
-    <div class="common_errors_container_2" v-if="activeErrors.length">
-        <template v-for="error, errorIndex in activeErrors">
-            <div class="window common_errors_window"
-                v-bind:key="'error_' + errorIndex">
-                <div class="title-bar">
-                    <div class="title-bar-text">{{ error.name }}</div>
-                    <div class="title-bar-controls">
-                        <button aria-label="Close"
-                            v-on:click="() => closeErrorByIndex(errorIndex)"></button>
-                    </div>
-                </div>
-                <div class="window-body has-space">
-                    <div class="error_name">Tipo: {{ error.name }}</div>
-                    <hr />
-                    <div class="error_message">Mensaje: {{ error.message }}</div>
-                    <hr />
-                    <div class="float_right position_relative">
-                        <button class="position_absolute_top_right no_wrap" style="top:4px; right:4px;" v-on:click="() => copyErrorToClipboard(error)">Copiar error</button>
-                    </div>
-                    <div class="error_stack" ref="stack_tracer">Traza completa del error:\n\n{{ error.name }} » {{ error.message }}\n\n{{ error.stack }}\n\n\n</div>
-                </div>
-                <div class="status-bar">
-                    <p class="status-bar-field no_wrap">{{ \$nwt.timer.fromDateToString(currentDate) }}</p>
+    <div class="common_errors_container_2"
+        v-if="activeErrors.length">
+        <div class="window common_errors_window">
+            <div class="title-bar">
+                <div class="title-bar-text">Lista de errores</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Close"
+                        v-on:click="closeAllErrors"></button>
                 </div>
             </div>
-        </template>
+            <div class="window-body has-space window_box_container">
+                <div class="window_box pad_1">
+                    <div>
+                        <div>Selecciona un error:</div>
+                        <div>
+                            <div class="display_inline_block pad_right_1 pad_bottom_1">
+                                <button class="bg_danger"
+                                    :class="{active: selectedError === -1}"
+                                    v-on:click="() => selectedError = -1">
+                                    *
+                                </button>
+                            </div>
+                            <div class="display_inline_block pad_right_1 pad_bottom_1"
+                                v-bind:key="'error_option_' + errorIndex"
+                                v-for="error, errorIndex in activeErrors">
+                                <button class="mini bg_danger"
+                                    :class="{active: selectedError === errorIndex}"
+                                    v-on:click="() => selectedError = errorIndex">
+                                    ❗️ {{ abbreviateMessage(error.message) }}
+                                </button>
+                            </div>
+                        </div>
+                        <hr />
+                    </div>
+                    <div class="intermediate_row" v-if="(selectedError === -1) && (activeErrors.length > 1)">
+                        <button class="width_100" v-on:click="copyAllErrorsToClipboard">📄 Copiar todos los errores</button>
+                        <hr />
+                    </div>
+                    <div class="error_panel_container" 
+                        v-show="(selectedError === errorIndex) || (selectedError === -1)"
+                        v-bind:key="'error_panel_' + errorIndex"
+                        v-for="error, errorIndex in activeErrors">
+                        <div class="error_panel">
+                            <div class="error_name">
+                                <div class="flex_row centered">
+                                    <div class="flex_100">
+                                        <div class="display_inline_block">Id: {{ error.message }}</div>
+                                    </div>
+                                    <div class="flex_1">
+                                        <button class="bg_danger no_wrap"
+                                            v-on:click="() => closeErrorByIndex(errorIndex)">Cerrar ❎</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="error_name">Tipo: {{ error.name }}</div>
+                            <hr />
+                            <div class="error_message">Mensaje: {{ error.message }}</div>
+                            <hr />
+                            <div class="float_right position_relative">
+                                <button class="position_absolute_top_right no_wrap"
+                                    style="top:4px; right:4px;"
+                                    v-on:click="() => copyErrorToClipboard(error)">📄 Copiar error</button>
+                            </div>
+                            <div class="error_stack"
+                                ref="stack_tracer">Traza completa del error:\n\n{{ error.name }} » {{ error.message }}\n\n{{ error.stack
+                                }}\n\n\n
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <hr />
+                        <p class="no_wrap">Momento del error: {{ \$nwt.Timer.fromDateToString(currentDate) }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>`,
   props: {},
   data() {
+    trace("CommonErrors.data");
     return {
       currentDate: new Date(),
       stackSplitter: new RegExp("[\r\n\t ]+at[\r\n\t ]+", "g"),
       activeErrors: [],
+      selectedError: -1,
     };
   },
   methods: {
+    abbreviateMessage(message) {
+      trace("CommonErrors.methods.abbreviateMessage");
+      if(message.length > 20) {
+        return message.substr(0,20) + "...";
+      }
+      return message;
+    },
     validateError(errorDefinition) {
+      trace("CommonErrors.methods.validateError");
       assertion(typeof errorDefinition === "object", `Parameter «errorDefinition» must be an object on «CommonErrors.prototype.validateError»`);
       assertion(typeof errorDefinition.name === "string", `Parameter «errorDefinition.name» must be a string on «CommonErrors.prototype.validateError»`);
       assertion(typeof errorDefinition.message === "string", `Parameter «errorDefinition.message» must be a string on «CommonErrors.prototype.validateError»`);
       assertion(typeof errorDefinition.stack === "string", `Parameter «errorDefinition.stack» must be a string on «CommonErrors.prototype.validateError»`);
-      console.log(errorDefinition);
     },
     showError(error) {
+      trace("CommonErrors.methods.showError");
       this.validateError(error);
       this.activeErrors.push(error);
     },
     closeErrorByIndex(errorIndex) {
+      trace("CommonErrors.methods.closeErrorByIndex");
       this.activeErrors.splice(errorIndex, 1);
+      if(this.selectedError >= this.activeErrors.length) {
+        this.selectedError = this.activeErrors.length - 1;
+      }
+    },
+    closeAllErrors() {
+      trace("CommonErrors.methods.closeAllErrors");
+      this.activeErrors = [];
     },
     copyErrorToClipboard(error) {
+      trace("CommonErrors.methods.copyErrorToClipboard");
       const text = `Traza completa del error:\n\n${ error.name } » ${ error.message }\n\n${ error.stack }`;
-      console.log(text);
       navigator.clipboard.writeText(text);
+    },
+    copyAllErrorsToClipboard() {
+      trace("CommonErrors.methods.copyAllErrorsToClipboard");
+      let all = "";
+      for(let index=0; index<this.activeErrors.length; index++) {
+        const error = this.activeErrors[index];
+        const text = `Traza completa del error ${ index + 1} de ${ this.activeErrors.length }:\n\n${ error.name } » ${ error.message }\n\n${ error.stack }`;
+        all += text + "\n\n";
+      }
+      all = all.trimEnd();
+      navigator.clipboard.writeText(all);
     }
   },
   mounted() {
-    console.log("[*] CommonErrors mounted!");
-    window.CommonErrors = this;
-    window.NwtErrors = this;
+    trace("CommonErrors.mounted");
+    NwtGlobalizer.exportTo("CommonErrors", this);
+    NwtGlobalizer.exportTo("NwtErrors", this);
     Vue.prototype.$errors = this;
     assertion.setErrorCallback(error => this.showError(error))
   }
@@ -17696,11 +18118,109 @@ Vue.component("CommonErrors", {
 
 
 
-// @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css
+// @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css
 
-// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
+// @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.html
 
-// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
+// @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js
+Vue.component("NwtTesterViewer", {
+  template: `<div class="nwt_tester_viewer">
+    <div class="tester_viewer_box_container">
+        <div class="tester_viewer_box" :class="{all_passed: tester.status === 'ok'}">
+            <nwt-tester-node :node="tester" />
+        </div>
+    </div>
+</div>`,
+  props: {
+    tester: {
+      type: Object,
+      required: true
+    }
+  },
+
+  data() {
+    trace("NwtTesterViewer.data");
+    return {
+      
+    };
+  },
+
+  methods: {
+    
+  },
+
+  mounted() {
+    trace("NwtTesterViewer.mounted");
+    
+  }
+
+});
+
+
+// @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.css
+
+// @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.html
+
+// @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.js
+Vue.component("NwtTesterNode", {
+  template: `<div class="nwt_tester_node">
+
+    <div :class="'test ' + node.status">
+        <div class="flex_row centered">
+            <div class="flex_1"
+                style="min-width: 8px;"
+                v-for="it, index in new Array(node.level)"
+                v-bind:key="'node_tab_' + node.name + '_iteration_' + index"></div>
+            <div class="flex_1">
+                <template v-if="node.status === 'pending'">⚪️</template>
+                <template v-if="node.status === 'running'">🟡</template>
+                <template v-if="node.status === 'ok'">🟢</template>
+                <template v-if="node.status === 'failed'">🔴</template>
+            </div>
+            <div class="flex_100 no_wrap" style="color: #333;">
+                {{ node.name }}
+            </div>
+            <div class="flex_1 no_wrap times_cell">
+                <template v-if="node.successMoment">
+                    <span>@{{ node.successMoment }}</span>
+                    <span></span>
+                    <b>+{{ node.totalTime }}</b>
+                </template>
+                <template v-else>
+                    <span>⏳</span>
+                </template>
+            </div>
+        </div>
+    </div>
+    
+    <div class="children">
+        <nwt-tester-node v-for="(child,i) in node.children"
+            v-bind:key="'node_' + node.name + '_child_' + i"
+            :node="child" />
+    </div>
+
+</div>`,
+  props: {
+    node: {
+      type: Object,
+      required: true,
+    }
+  },
+  data() {
+    trace("NwtTesterNode.data");
+    return {};
+  },
+  mounted() {
+    
+  }
+});
+
+
+// @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.css
+
+// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
+
+// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
 Vue.component("MainWindow", {
   template: `<div class="main_window_container">
     <div class="window main_window">
@@ -17712,11 +18232,15 @@ Vue.component("MainWindow", {
                 <button ref="btn1" v-on:click="() => \$dialogs.open({title: 'Ejemplo', template: '<div>Okkk</div>'})">Mostrar diálogo de ejemplo</button>
             </div>
             <div class="pad_bottom_1">
-                <button v-on:click="() => \$toasts.open({title: 'Ejemplo', text: '<div>Okkk' + (toastCounter++) + '</div>'})">Mostrar toast de ejemplo</button>
+                <button v-on:click="() => \$toasts.show({title: 'Ejemplo', text: '<div>Okkk' + (toastCounter++) + '</div>'})">Mostrar toast de ejemplo</button>
             </div>
             <div class="pad_bottom_1">
                 <button v-on:click="() => \$errors.showError(new \$window.Error('Algo fue mal'))">Mostrar error de ejemplo</button>
             </div>
+            <div class="pad_bottom_1">
+                <button v-on:click="showMultipleErrors">Mostrar múltiples errores simultáneos</button>
+            </div>
+            <nwt-tester-viewer :tester="currentTester" />
         </div>
         <div class="status-bar">
             <p class="status-bar-field">Inicio de la aplicación.</p>
@@ -17728,14 +18252,93 @@ Vue.component("MainWindow", {
 </div>`,
   props: {},
   data() {
+    trace("MainWindow.data");
+    NwtTester.global.define("1 - Test", async test => {
+      await NwtTimer.timeout(1000);
+      await test.run("1.0 - Test inicial", async (test, assertion) => {
+        assertion(true, "Test suite is working");
+        await NwtTimer.timeout(1000);
+        await test.run("1.0.1 - Test inicial 1", async (test, assertion) => {
+          assertion(true, "Test suite is working 1/5");
+        });
+        await NwtTimer.timeout(1000);
+        await test.run("1.0.2 - Test inicial 2", async (test, assertion) => {
+          assertion(true, "Test suite is working 2/5");
+        });
+        await NwtTimer.timeout(1000);
+        await test.run("1.0.3 - Test inicial 3", async (test, assertion) => {
+          assertion(true, "Test suite is working 3/5");
+        });
+        await NwtTimer.timeout(1000);
+        await test.run("1.0.4 - Test inicial 4", async (test, assertion) => {
+          assertion(true, "Test suite is working 4/5");
+        });
+        await NwtTimer.timeout(1000);
+        await test.run("1.0.5 - Test inicial 5", async (test, assertion) => {
+          assertion(true, "Test suite is working 5/5");
+        });
+      });
+      test.define("1.1 - Test de globales", async (test, assertion) => {
+        await NwtTimer.timeout(1000);
+        test.define("1.1.1 - Global NwtFramework", async () => {
+          await NwtTimer.timeout(1000);
+          assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
+        });
+        await NwtTimer.timeout(1000);
+        test.define("1.1.2 - Global NwtAsserter", async () => {
+          await NwtTimer.timeout(1000);
+          assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
+        });
+        await NwtTimer.timeout(1000);
+        test.define("1.1.3 - Global NwtTester", async () => {
+          await NwtTimer.timeout(1000);
+          assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
+        });
+      });
+      test.define("1.2 - Test de globales 2", async (test, assertion) => {
+        await NwtTimer.timeout(1000);
+        test.define("1.2.1 - Global NwtFramework", async () => {
+          await NwtTimer.timeout(1000);
+          assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
+        });
+        await NwtTimer.timeout(1000);
+        test.define("1.2.2 - Global NwtAsserter", async () => {
+          await NwtTimer.timeout(1000);
+          assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
+        });
+        await NwtTimer.timeout(1000);
+        test.define("1.2.3 - Global NwtTester", async () => {
+          await NwtTimer.timeout(1000);
+          assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
+        });
+      });
+    }, {
+      onTestDefined: t => trace(`TEST: ${t.name}`),
+      onTestSuccess: t => trace(`OK TEST: ${t.name}`),
+      onTestFailure: e => trace(`FAIL TEST: ${e.name} ${e.message}`),
+      onAssertionSuccess: (m) => trace(`OK ASSERTION ✔ ${m}`),
+      onAssertionFailure: (e) => trace(`FAIL ASSERTION ✘ ${e}`),
+    });
     return {
-      toastCounter: 0
+      toastCounter: 0,
+      currentTester: NwtTester.global,
     };
   },
+  methods: {
+    showMultipleErrors() {
+      trace("MainWindow.methods.showMultipleErrors");
+      setTimeout(() => assertion(false, 'Error número 1'), 0);
+      setTimeout(() => assertion(false, 'Error número 2'), 0);
+      setTimeout(() => assertion(false, 'Error número 3'), 0);
+      setTimeout(() => assertion(false, 'Error número 4'), 0);
+      setTimeout(() => assertion(false, 'Error número 5'), 0);
+    }
+  },
   mounted() {
-    console.log("Main window mounted!");
-    this.$refs.btn1.click();
+    trace("MainWindow.mounted");
+    //this.$refs.btn1.click();
+    this.currentTester.start();
   }
 })
 
-// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css
+// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css

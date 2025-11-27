@@ -67,6 +67,7 @@
     static noop() {}
 
     static createAssertion(onSuccess = this.noop, onError = this.noop) {
+      trace("NwtAsserter.createAssertion");
       const asserter = function(condition, errorMessage) {
         if(condition) {
           return asserter.onSuccess(errorMessage);
@@ -90,6 +91,7 @@
     }
 
     static globalizeAssertion(assertion) {
+      trace("NwtAsserter.globalizeAssertion");
       if(typeof window !== "undefined") {
         window.assertion = assertion;
       }

@@ -75,3 +75,15 @@ button.mini {
     left: auto;
     right: 0px;
 }
+
+.display_inline_block {
+    display: inline-block;
+}
+
+button.bg_danger {
+    background: linear-gradient(#eec4c4 45%, #d3b6b6 45%, #d9b1b1);
+}
+
+button.bg_danger.active {
+
+}

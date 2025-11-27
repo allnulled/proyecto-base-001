@@ -1,0 +1,7 @@
+<div class="nwt_tester_viewer">
+    <div class="tester_viewer_box_container">
+        <div class="tester_viewer_box" :class="{all_passed: tester.status === 'ok'}">
+            <nwt-tester-node :node="tester" />
+        </div>
+    </div>
+</div>

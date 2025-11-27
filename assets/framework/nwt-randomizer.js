@@ -14,6 +14,7 @@
   const NwtRandomizer = class {
 
     static fromNumbers(start, end) {
+      trace("NwtRandomizer.fromNumbers");
       if (typeof start !== "number" || typeof end !== "number") {
         throw new TypeError("Parámetros «start» y «end» deben ser números en «NwtRandomizer.fromNumbers»");
       }
@@ -25,6 +26,7 @@
 
     // Devuelve un ítem aleatorio de la lista
     static fromList(list) {
+      trace("NwtRandomizer.fromList");
       if (!Array.isArray(list)) {
         throw new TypeError("list debe ser un array");
       }
@@ -42,6 +44,7 @@
     static alphanumerical = "abcdefghijklmnopqrstuvwxyz0123456789".split("");
 
     static fromAlphabet(len = 10, alphabet = this.alphabet) {
+      trace("NwtRandomizer.fromAlphabet");
       let out = "";
       while(out.length < len) {
         out += this.fromList(alphabet);

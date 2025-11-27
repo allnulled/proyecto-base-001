@@ -14,6 +14,7 @@
   const NwtTimer = class {
 
     static fromDateToString(d, options = {}) {
+      trace("NwtTimer.fromDateToString");
       // d puede ser Date, número (timestamp) o cadena aceptada por Date
       const date = d instanceof Date ? d : new Date(d);
       const utc = !!options.utc;
@@ -37,6 +38,25 @@
         pad(ss) + '.' +
         pad(ms, 3)
       );
+    }
+
+    static fromMillisecondsToSeconds(ms) {
+      const seconds = Math.floor(ms / 1000);
+      const milliseconds = Math.abs(ms % 1000);
+      return seconds + "." + String(milliseconds).padStart(3, "0");
+    }
+
+    static secondsDiff(date1, date2) {
+      return this.fromMillisecondsToSeconds(date1 - date2);
+    }
+
+    static timeout(ms) {
+      trace("NwtTimer.timeout");
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve();
+        }, ms);
+      });
     }
 
   };

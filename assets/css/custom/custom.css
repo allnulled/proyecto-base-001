@@ -15,3 +15,15 @@
 .main_window > .title-bar {
     -webkit-app-region: drag;
 }
+
+.window_box_container {
+    position: relative;
+}
+.window_box {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    overflow: scroll;
+}

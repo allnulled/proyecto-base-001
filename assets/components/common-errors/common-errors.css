@@ -31,3 +31,11 @@
     background-color: #e98d8d;
     color: black;
 }
+.error_panel_container {
+    padding: 8px;
+}
+.error_panel {
+    padding: 8px;
+    border: 1px solid red;
+    background-color: #dfafaf;
+}

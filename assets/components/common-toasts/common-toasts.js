@@ -7,16 +7,17 @@
  * ```js
  * CommonToasts
  * NwtToasts
- * Vue.prototype.$errors
+ * Vue.prototype.$toasts
  * ```
  * 
- * ## Mostrar un error
+ * ## Mostrar un mensaje emergente:
  * 
  * ```js
- * CommonToasts.open({
+ * CommonToasts.show({
  *   title: "Titulo",
  *   text: "texto",
- *   footer: "Pie de texto opcional"
+ *   footer: "Pie de texto opcional",
+ *   timeout: 5000,
  * });
  * ```
  * 
@@ -25,12 +26,14 @@ Vue.component("CommonToasts", {
   template: $template,
   props: {},
   data() {
+    trace("CommonToasts.data");
     return {
       activeToasts: [],
     };
   },
   methods: {
     expandToastDefinition(userToastDefinition) {
+      trace("CommonToasts.methods.expandToastsDefinition");
       const toastDefinition = {};
       toastDefinition.title = userToastDefinition.title;
       toastDefinition.text = userToastDefinition.text;
@@ -39,6 +42,7 @@ Vue.component("CommonToasts", {
       return toastDefinition;
     },
     validateToast(userToastDefinition) {
+      trace("CommonToasts.methods.validateToast");
       const toastDefinition = this.expandToastDefinition(userToastDefinition);
       assertion(typeof toastDefinition === "object", `Parameter «toastDefinition» must be an object on «CommonToasts.prototype.validateToast»`);
       assertion(typeof toastDefinition.title === "string", `Parameter «toastDefinition.title» must be a string on «CommonToasts.prototype.validateToast»`);
@@ -49,7 +53,8 @@ Vue.component("CommonToasts", {
         this.closeToast(toastDefinition);
       }, toastDefinition.timeout);
     },
-    open(toastDefinition) {
+    show(toastDefinition) {
+      trace("CommonToasts.methods.show");
       try {
         this.validateToast(toastDefinition);
         this.activeToasts.unshift(toastDefinition);
@@ -58,13 +63,15 @@ Vue.component("CommonToasts", {
       }
     },
     closeToast(toast) {
+      trace("CommonToasts.methods.closeToast");
       const pos = this.activeToasts.indexOf(toast);
       this.activeToasts.splice(pos, 1);
     }
   },
   mounted() {
-    console.log("[*] CommonToasts mounted!");
-    window.CommonToasts = this;
+    trace("CommonToasts.mounted");
+    NwtGlobalizer.exportTo("CommonToasts", this);
+    NwtGlobalizer.exportTo("NwtToasts", this);
     Vue.prototype.$toasts = this;
   }
 })

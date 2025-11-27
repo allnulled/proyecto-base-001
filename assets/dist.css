@@ -2247,6 +2247,18 @@ button.mini {
     right: 0px;
 }
 
+.display_inline_block {
+    display: inline-block;
+}
+
+button.bg_danger {
+    background: linear-gradient(#eec4c4 45%, #d3b6b6 45%, #d9b1b1);
+}
+
+button.bg_danger.active {
+
+}
+
 /* @vuebundler[Proyecto_base_001][2]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/custom/custom.css*/
 .main_window {
     display: flex;
@@ -2266,6 +2278,18 @@ button.mini {
     -webkit-app-region: drag;
 }
 
+.window_box_container {
+    position: relative;
+}
+.window_box {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    overflow: scroll;
+}
+
 /* @vuebundler[Proyecto_base_001][3]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/vue2/vue2.js*/
 
 /* @vuebundler[Proyecto_base_001][4]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/socket.io-client/socket.io-client.js*/
@@ -2274,29 +2298,35 @@ button.mini {
 
 /* @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-boot.js*/
 
-/* @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-asserter.js*/
+/* @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tracer.js*/
 
-/* @vuebundler[Proyecto_base_001][8]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-importer.js*/
+/* @vuebundler[Proyecto_base_001][8]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-asserter.js*/
 
-/* @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-lazy-loader.js*/
+/* @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-importer.js*/
 
-/* @vuebundler[Proyecto_base_001][10]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-settings.js*/
+/* @vuebundler[Proyecto_base_001][10]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-lazy-loader.js*/
 
-/* @vuebundler[Proyecto_base_001][11]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-utils.js*/
+/* @vuebundler[Proyecto_base_001][11]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-settings.js*/
 
-/* @vuebundler[Proyecto_base_001][12]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-timer.js*/
+/* @vuebundler[Proyecto_base_001][12]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-utils.js*/
 
-/* @vuebundler[Proyecto_base_001][13]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-randomizer.js*/
+/* @vuebundler[Proyecto_base_001][13]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-timer.js*/
 
-/* @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tester.js*/
+/* @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-randomizer.js*/
 
-/* @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js*/
+/* @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-globalizer.js*/
 
-/* @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html*/
+/* @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tester.js*/
 
-/* @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js*/
+/* @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js*/
 
-/* @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css*/
+/* @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-injection.js*/
+
+/* @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html*/
+
+/* @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js*/
+
+/* @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css*/
 .common_dialogs_container {}
 .common_dialogs_container_2 {
     position: fixed;
@@ -2319,11 +2349,11 @@ button.mini {
     height: 100%;
 }
 
-/* @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html*/
+/* @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html*/
 
-/* @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js*/
+/* @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js*/
 
-/* @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css*/
+/* @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css*/
 .common_toasts_container {}
 .common_toasts_container_2 {
     position: fixed;
@@ -2352,11 +2382,11 @@ button.mini {
     height: 100%;
 }
 
-/* @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html*/
+/* @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html*/
 
-/* @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js*/
+/* @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js*/
 
-/* @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css*/
+/* @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css*/
 .common_errors_container {}
 .common_errors_container_2 {
     position: fixed;
@@ -2390,11 +2420,51 @@ button.mini {
     background-color: #e98d8d;
     color: black;
 }
+.error_panel_container {
+    padding: 8px;
+}
+.error_panel {
+    padding: 8px;
+    border: 1px solid red;
+    background-color: #dfafaf;
+}
 
-/* @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html*/
+/* @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.html*/
 
-/* @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js*/
+/* @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js*/
 
-/* @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css*/
+/* @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.css*/
+.nwt_tester_viewer .tester_viewer_box_container {
+    padding: 4px;
+}
+.nwt_tester_viewer .tester_viewer_box {
+    border: 1px solid #888;
+    background-color: #EEE;
+    box-shadow: 2px 2px 0px black;
+    padding: 4px;
+}
+.nwt_tester_viewer .tester_viewer_box.all_passed {
+    background-color: #97ea88;
+}
+.nwt_tester_viewer { }
+.nwt_tester_viewer .test.pending { color: gray; }
+.nwt_tester_viewer .test.running { color: rgb(205, 189, 17); }
+.nwt_tester_viewer .test.ok { color: #2ecc71; }
+.nwt_tester_viewer .test.failed { color: #e74c3c; }
+
+/* @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.html*/
+
+/* @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.js*/
+
+/* @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.css*/
+.nwt_tester_node .times_cell {
+    font-size: 8px;
+}
+
+/* @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html*/
+
+/* @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js*/
+
+/* @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css*/
 .main_window_container {}
 .main_window {}

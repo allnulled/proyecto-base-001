@@ -14,6 +14,7 @@
   const NwtLazyLoader = class {
 
     static validateLazyLoadable(lazyLoadable) {
+      trace("NwtLazyLoader.validateLazyLoadable");
       assertion(typeof lazyLoadable === "object", "Parameter «lazyLoadable» must be an object on «NwtLazyLoader»");
       assertion(typeof lazyLoadable.id === "string", "Parameter «lazyLoadable.id» must be an string on «NwtLazyLoader»");
       assertion(typeof lazyLoadable.url === "string", "Parameter «lazyLoadable.url» must be an string on «NwtLazyLoader»");
@@ -23,6 +24,7 @@
     }
 
     static lazyLoad(lazyLoadable) {
+      trace("NwtLazyLoader.lazyLoad");
       this.validateLazyLoadable(lazyLoadable);
       const isLoaded = lazyLoadable.checker();
       if(isLoaded) {
