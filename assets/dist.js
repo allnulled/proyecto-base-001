@@ -18035,11 +18035,15 @@ window.addEventListener("load", function () {
  * 
  * # Nwt Dialogs API
  * 
+ * ## Exposición
+ * 
  * Está expuesta en las globales:
  * 
  * ```js
  * CommonDialogs
  * NwtDialogs
+ * NwtFramework.Dialogs
+ * Vue.prototype.$nwt.Dialogs
  * Vue.prototype.$dialogs
  * ```
  * 
@@ -18047,22 +18051,22 @@ window.addEventListener("load", function () {
  * 
  * ```js
  * const respuesta = await CommonDialogs.open({
- *     title: "Formulario simple",
- *     template: `
- *         <div>
- *             <input type="text" v-model="user" />
- *             <input type="password" v-model="password" />
- *             <hr/>
- *             <button v-on:click="accept">Aceptar</button>
- *             <button v-on:click="cancel">Cancelar</button>
- *         </div>
- *     `,
- *     factory: {
- *         data: {
- *             user: "",
- *             password: "",
- *         }
+ *   title: "Formulario simple",
+ *   template: `
+ *     <div>
+ *       <input type="text" v-model="user" />
+ *       <input type="password" v-model="password" />
+ *       <hr/>
+ *       <button v-on:click="() => accept({ user, password })">Aceptar</button>
+ *       <button v-on:click="cancel">Cancelar</button>
+ *     </div>
+ *   `,
+ *   factory: {
+ *     data: {
+ *       user: "",
+ *       password: "",
  *     }
+ *   }
  * });
  * ```
  * 
@@ -18216,6 +18220,8 @@ Vue.component("CommonDialogs", {
  * ```js
  * CommonToasts
  * NwtToasts
+ * NwtFramework.Toasts
+ * Vue.prototype.$nwt.Toasts
  * Vue.prototype.$toasts
  * ```
  * 
@@ -18324,11 +18330,15 @@ Vue.component("CommonToasts", {
  * 
  * # Nwt Errors API
  * 
+ * ## Exposición
+ * 
  * Está expuesta en las globales:
  * 
  * ```js
  * CommonErrors
  * NwtErrors
+ * NwtFramework.Errors
+ * Vue.prototype.$nwt.Errors
  * Vue.prototype.$errors
  * ```
  * 
@@ -18494,6 +18504,47 @@ Vue.component("CommonErrors", {
 // @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.html
 
 // @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js
+/**
+ * 
+ * # Nwt Tester Viewer API / Componente Vue2
+ * 
+ * La Nwt Tester Viewer API permite sincronizar un widget gráfico con una instancia de `NwtTester`.
+ * 
+ * ## Exposición
+ * 
+ * La API se expone a través del componente Vue2:
+ * 
+ * ```js
+ * Vue.options.components.NwtTesterViewer
+ * ```
+ * 
+ * ## Ventajas
+ * 
+ * La API permite cosas como:
+ * 
+ * ```html
+ * <nwt-tester-viewer :tester="tester" title="Título de esta suite de tests" />
+ * ```
+ * 
+ * Donde `tester` tiene que ser algo como:
+ * 
+ * ```js
+ * const tester = NwtTester.global;
+ * // o por ejemplo:
+ * const tester = new NwtTester("Nombre del tester", async (subtest, assertion) => {
+ *   assertion(true, "Aserción 1");
+ *   assertion(true, "Aserción 2");
+ *   assertion(true, "Aserción 3");
+ *   subtest.run("Subtest 1.1", async (subtest, assertion) => {
+ *     assertion(true, "Aserción 1");
+ *     assertion(true, "Aserción 2");
+ *     assertion(true, "Aserción 3");
+ *   });
+ * });
+ * ```
+ * 
+ * 
+ */
 Vue.component("NwtTesterViewer", {
   template: `<div class="nwt_tester_viewer">
     <div class="title" v-if="title">{{ title }}</div>

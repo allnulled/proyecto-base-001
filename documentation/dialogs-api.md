@@ -4,11 +4,15 @@
 
 # Nwt Dialogs API
 
+## Exposición
+
 Está expuesta en las globales:
 
 ```js
 CommonDialogs
 NwtDialogs
+NwtFramework.Dialogs
+Vue.prototype.$nwt.Dialogs
 Vue.prototype.$dialogs
 ```
 
@@ -16,22 +20,22 @@ Vue.prototype.$dialogs
 
 ```js
 const respuesta = await CommonDialogs.open({
-    title: "Formulario simple",
-    template: `
-        <div>
-            <input type="text" v-model="user" />
-            <input type="password" v-model="password" />
-            <hr/>
-            <button v-on:click="accept">Aceptar</button>
-            <button v-on:click="cancel">Cancelar</button>
-        </div>
-    `,
-    factory: {
-        data: {
-            user: "",
-            password: "",
-        }
+  title: "Formulario simple",
+  template: `
+    <div>
+      <input type="text" v-model="user" />
+      <input type="password" v-model="password" />
+      <hr/>
+      <button v-on:click="() => accept({ user, password })">Aceptar</button>
+      <button v-on:click="cancel">Cancelar</button>
+    </div>
+  `,
+  factory: {
+    data: {
+      user: "",
+      password: "",
     }
+  }
 });
 ```
 

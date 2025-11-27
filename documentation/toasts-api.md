@@ -9,6 +9,8 @@ Está expuesta en las globales:
 ```js
 CommonToasts
 NwtToasts
+NwtFramework.Toasts
+Vue.prototype.$nwt.Toasts
 Vue.prototype.$toasts
 ```
 

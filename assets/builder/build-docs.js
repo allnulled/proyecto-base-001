@@ -35,6 +35,10 @@ const main = async function() {
       to: `${PROJECT_ROOT}/documentation/tester-api.md`
     },
     {
+      from: [`${PROJECT_ROOT}/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js`],
+      to: `${PROJECT_ROOT}/documentation/tester-viewer-api.md`
+    },
+    {
       from: [`${PROJECT_ROOT}/assets/framework/nwt-timer.js`],
       to: `${PROJECT_ROOT}/documentation/timer-api.md`
     },

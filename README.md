@@ -49,6 +49,7 @@ Las referencias de las APIs para el desarrollo están aquí:
 - [⛔️ Nwt Errors API - Vue2 component](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/errors-api.md)
 - [🧪 Nwt Asserter API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/asserter-api.md)
 - [🪖 Nwt Tester API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/tester-api.md)
+   - [🔭 Nwt Tester Viewer API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/tester-viewer-api.md)
 - [💈 Nwt Randomizer API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/randomizer-api.md)
 - [⚙️ Nwt Settings API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/settings-api.md)
 - [⏰ Nwt Timer API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/timer-api.md)
