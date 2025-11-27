@@ -16992,6 +16992,8 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
  * 
  * # Nwt Asserter API
  * 
+ * API para aserciones y comprobaciones de test a nivel más elemental.
+ * 
  * ## Exposición
  * 
  * Se expone a través de:

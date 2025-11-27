@@ -1,5 +1,7 @@
 # Nwt Asserter API
 
+API para aserciones y comprobaciones de test a nivel más elemental.
+
 ## Exposición
 
 Se expone a través de:
