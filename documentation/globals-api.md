@@ -1,9 +1,22 @@
-# Nwt Global API
+# Nwt Framework API
+
+API de acceso global.
+
+## Exposición
 
 Está expuesta en:
 
 ```js
-trace("Packing NwtFramework");
+NwtFramework
+Vue.prototype.$nwt
+```
+## Ventajas
+
+Dejar accesible desde 1 objeto todas las APIs de Nwt.
+
+Se conforma a partir de:
+
+```js
 Object.assign(NwtFramework, {
   // BOOT
   Settings: NwtSettings,
@@ -20,11 +33,5 @@ Object.assign(NwtFramework, {
   Toasts: NwtToasts,
   // PACK
 });
-```
-
-También puede encontrarse en:
-
-```js
-Vue.prototype.$nwt
 ```
 

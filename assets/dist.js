@@ -17949,12 +17949,25 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 // @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js
 /**
  * 
- * # Nwt Global API
+ * # Nwt Framework API
+ * 
+ * API de acceso global.
+ * 
+ * ## Exposición
  * 
  * Está expuesta en:
  * 
  * ```js
- * trace("Packing NwtFramework");
+ * NwtFramework
+ * Vue.prototype.$nwt
+ * ```
+ * ## Ventajas
+ * 
+ * Dejar accesible desde 1 objeto todas las APIs de Nwt.
+ * 
+ * Se conforma a partir de:
+ * 
+ * ```js
  * Object.assign(NwtFramework, {
  *   // BOOT
  *   Settings: NwtSettings,
@@ -17973,11 +17986,6 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
  * });
  * ```
  * 
- * También puede encontrarse en:
- * 
- * ```js
- * Vue.prototype.$nwt
- * ```
  * 
  */
 (function () {
