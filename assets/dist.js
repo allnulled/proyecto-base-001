@@ -17554,7 +17554,121 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-globalizer.js
+// @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-progress-bar.js
+/**
+ * 
+ * # Nwt Progress Bar API
+ * 
+ * API para gestionar aleatoriedad.
+ * 
+ * ## Exposición
+ * 
+ * La API se expone a través de:
+ * 
+ * ```js
+ * NwtProgressBar
+ * NwtFramework.ProgressBar
+ * Vue.prototype.$nwt.ProgressBar
+ * ```
+ * 
+ * ## Ventajas
+ * 
+ * Permite algunas cosas como:
+ * 
+ * ```js
+ * const progressBar = ProgressBar.create();
+ * const subprogressBar = progressBar.subprogress({
+ *   total: 5,
+ *   current: 0,
+ * });
+ * subprogressBar.advance(1);
+ * subprogressBar.advance(1);
+ * subprogressBar.advance(1);
+ * subprogressBar.advance(1);
+ * subprogressBar.advance(1);
+ * progressBar.advance(1);
+ * ```
+ * 
+ */
+(function (factory) {
+  const mod = factory();
+  if (typeof window !== 'undefined') {
+    window['NwtProgressBar'] = mod;
+  }
+  if (typeof global !== 'undefined') {
+    global['NwtProgressBar'] = mod;
+  }
+  if (typeof module !== 'undefined') {
+    module.exports = mod;
+  }
+})(function () {
+
+  const NwtProgressBar = class {
+
+    static create(...args) {
+      return new this(...args);
+    }
+
+    constructor({ total = 1, current = 0 } = {}, parent = null, weight = 1) {
+      this.total = total;
+      this.current = current;
+      this.parent = parent;
+      this.weight = weight;
+      this.children = [];
+      if (!this.parent) {
+        this._updatePercentage();
+      }
+    }
+
+    advance(n = 1) {
+      this.current += n;
+      if (this.current > this.total) this.current = this.total;
+      if (this.parent) {
+        this.parent._updateFromChild();
+      } else {
+        this._updatePercentage();
+      }
+    }
+
+    subprogress({ total = 1, current = 0 } = {}) {
+      const fraction = 1 / this.total;
+      const child = new NwtProgressBar({ total, current }, this, fraction);
+      this._registerChild(child);
+      return child;
+    }
+
+    _getRelativeProgress() {
+      return this.total === 0 ? 0 : this.current / this.total;
+    }
+
+    _updateFromChild() {
+      let sum = 0;
+      for (const child of this.children) {
+        sum += child._getRelativeProgress() * child.weight;
+      }
+      this.current = sum * this.total;
+      if (this.parent) {
+        this.parent._updateFromChild();
+      } else {
+        this._updatePercentage();
+      }
+    }
+
+    _updatePercentage() {
+      this.percent = (this._getRelativeProgress() * 100).toFixed(2) + "%";
+    }
+
+    _registerChild(child) {
+      this.children.push(child);
+    }
+
+  };
+
+  return NwtProgressBar;
+
+});
+
+// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-globalizer.js
 /**
  * 
  * # Nwt Globalizer API
@@ -17614,7 +17728,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tester.js
+// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tester.js
 /**
  * 
  * # Nwt Tester API
@@ -17946,7 +18060,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js
+// @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js
 /**
  * 
  * # Nwt Framework API
@@ -18011,7 +18125,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 })();
 
-// @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-injection.js
+// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-injection.js
 /**
  * 
  * # Nwt Injection API
@@ -18045,9 +18159,9 @@ window.addEventListener("load", function () {
     }).$mount("#app");
 });
 
-// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html
+// @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html
 
-// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js
+// @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js
 /**
  * 
  * # Nwt Dialogs API
@@ -18223,11 +18337,11 @@ Vue.component("CommonDialogs", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css
+// @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css
 
-// @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html
+// @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html
 
-// @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js
+// @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js
 /**
  * 
  * # Nwt Toasts API
@@ -18338,11 +18452,11 @@ Vue.component("CommonToasts", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css
+// @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css
 
-// @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html
+// @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html
 
-// @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js
+// @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js
 /**
  * 
  * # Nwt Errors API
@@ -18526,11 +18640,11 @@ Vue.component("CommonErrors", {
 
 
 
-// @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css
+// @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css
 
-// @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.html
+// @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.html
 
-// @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js
+// @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js
 /**
  * 
  * # Nwt Tester Viewer API / Componente Vue2
@@ -18574,7 +18688,11 @@ Vue.component("CommonErrors", {
  */
 Vue.component("NwtTesterViewer", {
   template: `<div class="nwt_tester_viewer">
-    <div class="title" v-if="title">{{ title }}</div>
+    <div class="title" v-if="title">
+        <div class="flex_row centered">
+            {{ title }}
+        </div>
+    </div>
     <div class="tester_viewer_box_container">
         <div class="tester_viewer_box" :class="{all_passed: tester.status === 'ok'}" ref="viewerBox">
             <nwt-tester-node :node="tester" :viewer="this" />
@@ -18611,11 +18729,11 @@ Vue.component("NwtTesterViewer", {
 });
 
 
-// @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.css
+// @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.css
 
-// @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.html
+// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.html
 
-// @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.js
+// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.js
 Vue.component("NwtTesterNode", {
   template: `<div class="nwt_tester_node">
     <template v-if="node instanceof \$nwt.Tester.Assertion">
@@ -18711,11 +18829,77 @@ Vue.component("NwtTesterNode", {
 });
 
 
-// @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.css
+// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.css
 
-// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
+// @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.html
 
-// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
+// @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.js
+/**
+ * 
+ * # Nwt Progress Bar Viewer API / Componente Vue2
+ * 
+ * La Nwt Progress Bar Viewer API permite sincronizar un widget gráfico con una instancia de `NwtProgressBar`.
+ * 
+ * ## Exposición
+ * 
+ * La API se expone a través del componente Vue2:
+ * 
+ * ```js
+ * Vue.options.components.NwtProgressBarViewer
+ * ```
+ * 
+ * ## Ventajas
+ * 
+ * La API permite cosas como:
+ * 
+ * ```html
+ * <nwt-progress-bar-viewer :progress-bar="progressBar" />
+ * ```
+ * 
+ * Donde `progressBar` tiene que ser una instancia de `NwtProgressBar`.
+ * 
+ * 
+ */
+Vue.component("NwtProgressBarViewer", {
+  template: `<div class="progress_bar_viewer">
+    <div role="progressbar" class="animate">
+        <div :style="{width: progressBar.percent}">
+            <div class="progress_bar_message">
+                <div>{{ progressBar.percent }}</div>
+            </div>
+        </div>
+    </div>
+</div>`,
+  props: {
+    progressBar: {
+      type: Object,
+      required: true
+    }
+  },
+
+  data() {
+    trace("NwtProgressBarViewer.data");
+    return {
+      
+    };
+  },
+
+  methods: {
+    
+  },
+
+  mounted() {
+    trace("NwtProgressBarViewer.mounted");
+  }
+
+});
+
+
+// @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.css
+
+// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
+
+// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
 /**
  * 
  * 
@@ -18742,9 +18926,12 @@ Vue.component("MainWindow", {
                 <button v-on:click="showMultipleErrors">Mostrar múltiples errores simultáneos</button>
             </div>
             <nwt-tester-viewer :tester="currentTester" title="Test global de prueba:" />
+            <div class="pad_top_1">
+                <nwt-progress-bar-viewer :progress-bar="progressBar" />
+            </div>
         </div>
         <div class="status-bar">
-            <p class="status-bar-field">Inicio de la aplicación.</p>
+            <p class="status-bar-field no_wrap">Ejemplo de la API.</p>
         </div>
     </div>
     <common-dialogs />
@@ -18755,109 +18942,182 @@ Vue.component("MainWindow", {
   data() {
     trace("MainWindow.data");
     NwtTester.global.define("1 - Test", async test => {
+      this.progressBar.advance();
       await NwtTimer.timeout(1000);
+      this.progressBar.advance();
       await test.run("1.0 - Test inicial", async (test, assertion) => {
+        this.progressBar.advance();
         assertion(true, "Test suite is working");
+        this.progressBar.advance();
         assertion(true, "Test suite is working");
+        this.progressBar.advance();
         assertion(true, "Test suite is working");
+        this.progressBar.advance();
         assertion(true, "Test suite is working");
+        this.progressBar.advance();
         assertion(true, "Test suite is working");
+        this.progressBar.advance();
         assertion(true, "Test suite is working");
+        this.progressBar.advance();
         await NwtTimer.timeout(1000);
+        this.progressBar.advance();
         await test.run("1.0.1 - Test inicial 1", async (test, assertion) => {
           assertion(true, "Test suite is working 0/5");
+          this.progressBar.advance();
           assertion(true, "Test suite is working 1/5");
+          this.progressBar.advance();
           assertion(true, "Test suite is working 2/5");
+          this.progressBar.advance();
           assertion(true, "Test suite is working 3/5");
+          this.progressBar.advance();
           assertion(true, "Test suite is working 4/5");
+          this.progressBar.advance();
           assertion(true, "Test suite is working 5/5");
+          this.progressBar.advance();
         });
+        this.progressBar.advance();
         await NwtTimer.timeout(1000);
+        this.progressBar.advance();
         await test.run("1.0.2 - Test inicial 2", async (test, assertion) => {
           assertion(true, "Test suite is working 2/5");
+          this.progressBar.advance();
           assertion(true, "Test suite is working 2/5");
+          this.progressBar.advance();
           assertion(true, "Test suite is working 2/5");
+          this.progressBar.advance();
           assertion(true, "Test suite is working 2/5");
+          this.progressBar.advance();
         });
+        this.progressBar.advance();
         await NwtTimer.timeout(1000);
+        this.progressBar.advance();
         await test.run("1.0.3 - Test inicial 3", async (test, assertion) => {
           assertion(true, "Test suite is working 3/5");
+          this.progressBar.advance();
         });
+        this.progressBar.advance();
         await NwtTimer.timeout(1000);
+        this.progressBar.advance();
         await test.run("1.0.4 - Test inicial 4", async (test, assertion) => {
           assertion(true, "Test suite is working 4/5");
+          this.progressBar.advance();
         });
+        this.progressBar.advance();
         await NwtTimer.timeout(1000);
+        this.progressBar.advance();
         await test.run("1.0.5 - Test inicial 5", async (test, assertion) => {
           assertion(true, "Test suite is working 5/5");
+          this.progressBar.advance();
         });
       });
+      this.progressBar.advance();
       test.define("1.1 - Test de globales", async (test, assertion) => {
+        this.progressBar.advance();
         await NwtTimer.timeout(1000);
+        this.progressBar.advance();
         test.define("1.1.1 - Global NwtFramework", async () => {
+          this.progressBar.advance();
           await NwtTimer.timeout(1000);
+          this.progressBar.advance();
           assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
         });
+        this.progressBar.advance();
         await NwtTimer.timeout(1000);
+        this.progressBar.advance();
         test.define("1.1.2 - Global NwtAsserter", async () => {
+          this.progressBar.advance();
           await NwtTimer.timeout(1000);
+          this.progressBar.advance();
           assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
         });
+        this.progressBar.advance();
         await NwtTimer.timeout(1000);
+        this.progressBar.advance();
         test.define("1.1.3 - Global NwtTester", async () => {
+          this.progressBar.advance();
           await NwtTimer.timeout(1000);
+          this.progressBar.advance();
           assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
+          this.progressBar.advance();
         });
+        this.progressBar.advance();
       });
       test.define("1.2 - Test de globales 2", async (test, assertion) => {
         await NwtTimer.timeout(1000);
+        this.progressBar.advance();
         test.define("1.2.1 - Global NwtFramework", async () => {
           await NwtTimer.timeout(1000);
+          this.progressBar.advance();
           assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
+          this.progressBar.advance();
         });
         await NwtTimer.timeout(1000);
+        this.progressBar.advance();
         test.define("1.2.2 - Global NwtAsserter", async () => {
           await NwtTimer.timeout(1000);
+          this.progressBar.advance();
           assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
+          this.progressBar.advance();
         });
         await NwtTimer.timeout(1000);
+        this.progressBar.advance();
         test.define("1.2.3 - Global NwtTester", async () => {
           await NwtTimer.timeout(1000);
+          this.progressBar.advance();
           assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
+          this.progressBar.advance();
         });
       });
       test.define("1.3 - Test de globales 3", async (test, assertion) => {
         await NwtTimer.timeout(1000);
+        this.progressBar.advance();
         test.define("1.3.1 - Global NwtFramework", async () => {
           await NwtTimer.timeout(1000);
+          this.progressBar.advance();
           assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
+          this.progressBar.advance();
         });
         await NwtTimer.timeout(1000);
+        this.progressBar.advance();
         test.define("1.3.2 - Global NwtAsserter", async () => {
           await NwtTimer.timeout(1000);
+          this.progressBar.advance();
           assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
+          this.progressBar.advance();
         });
         await NwtTimer.timeout(1000);
+        this.progressBar.advance();
         test.define("1.3.3 - Global NwtTester", async () => {
           await NwtTimer.timeout(1000);
+          this.progressBar.advance();
           assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
+          this.progressBar.advance();
         });
       });
       test.define("1.4 - Test de globales 4", async (test, assertion) => {
         await NwtTimer.timeout(1000);
+        this.progressBar.advance();
         test.define("1.4.1 - Global NwtFramework", async () => {
           await NwtTimer.timeout(1000);
+          this.progressBar.advance();
           assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
+          this.progressBar.advance();
         });
         await NwtTimer.timeout(1000);
+        this.progressBar.advance();
         test.define("1.4.2 - Global NwtAsserter", async () => {
           await NwtTimer.timeout(1000);
+          this.progressBar.advance();
           assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
+          this.progressBar.advance();
         });
         await NwtTimer.timeout(1000);
+        this.progressBar.advance();
         test.define("1.4.3 - Global NwtTester", async () => {
           await NwtTimer.timeout(1000);
+          this.progressBar.advance();
           assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
+          this.progressBar.advance();
         });
       });
     }, {
@@ -18870,6 +19130,7 @@ Vue.component("MainWindow", {
     return {
       toastCounter: 0,
       currentTester: NwtTester.global,
+      progressBar: new NwtProgressBar({ total: 73, current: 0 }),
     };
   },
   methods: {
@@ -18880,7 +19141,7 @@ Vue.component("MainWindow", {
       setTimeout(() => assertion(false, 'Error número 3'), 0);
       setTimeout(() => assertion(false, 'Error número 4'), 0);
       setTimeout(() => assertion(false, 'Error número 5'), 0);
-    }
+    },
   },
   mounted() {
     trace("MainWindow.mounted");
@@ -18889,4 +19150,4 @@ Vue.component("MainWindow", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css
+// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css

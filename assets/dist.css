@@ -2314,19 +2314,21 @@ button.bg_danger.active {
 
 /* @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-randomizer.js*/
 
-/* @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-globalizer.js*/
+/* @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-progress-bar.js*/
 
-/* @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tester.js*/
+/* @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-globalizer.js*/
 
-/* @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js*/
+/* @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tester.js*/
 
-/* @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-injection.js*/
+/* @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js*/
 
-/* @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html*/
+/* @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-injection.js*/
 
-/* @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js*/
+/* @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html*/
 
-/* @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css*/
+/* @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js*/
+
+/* @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css*/
 .common_dialogs_container {}
 .common_dialogs_container_2 {
     position: fixed;
@@ -2349,11 +2351,11 @@ button.bg_danger.active {
     height: 100%;
 }
 
-/* @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html*/
+/* @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html*/
 
-/* @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js*/
+/* @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js*/
 
-/* @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css*/
+/* @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css*/
 .common_toasts_container {}
 .common_toasts_container_2 {
     position: fixed;
@@ -2385,11 +2387,11 @@ button.bg_danger.active {
     height: 100%;
 }
 
-/* @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html*/
+/* @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html*/
 
-/* @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js*/
+/* @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js*/
 
-/* @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css*/
+/* @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css*/
 .common_errors_container {}
 .common_errors_container_2 {
     position: fixed;
@@ -2432,11 +2434,11 @@ button.bg_danger.active {
     background-color: #dfafaf;
 }
 
-/* @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.html*/
+/* @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.html*/
 
-/* @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js*/
+/* @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js*/
 
-/* @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.css*/
+/* @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.css*/
 .nwt_tester_viewer {
     
 }
@@ -2466,19 +2468,43 @@ button.bg_danger.active {
     box-shadow: 2px 2px 0px black;
 }
 
-/* @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.html*/
+/* @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.html*/
 
-/* @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.js*/
+/* @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.js*/
 
-/* @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.css*/
+/* @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.css*/
 .nwt_tester_node .times_cell {
     font-size: 8px;
 }
 
-/* @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html*/
+/* @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.html*/
 
-/* @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js*/
+/* @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.js*/
 
-/* @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css*/
+/* @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.css*/
+.progress_bar_viewer {}
+.progress_bar_viewer > div {
+    position: relative;
+}
+.progress_bar_viewer > div > div {
+    transition: width .2s linear;
+}
+.progress_bar_viewer > div > div > .progress_bar_message {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    color: #3a543f;
+}
+.progress_bar_viewer > div > div > .progress_bar_message > div {
+    text-align: center;
+}
+
+/* @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html*/
+
+/* @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js*/
+
+/* @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css*/
 .main_window_container {}
 .main_window {}

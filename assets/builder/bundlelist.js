@@ -14,6 +14,7 @@ module.exports = [
   `${__dirname}/../framework/nwt-utils.js`,
   `${__dirname}/../framework/nwt-timer.js`,
   `${__dirname}/../framework/nwt-randomizer.js`,
+  `${__dirname}/../framework/nwt-progress-bar.js`,
   `${__dirname}/../framework/nwt-globalizer.js`,
   `${__dirname}/../framework/nwt-tester.js`,
   `${__dirname}/../framework/nwt-pack.js`,
@@ -23,5 +24,6 @@ module.exports = [
   `${__dirname}/../components/common-errors/common-errors`,
   `${__dirname}/../components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer`,
   `${__dirname}/../components/nwt-tester-ui/nwt-tester-node/nwt-tester-node`,
+  `${__dirname}/../components/nwt-progress-bar-viewer/nwt-progress-bar-viewer`,
   `${__dirname}/../components/main-window/main-window`,
 ];

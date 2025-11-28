@@ -63,6 +63,14 @@ const main = async function() {
       to: `${PROJECT_ROOT}/documentation/globals-api.md`
     },
     {
+      from: [`${PROJECT_ROOT}/assets/framework/nwt-progress-bar.js`],
+      to: `${PROJECT_ROOT}/documentation/progress-bar-api.md`
+    },
+    {
+      from: [`${PROJECT_ROOT}/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.js`],
+      to: `${PROJECT_ROOT}/documentation/progress-bar-viewer-api.md`
+    },
+    {
       from: [`${PROJECT_ROOT}/assets/framework/nwt-injection.js`],
       to: `${PROJECT_ROOT}/documentation/injection-api.md`
     }

@@ -17,9 +17,12 @@
                 <button v-on:click="showMultipleErrors">Mostrar múltiples errores simultáneos</button>
             </div>
             <nwt-tester-viewer :tester="currentTester" title="Test global de prueba:" />
+            <div class="pad_top_1">
+                <nwt-progress-bar-viewer :progress-bar="progressBar" />
+            </div>
         </div>
         <div class="status-bar">
-            <p class="status-bar-field">Inicio de la aplicación.</p>
+            <p class="status-bar-field no_wrap">Ejemplo de la API.</p>
         </div>
     </div>
     <common-dialogs />
