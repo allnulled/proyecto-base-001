@@ -2,7 +2,7 @@
  * 
  * # Nwt Progress Bar API
  * 
- * API para gestionar aleatoriedad.
+ * API para gestionar una barra de progreso.
  * 
  * ## Exposición
  * 
@@ -73,8 +73,8 @@
       }
     }
 
-    subprogress({ total = 1, current = 0 } = {}) {
-      const fraction = 1 / this.total;
+    subprogress({ total = 1, current = 0, weight = 1 } = {}) {
+      const fraction = weight / this.total;
       const child = new NwtProgressBar({ total, current }, this, fraction);
       this._registerChild(child);
       return child;

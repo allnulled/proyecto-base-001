@@ -44,14 +44,19 @@ Vue.component("CommonDialogs", {
   data() {
     trace("CommonDialogs.data");
     return {
-      activeDialogs: [],
+      processManager: NwtProcessManager.dialogs,
     };
   },
   methods: {
     expandDialogDefinition(baseDialog) {
       trace("CommonDialogs.methods.expandDialogDefinition");
       const finalDialog = {};
+      const dialogProcess = NwtProcessManager.dialogs.createProcess();
+      finalDialog.dialogProcess = dialogProcess;
       finalDialog.factory = {};
+      Expand_name: {
+        finalDialog.factory.name = baseDialog.name || "AnonymousDialog" + NwtRandomizer.fromAlphabet(5);
+      }
       Expand_props: {
         finalDialog.factory.props = (function () {
           const userProps = baseDialog.props || {};
@@ -71,6 +76,9 @@ Vue.component("CommonDialogs", {
             // Default data of dialog component:
             value: undefined,
             state: dialogState,
+            deepness: 100,
+            // Inject process in data:
+            dialogProcess: dialogProcess,
           };
           const finalData = Object.assign({}, defaultData, userData);
           return () => finalData;
@@ -107,9 +115,6 @@ Vue.component("CommonDialogs", {
         finalDialog.template = baseDialog.template;
         finalDialog.factory.template = baseDialog.template;
       }
-      Expand_custom_component: {
-        Vue.component()
-      }
       return finalDialog;
     },
     validateDialog(userDialogDefinition) {
@@ -120,6 +125,7 @@ Vue.component("CommonDialogs", {
       assertion(typeof dialogDefinition.template === "string", `Parameter «dialogDefinition.template» must be a string on «CommonDialogs.prototype.validateDialog»`);
       assertion(typeof dialogDefinition.footer === "string", `Parameter «dialogDefinition.footer» must be an string on «CommonDialogs.prototype.validateDialog»`);
       assertion(typeof dialogDefinition.factory === "object", `Parameter «dialogDefinition.factory» must be an object on «CommonDialogs.prototype.validateDialog»`);
+      assertion(typeof dialogDefinition.factory.name === "string", `Parameter «dialogDefinition.factory.name» must be a string on «CommonDialogs.prototype.validateDialog»`);
       assertion(typeof dialogDefinition.factory.props === "object", `Parameter «dialogDefinition.factory.props» must be an object on «CommonDialogs.prototype.validateDialog»`);
       assertion(typeof dialogDefinition.factory.methods === "object", `Parameter «dialogDefinition.factory.methods» must be an object on «CommonDialogs.prototype.validateDialog»`);
       assertion(typeof dialogDefinition.factory.data === "function", `Parameter «dialogDefinition.factory.data» must be a function on «CommonDialogs.prototype.validateDialog»`);
@@ -130,18 +136,29 @@ Vue.component("CommonDialogs", {
       return dialogDefinition;
     },
     open(userDialogDefinition) {
-      trace("CommonDialogs.methods.userDialogDefinition");
+      trace("CommonDialogs.methods.open");
       try {
         const dialogDefinition = this.validateDialog(userDialogDefinition);
-        this.activeDialogs.push(dialogDefinition);
         return dialogDefinition.state.promise;
       } catch (error) {
         this.$errors.showError(error);
       }
     },
-    closeDialogByIndex(dialogIndex) {
-      trace("CommonDialogs.methods.closeDialogByIndex");
-      this.activeDialogs.splice(dialogIndex, 1);
+    closeDialog(dialog) {
+      trace("CommonDialogs.methods.closeDialog");
+      const pos = this.processManager.$list.indexOf(dialog);
+      this.processManager.$list.splice(pos, 1);
+    },
+    focusDialog(dialog) {
+      trace("CommonDialogs.methods.focusDialog");
+      for(let index=0; index<this.processManager.$list.length; index++) {
+        const it = this.processManager.$list[index];
+        if(it === dialog) {
+          it.deepness = 101;
+        } else {
+          it.deepness = 100;
+        }
+      }
     }
   },
   mounted() {

@@ -3,7 +3,7 @@
   "name": "proyecto-base-001",
   "description": "Punto de partida para el desarrollo de aplicaciones basadas en vue2 + win7 + socket.io.",
   "window": {
-    "frame": false,
+    "frame": true,
     "transparent": false
   },
   "scripts": {
@@ -11,7 +11,7 @@
     "install:reloader": "cd assets/reloader && npm install",
     "build:docs": "node assets/builder/build-docs.js",
     "build": "node assets/builder/bundle.js",
-    "dev": "npx nodemon -w 'assets/framework' -w 'assets/components' -w 'assets/css' -w 'assets/builder/bundlelist.js' -e 'js,css,html' -x 'npm run build'",
+    "dev": "npx nodemon -w 'assets/framework' -w 'assets/directives' -w 'assets/components' -w 'assets/css' -w 'assets/builder/bundlelist.js' -e 'js,css,html' -x 'npm run build'",
     "refresh": "node assets/reloader/starter.js",
     "start": "nw .",
     "ui": "nw .",

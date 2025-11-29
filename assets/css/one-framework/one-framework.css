@@ -40,6 +40,22 @@ button.mini {
     font-weight: bold;
 }
 
+.pad_0 {
+    padding: 0px;
+}
+.pad_top_0 {
+    padding-top: 0px;
+}
+.pad_bottom_0 {
+    padding-bottom: 0px;
+}
+.pad_left_0 {
+    padding-left: 0px;
+}
+.pad_right_0 {
+    padding-right: 0px;
+}
+
 .pad_1 {
     padding: 2px;
 }
@@ -56,12 +72,38 @@ button.mini {
     padding-right: 2px;
 }
 
+.pad_2 {
+    padding: 4px;
+}
+.pad_top_2 {
+    padding-top: 4px;
+}
+.pad_bottom_2 {
+    padding-bottom: 4px;
+}
+.pad_left_2 {
+    padding-left: 4px;
+}
+.pad_right_2 {
+    padding-right: 4px;
+}
+
 .float_right {
     float: right;
 }
 
 .float_left {
     float: left;
+}
+
+.text_align_left {
+    text-align: left;
+}
+.text_align_right {
+    text-align: right;
+}
+.text_align_center {
+    text-align: center;
 }
 
 .position_relative {

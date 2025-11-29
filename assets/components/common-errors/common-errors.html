@@ -15,7 +15,7 @@
                         <div>Selecciona un error:</div>
                         <div>
                             <div class="display_inline_block pad_right_1 pad_bottom_1">
-                                <button class="bg_danger"
+                                <button class=""
                                     :class="{active: selectedError === -1}"
                                     v-on:click="() => selectedError = -1">
                                     *
@@ -24,7 +24,7 @@
                             <div class="display_inline_block pad_right_1 pad_bottom_1"
                                 v-bind:key="'error_option_' + errorIndex"
                                 v-for="error, errorIndex in activeErrors">
-                                <button class="mini bg_danger"
+                                <button class="mini"
                                     :class="{active: selectedError === errorIndex}"
                                     v-on:click="() => selectedError = errorIndex">
                                     ❗️ {{ abbreviateMessage(error.message) }}
@@ -48,7 +48,7 @@
                                         <div class="display_inline_block">Id: {{ error.message }}</div>
                                     </div>
                                     <div class="flex_1">
-                                        <button class="bg_danger no_wrap"
+                                        <button class="no_wrap"
                                             v-on:click="() => closeErrorByIndex(errorIndex)">Cerrar ❎</button>
                                     </div>
                                 </div>

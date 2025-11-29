@@ -20,9 +20,3 @@
 .nwt_tester_viewer .test.ok { color: #2ecc71; }
 .nwt_tester_viewer .test.failed { color: #e74c3c; }
 
-.nwt_tester_viewer > .title {
-    padding: 4px;
-    background-color: #1c5a93;
-    color: #FFF;
-    box-shadow: 2px 2px 0px black;
-}

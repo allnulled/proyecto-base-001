@@ -17559,7 +17559,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
  * 
  * # Nwt Progress Bar API
  * 
- * API para gestionar aleatoriedad.
+ * API para gestionar una barra de progreso.
  * 
  * ## Exposición
  * 
@@ -17630,8 +17630,8 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
       }
     }
 
-    subprogress({ total = 1, current = 0 } = {}) {
-      const fraction = 1 / this.total;
+    subprogress({ total = 1, current = 0, weight = 1 } = {}) {
+      const fraction = weight / this.total;
       const child = new NwtProgressBar({ total, current }, this, fraction);
       this._registerChild(child);
       return child;
@@ -18060,7 +18060,130 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js
+// @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-process.js
+(function (factory) {
+  const mod = factory();
+  if (typeof window !== 'undefined') {
+    window['NwtProcess'] = mod;
+  }
+  if (typeof global !== 'undefined') {
+    global['NwtProcess'] = mod;
+  }
+  if (typeof module !== 'undefined') {
+    module.exports = mod;
+  }
+})(function () {
+  
+  const NwtProcess = class {
+
+    static create(...args) {
+      return new this(...args);
+    }
+
+    constructor(options = {}) {
+      this.$id = (options.id || "Sin título") + " - " + NwtRandomizer.fromAlphabet(10);
+      this.$manager = options.manager || null;
+      this.$parent = options.parent || null;
+      this.$children = [];
+      this.$createdAt = new Date();
+      this._addToProcessManager();
+      this._addToParentProcess();
+    }
+
+    _addToProcessManager() {
+      this.$manager.$list.push(this);
+    }
+
+    _addToParentProcess() {
+      if(this.$parent) {
+        this.$parent.$children.push(this);
+      }
+    }
+
+    createSubprocess() {
+      return new this({
+        manager: this.$manager,
+        parent: this,
+      });
+    }
+
+  };
+
+  return NwtProcess;
+
+});
+
+// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-process-manager.js
+/**
+ * 
+ * # NwtProcessManager
+ * 
+ * API para la gestión de procesos internos de la aplicación.
+ * 
+ * ## Exposición
+ * 
+ * ```js
+ * NwtProcessManager
+ * NwtFramework.ProcessManager
+ * Vue.prototype.$nwt.ProcessManager
+ * NwtProcessManager.dialogs // instancia
+ * NwtProcessManager.boxes // instancia
+ * ```
+ * 
+ * ## Ventajas
+ * 
+ * Esta API permite crear subprocesos dependientes de procesos padre, y todos gestionados por 1 mismo `ProcessManager`.
+ * 
+ * ```js
+ * const dialogProcess = NwtProcessManager.dialogs.createProcess();
+ * const dialogSubprocess1 = dialogProcess.createSubprocess();
+ * const dialogSubprocess2 = dialogProcess.createSubprocess();
+ * const dialogSubprocess3 = dialogProcess.createSubprocess();
+ * ```
+ * 
+ */
+(function (factory) {
+  const mod = factory();
+  if (typeof window !== 'undefined') {
+    window['NwtProcessManager'] = mod;
+  }
+  if (typeof global !== 'undefined') {
+    global['NwtProcessManager'] = mod;
+  }
+  if (typeof module !== 'undefined') {
+    module.exports = mod;
+  }
+})(function () {
+  
+  const NwtProcessManager = class {
+
+    static create(...args) {
+      return new this(...args);
+    }
+
+    constructor(id) {
+      assertion(typeof id === "string", "Parameter «id» must be a string on «NwtProcessManager.constructor»");
+      this.$id = id;
+      this.$list = [];
+    }
+
+    createProcess() {
+      return NwtProcess.create({
+        manager: this,
+        parent: null
+      });
+    }
+
+  };
+
+  NwtProcessManager.dialogs = NwtProcessManager.create("dialogs");
+  NwtProcessManager.boxes = NwtProcessManager.create("boxes");
+
+  return NwtProcessManager;
+
+});
+
+// @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js
 /**
  * 
  * # Nwt Framework API
@@ -18116,6 +18239,8 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
     LazyLoader: NwtLazyLoader,
     Globalizer: NwtGlobalizer,
     Tester: NwtTester,
+    Process: NwtProcess,
+    ProcessManager: NwtProcessManager,
     // Injected later:
     Errors: null,
     Dialogs: null,
@@ -18125,7 +18250,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 })();
 
-// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-injection.js
+// @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-injection.js
 /**
  * 
  * # Nwt Injection API
@@ -18159,9 +18284,76 @@ window.addEventListener("load", function () {
     }).$mount("#app");
 });
 
-// @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html
+// @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/directives/v-resizable.js
+/**
+ * 
+ * # Nwt V-Resizable Directive - Vue directive
+ * 
+ * Directiva para `vue2` con la que convertir a un elemento en auto-redimensionable.
+ * 
+ * ## Exposición
+ * 
+ * Se expone vía la directiva:
+ * 
+ * ```html
+ * <div v-resizable />
+ * ```
+ * 
+ * 
+ * 
+ * 
+ */
+Vue.directive("resizable", {
+  inserted(el) {
+    el.style.resize = "both";
+    el.style.overflow = "auto";
+  }
+})
 
-// @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js
+
+// @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/directives/v-draggable.js
+Vue.directive("draggable", {
+  inserted(el) {
+    let startX = 0;
+    let startY = 0;
+    let startLeft = 0;
+    let startTop = 0;
+    const r = el.getBoundingClientRect()
+    Fix_draggable_from_the_first_moment: {
+      el.style.width = r.width + "px";
+      el.style.height = r.height + "px";
+    }
+    const onMouseDown = function (e) {
+      if (!e.target.classList.contains("drag-handle")) {
+        return;
+      }
+      startX = e.clientX;
+      startY = e.clientY;
+      const r = el.getBoundingClientRect();
+      startLeft = r.left;
+      startTop = r.top;
+      document.addEventListener("mousemove", onMouseMove);
+      document.addEventListener("mouseup", onMouseUp);
+    };
+    const onMouseMove = function (e) {
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      el.style.position = "fixed";
+      el.style.left = (startLeft + dx) + "px";
+      el.style.top = (startTop + dy) + "px";
+    };
+    const onMouseUp = function () {
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+    };
+    el.addEventListener("mousedown", onMouseDown);
+  }
+});
+
+
+// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html
+
+// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js
 /**
  * 
  * # Nwt Dialogs API
@@ -18204,22 +18396,25 @@ window.addEventListener("load", function () {
  */
 Vue.component("CommonDialogs", {
   template: `<div class="common_dialogs_container">
-    <div class="common_dialogs_container_2" v-if="activeDialogs.length">
-        <template v-for="dialog, dialogIndex in activeDialogs">
+    <div class="common_dialogs_container_2" v-if="processManager.\$list.length">
+        <template v-for="processItem, processIndex in processManager.\$list">
             <div class="window common_dialogs_window"
-                v-bind:key="'dialog_' + dialogIndex">
-                <div class="title-bar">
-                    <div class="title-bar-text">{{ dialog.title }}</div>
+                v-resizable
+                v-draggable
+                v-on:mousedown="() => focusDialog(processItem)"
+                v-bind:key="'processItem_' + processIndex"
+                :style="{zIndex:processItem.deepness}">
+                <div class="title-bar drag-handle">
+                    <div class="title-bar-text drag-handle">{{ processItem.\$id }}</div>
                     <div class="title-bar-controls">
-                        <button aria-label="Close"
-                            v-on:click="() => closeDialogByIndex(dialogIndex)"></button>
+                        <button class="drag-handle-excluded" aria-label="Close"
+                            v-on:click="() => closeDialog(processItem)"></button>
                     </div>
                 </div>
                 <div class="window-body has-space">
-                    {{ dialog }}
-                </div>
-                <div class="status-bar" v-if="dialog.footer">
-                    <p class="status-bar-field no_wrap">{{ dialog.footer }}</p>
+                    Dialog: {{ \$nwt.Utils.jsonify(processItem) }}
+                    Factory: {{ processItem.factory }}
+                    
                 </div>
             </div>
         </template>
@@ -18229,14 +18424,19 @@ Vue.component("CommonDialogs", {
   data() {
     trace("CommonDialogs.data");
     return {
-      activeDialogs: [],
+      processManager: NwtProcessManager.dialogs,
     };
   },
   methods: {
     expandDialogDefinition(baseDialog) {
       trace("CommonDialogs.methods.expandDialogDefinition");
       const finalDialog = {};
+      const dialogProcess = NwtProcessManager.dialogs.createProcess();
+      finalDialog.dialogProcess = dialogProcess;
       finalDialog.factory = {};
+      Expand_name: {
+        finalDialog.factory.name = baseDialog.name || "AnonymousDialog" + NwtRandomizer.fromAlphabet(5);
+      }
       Expand_props: {
         finalDialog.factory.props = (function () {
           const userProps = baseDialog.props || {};
@@ -18256,6 +18456,9 @@ Vue.component("CommonDialogs", {
             // Default data of dialog component:
             value: undefined,
             state: dialogState,
+            deepness: 100,
+            // Inject process in data:
+            dialogProcess: dialogProcess,
           };
           const finalData = Object.assign({}, defaultData, userData);
           return () => finalData;
@@ -18292,9 +18495,6 @@ Vue.component("CommonDialogs", {
         finalDialog.template = baseDialog.template;
         finalDialog.factory.template = baseDialog.template;
       }
-      Expand_custom_component: {
-        Vue.component()
-      }
       return finalDialog;
     },
     validateDialog(userDialogDefinition) {
@@ -18305,6 +18505,7 @@ Vue.component("CommonDialogs", {
       assertion(typeof dialogDefinition.template === "string", `Parameter «dialogDefinition.template» must be a string on «CommonDialogs.prototype.validateDialog»`);
       assertion(typeof dialogDefinition.footer === "string", `Parameter «dialogDefinition.footer» must be an string on «CommonDialogs.prototype.validateDialog»`);
       assertion(typeof dialogDefinition.factory === "object", `Parameter «dialogDefinition.factory» must be an object on «CommonDialogs.prototype.validateDialog»`);
+      assertion(typeof dialogDefinition.factory.name === "string", `Parameter «dialogDefinition.factory.name» must be a string on «CommonDialogs.prototype.validateDialog»`);
       assertion(typeof dialogDefinition.factory.props === "object", `Parameter «dialogDefinition.factory.props» must be an object on «CommonDialogs.prototype.validateDialog»`);
       assertion(typeof dialogDefinition.factory.methods === "object", `Parameter «dialogDefinition.factory.methods» must be an object on «CommonDialogs.prototype.validateDialog»`);
       assertion(typeof dialogDefinition.factory.data === "function", `Parameter «dialogDefinition.factory.data» must be a function on «CommonDialogs.prototype.validateDialog»`);
@@ -18315,18 +18516,29 @@ Vue.component("CommonDialogs", {
       return dialogDefinition;
     },
     open(userDialogDefinition) {
-      trace("CommonDialogs.methods.userDialogDefinition");
+      trace("CommonDialogs.methods.open");
       try {
         const dialogDefinition = this.validateDialog(userDialogDefinition);
-        this.activeDialogs.push(dialogDefinition);
         return dialogDefinition.state.promise;
       } catch (error) {
         this.$errors.showError(error);
       }
     },
-    closeDialogByIndex(dialogIndex) {
-      trace("CommonDialogs.methods.closeDialogByIndex");
-      this.activeDialogs.splice(dialogIndex, 1);
+    closeDialog(dialog) {
+      trace("CommonDialogs.methods.closeDialog");
+      const pos = this.processManager.$list.indexOf(dialog);
+      this.processManager.$list.splice(pos, 1);
+    },
+    focusDialog(dialog) {
+      trace("CommonDialogs.methods.focusDialog");
+      for(let index=0; index<this.processManager.$list.length; index++) {
+        const it = this.processManager.$list[index];
+        if(it === dialog) {
+          it.deepness = 101;
+        } else {
+          it.deepness = 100;
+        }
+      }
     }
   },
   mounted() {
@@ -18337,11 +18549,11 @@ Vue.component("CommonDialogs", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css
+// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css
 
-// @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html
+// @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html
 
-// @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js
+// @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js
 /**
  * 
  * # Nwt Toasts API
@@ -18361,8 +18573,8 @@ Vue.component("CommonDialogs", {
  * ```js
  * CommonToasts.show({
  *   title: "Titulo",
- *   text: "texto",
- *   footer: "Pie de texto opcional",
+ *   template: "<div>Aquí va HTML</div>",
+ *   footer: "Pie de templateo opcional",
  *   timeout: 5000,
  * });
  * ```
@@ -18452,11 +18664,11 @@ Vue.component("CommonToasts", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css
+// @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css
 
-// @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html
+// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html
 
-// @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js
+// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js
 /**
  * 
  * # Nwt Errors API
@@ -18508,7 +18720,7 @@ Vue.component("CommonErrors", {
                         <div>Selecciona un error:</div>
                         <div>
                             <div class="display_inline_block pad_right_1 pad_bottom_1">
-                                <button class="bg_danger"
+                                <button class=""
                                     :class="{active: selectedError === -1}"
                                     v-on:click="() => selectedError = -1">
                                     *
@@ -18517,7 +18729,7 @@ Vue.component("CommonErrors", {
                             <div class="display_inline_block pad_right_1 pad_bottom_1"
                                 v-bind:key="'error_option_' + errorIndex"
                                 v-for="error, errorIndex in activeErrors">
-                                <button class="mini bg_danger"
+                                <button class="mini"
                                     :class="{active: selectedError === errorIndex}"
                                     v-on:click="() => selectedError = errorIndex">
                                     ❗️ {{ abbreviateMessage(error.message) }}
@@ -18541,7 +18753,7 @@ Vue.component("CommonErrors", {
                                         <div class="display_inline_block">Id: {{ error.message }}</div>
                                     </div>
                                     <div class="flex_1">
-                                        <button class="bg_danger no_wrap"
+                                        <button class="no_wrap"
                                             v-on:click="() => closeErrorByIndex(errorIndex)">Cerrar ❎</button>
                                     </div>
                                 </div>
@@ -18640,11 +18852,11 @@ Vue.component("CommonErrors", {
 
 
 
-// @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css
+// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css
 
-// @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.html
+// @vuebundler[Proyecto_base_001][27]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.html
 
-// @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js
+// @vuebundler[Proyecto_base_001][27]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js
 /**
  * 
  * # Nwt Tester Viewer API / Componente Vue2
@@ -18729,11 +18941,11 @@ Vue.component("NwtTesterViewer", {
 });
 
 
-// @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.css
+// @vuebundler[Proyecto_base_001][27]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.css
 
-// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.html
+// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.html
 
-// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.js
+// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.js
 Vue.component("NwtTesterNode", {
   template: `<div class="nwt_tester_node">
     <template v-if="node instanceof \$nwt.Tester.Assertion">
@@ -18829,11 +19041,11 @@ Vue.component("NwtTesterNode", {
 });
 
 
-// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.css
+// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.css
 
-// @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.html
+// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.html
 
-// @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.js
+// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.js
 /**
  * 
  * # Nwt Progress Bar Viewer API / Componente Vue2
@@ -18895,11 +19107,248 @@ Vue.component("NwtProgressBarViewer", {
 });
 
 
-// @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.css
+// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.css
 
-// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
+// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.html
 
-// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
+// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.js
+/**
+ * 
+ * # Nwt Box Viewer API / Componente Vue2
+ * 
+ * La Nwt Box Viewer API permite visualizar un componente pasándole directamente una plantilla Vue2 como parámetro.
+ * 
+ * ## Exposición
+ * 
+ * La API se expone a través del componente Vue2:
+ * 
+ * ```js
+ * Vue.options.components.NwtBoxViewer
+ * ```
+ * 
+ * ## Ventajas
+ * 
+ * La API permite cosas como:
+ * 
+ * ```html
+ * <nwt-box-viewer :source="<div>Aquí debe ir HTML para Vue2</div>" />
+ * ```
+ * 
+ * Donde `source` tiene que ser un string válido como plantilla para un componente Vue2 anónimo.
+ * 
+ * 
+ */
+Vue.component("NwtBoxViewer", {
+  template: `<div>
+    <component v-bind:is="componentId" />
+</div>`,
+  props: {
+    component: {
+      type: Object,
+      default: () => "",
+    }
+  },
+
+  data() {
+    trace("NwtBoxViewer.data");
+    return {
+      componentId: "AnonymousComponent" + NwtRandomizer.fromAlphabet(5),
+    };
+  },
+
+  methods: {
+    validateComponent() {
+      console.log(this.component);
+      this.component.name = this.componentId;
+      this.component.tagName = this.componentId.replace(/^AnonymousComponent/g, "anonymous-component");
+      if(!this.component.props) {
+        this.component.props = {};
+      }
+      if(!this.component.methods) {
+        this.component.methods = {};
+      }
+      if(!this.component.data) {
+        this.component.data = function() {
+          return {};
+        };
+      }
+      console.log(this.component);
+      assertion(typeof this.component.name === "string", "Parameter «component.name» must be a string on «NwtBoxViewer.methods.validateComponent»");
+      assertion(typeof this.component.template === "string", "Parameter «component.template» must be a string on «NwtBoxViewer.methods.validateComponent»");
+      assertion(typeof this.component.props === "object", "Parameter «component.props» must be an object on «NwtBoxViewer.methods.validateComponent»");
+      assertion(typeof this.component.methods === "object", "Parameter «component.methods» must be an object on «NwtBoxViewer.methods.validateComponent»");
+      assertion(typeof this.component.data === "function", "Parameter «component.data» must be a function on «NwtBoxViewer.methods.validateComponent»");
+    },
+    registerComponent() {
+      Vue.component(this.componentId, this.component);
+    },
+    unregisterComponent() {
+      delete Vue.options.components[this.componentId];
+    }
+  },
+
+  created() {
+    this.validateComponent();
+    this.registerComponent();
+  },
+
+  mounted() {
+    trace("NwtBoxViewer.mounted");
+  },
+
+  unmounted() {
+    this.unregisterComponent();
+  }
+
+});
+
+
+// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.css
+
+// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.html
+
+// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.js
+/**
+ * 
+ * # Nwt Process Manager Viewer API / Componente Vue2
+ * 
+ * La Nwt Process Manager Viewer API permite sincronizar un widget gráfico con una instancia de `NwtProcessManager`.
+ * 
+ * ## Exposición
+ * 
+ * La API se expone a través del componente Vue2:
+ * 
+ * ```js
+ * Vue.options.components.NwtProcessManagerViewer
+ * ```
+ * 
+ * ## Ventajas
+ * 
+ * La API permite cosas como:
+ * 
+ * ```html
+ * <nwt-process-manager-viewer :process-manager="processManager" />
+ * ```
+ * 
+ * Donde `processManager` tiene que ser una instancia de `NwtProcessManager`.
+ * 
+ * Hay 2 gestores de procesos principales:
+ * 
+ * ```js
+ * NwtProcessManager.dialogs instanceof NwtProcessManager
+ * NwtProcessManager.boxes instanceof NwtProcessManager
+ * ```
+ * 
+ * 
+ */
+Vue.component("NwtProcessManagerViewer", {
+  template: `<div class="nwt_process_manager_viewer">
+    <div class="title">
+        <div class="flex_row centered">
+            <div class="flex_1 no_wrap">
+                Diálogos abiertos
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <template v-if="isLoaded">
+            <template v-if="processManager.\$list.length === 0">
+                <div class="pad_1">No hay diálogos abiertos actualmente.</div>
+            </template>
+            <template v-else>
+                <div class="pad_bottom_1">Hay {{ processManager.\$list.length }} diálogos abiertos actualmente:</div>
+                <div v-for="dialogProcess, dialogProcessIndex in processManager.\$list"
+                    v-bind:key="'process_item_' + dialogProcessIndex">
+                    <div class="card">
+                        <table class="width_100">
+                            <tr>
+                                <td style="width: 20%;">
+                                    <div class="title">PID:</div>
+                                </td>
+                                <td>
+                                    <div class="">{{ dialogProcess.\$id }}</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="title">Creado en:</div>
+                                </td>
+                                <td>
+                                    <div class="">{{ \$nwt.Timer.fromDateToString(dialogProcess.\$createdAt) }}</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="title">Padre:</div>
+                                </td>
+                                <td>
+                                    <div class="">{{ dialogProcess.\$parent }}</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="title">Gestor:</div>
+                                </td>
+                                <td>
+                                    <div class="">{{ dialogProcess.\$manager?.\$id }}</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="title">Hijos:</div>
+                                </td>
+                                <td>
+                                    <div class="">{{ dialogProcess.\$children.length }}</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </template>
+        </template>
+        <template v-else>
+            <nwt-progress-bar-viewer :progress-bar="progressBar" />
+        </template>
+    </div>
+</div>`,
+  props: {
+    processManager: {
+      type: Object,
+      required: true
+    }
+  },
+
+  data() {
+    trace("NwtProcessManagerViewer.data");
+    return {
+      isLoaded: false,
+      progressBar: NwtProgressBar.create({ total: 10 }),
+    };
+  },
+
+  methods: {
+    reload() {
+      this.isLoaded = false;
+      this.$forceUpdate(true);
+      setTimeout(() => {
+        this.isLoaded = true;
+      }, 0);
+    }
+  },
+
+  mounted() {
+    trace("NwtProcessManagerViewer.mounted");
+    this.isLoaded = true;
+  }
+
+});
+
+
+// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.css
+
+// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
+
+// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
 /**
  * 
  * 
@@ -18908,30 +19357,30 @@ Vue.component("NwtProgressBarViewer", {
  */
 Vue.component("MainWindow", {
   template: `<div class="main_window_container">
-    <div class="window main_window">
-        <div class="title-bar">
-            <div class="title-bar-text">Proyecto base 002</div>
-        </div>
-        <div class="window-body has-space">
+    <div class="pad_1 pad_right_2">
+        <div class="title">Botones para ventanas:</div>
+        <div class="card">
             <div class="pad_bottom_1">
-                <button ref="btn1" v-on:click="() => \$dialogs.open({title: 'Ejemplo', template: '<div>Okkk</div>'})">Mostrar diálogo de ejemplo</button>
+                <button class="width_100 text_align_left" ref="btn1" v-on:click="demoDialog">Mostrar diálogo de ejemplo</button>
             </div>
             <div class="pad_bottom_1">
-                <button v-on:click="() => \$toasts.show({title: 'Ejemplo', text: '<div>Okkk' + (toastCounter++) + '</div>'})">Mostrar toast de ejemplo</button>
+                <button class="width_100 text_align_left" v-on:click="demoToast">Mostrar toast de
+                    ejemplo</button>
             </div>
             <div class="pad_bottom_1">
-                <button v-on:click="() => \$errors.showError(new \$window.Error('Algo fue mal'))">Mostrar error de ejemplo</button>
+                <button class="width_100 text_align_left" v-on:click="() => \$errors.showError(new \$window.Error('Algo fue mal'))">Mostrar error de ejemplo</button>
             </div>
             <div class="pad_bottom_1">
-                <button v-on:click="showMultipleErrors">Mostrar múltiples errores simultáneos</button>
-            </div>
-            <nwt-tester-viewer :tester="currentTester" title="Test global de prueba:" />
-            <div class="pad_top_1">
-                <nwt-progress-bar-viewer :progress-bar="progressBar" />
+                <button class="width_100 text_align_left" v-on:click="showMultipleErrors">Mostrar múltiples errores simultáneos</button>
             </div>
         </div>
-        <div class="status-bar">
-            <p class="status-bar-field no_wrap">Ejemplo de la API.</p>
+        <div class="">
+            <nwt-process-manager-viewer :process-manager="\$nwt.ProcessManager.dialogs" />
+        </div>
+        <nwt-tester-viewer :tester="currentTester"
+            title="Test global de prueba:" />
+        <div class="pad_top_1">
+            <nwt-progress-bar-viewer :progress-bar="progressBar" />
         </div>
     </div>
     <common-dialogs />
@@ -18941,185 +19390,67 @@ Vue.component("MainWindow", {
   props: {},
   data() {
     trace("MainWindow.data");
-    NwtTester.global.define("1 - Test", async test => {
-      this.progressBar.advance();
-      await NwtTimer.timeout(1000);
-      this.progressBar.advance();
-      await test.run("1.0 - Test inicial", async (test, assertion) => {
-        this.progressBar.advance();
-        assertion(true, "Test suite is working");
-        this.progressBar.advance();
-        assertion(true, "Test suite is working");
-        this.progressBar.advance();
-        assertion(true, "Test suite is working");
-        this.progressBar.advance();
-        assertion(true, "Test suite is working");
-        this.progressBar.advance();
-        assertion(true, "Test suite is working");
-        this.progressBar.advance();
-        assertion(true, "Test suite is working");
-        this.progressBar.advance();
-        await NwtTimer.timeout(1000);
-        this.progressBar.advance();
-        await test.run("1.0.1 - Test inicial 1", async (test, assertion) => {
-          assertion(true, "Test suite is working 0/5");
-          this.progressBar.advance();
-          assertion(true, "Test suite is working 1/5");
-          this.progressBar.advance();
-          assertion(true, "Test suite is working 2/5");
-          this.progressBar.advance();
-          assertion(true, "Test suite is working 3/5");
-          this.progressBar.advance();
-          assertion(true, "Test suite is working 4/5");
-          this.progressBar.advance();
-          assertion(true, "Test suite is working 5/5");
-          this.progressBar.advance();
-        });
-        this.progressBar.advance();
-        await NwtTimer.timeout(1000);
-        this.progressBar.advance();
-        await test.run("1.0.2 - Test inicial 2", async (test, assertion) => {
-          assertion(true, "Test suite is working 2/5");
-          this.progressBar.advance();
-          assertion(true, "Test suite is working 2/5");
-          this.progressBar.advance();
-          assertion(true, "Test suite is working 2/5");
-          this.progressBar.advance();
-          assertion(true, "Test suite is working 2/5");
-          this.progressBar.advance();
-        });
-        this.progressBar.advance();
-        await NwtTimer.timeout(1000);
-        this.progressBar.advance();
-        await test.run("1.0.3 - Test inicial 3", async (test, assertion) => {
-          assertion(true, "Test suite is working 3/5");
-          this.progressBar.advance();
-        });
-        this.progressBar.advance();
-        await NwtTimer.timeout(1000);
-        this.progressBar.advance();
-        await test.run("1.0.4 - Test inicial 4", async (test, assertion) => {
-          assertion(true, "Test suite is working 4/5");
-          this.progressBar.advance();
-        });
-        this.progressBar.advance();
-        await NwtTimer.timeout(1000);
-        this.progressBar.advance();
-        await test.run("1.0.5 - Test inicial 5", async (test, assertion) => {
-          assertion(true, "Test suite is working 5/5");
-          this.progressBar.advance();
-        });
+    const progress = new NwtProgressBar({ total: 3 });
+    progress.total = 3;
+    NwtTester.global.define("Global test", async test => {
+      test.define("First test", async (tester, assertion) => {
+        const subprogress = progress.subprogress({ total: 8 });
+        assertion(true, "assertion 1");
+        await NwtTimer.timeout(500);
+        subprogress.advance();
+        assertion(true, "assertion 2");
+        await NwtTimer.timeout(500);
+        subprogress.advance();
+        assertion(true, "assertion 3");
+        await NwtTimer.timeout(500);
+        subprogress.advance();
+        assertion(true, "assertion 4");
+        await NwtTimer.timeout(500);
+        subprogress.advance();
+        assertion(true, "assertion 5");
+        await NwtTimer.timeout(500);
+        subprogress.advance();
+        assertion(true, "assertion 6");
+        await NwtTimer.timeout(500);
+        subprogress.advance();
+        assertion(true, "assertion 7");
+        await NwtTimer.timeout(500);
+        subprogress.advance();
+        assertion(true, "assertion 8");
+        await NwtTimer.timeout(500);
+        subprogress.advance();
       });
-      this.progressBar.advance();
-      test.define("1.1 - Test de globales", async (test, assertion) => {
-        this.progressBar.advance();
-        await NwtTimer.timeout(1000);
-        this.progressBar.advance();
-        test.define("1.1.1 - Global NwtFramework", async () => {
-          this.progressBar.advance();
-          await NwtTimer.timeout(1000);
-          this.progressBar.advance();
-          assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
-        });
-        this.progressBar.advance();
-        await NwtTimer.timeout(1000);
-        this.progressBar.advance();
-        test.define("1.1.2 - Global NwtAsserter", async () => {
-          this.progressBar.advance();
-          await NwtTimer.timeout(1000);
-          this.progressBar.advance();
-          assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
-        });
-        this.progressBar.advance();
-        await NwtTimer.timeout(1000);
-        this.progressBar.advance();
-        test.define("1.1.3 - Global NwtTester", async () => {
-          this.progressBar.advance();
-          await NwtTimer.timeout(1000);
-          this.progressBar.advance();
-          assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
-          this.progressBar.advance();
-        });
-        this.progressBar.advance();
+      test.define("Second test", async (tester, assertion) => {
+        const subprogress = progress.subprogress({ total: 3 });
+        assertion(true, "assertion 1");
+        await NwtTimer.timeout(500);
+        subprogress.advance();
+        assertion(true, "assertion 2");
+        await NwtTimer.timeout(500);
+        subprogress.advance();
+        assertion(true, "assertion 3");
+        await NwtTimer.timeout(500);
+        subprogress.advance();
       });
-      test.define("1.2 - Test de globales 2", async (test, assertion) => {
-        await NwtTimer.timeout(1000);
-        this.progressBar.advance();
-        test.define("1.2.1 - Global NwtFramework", async () => {
-          await NwtTimer.timeout(1000);
-          this.progressBar.advance();
-          assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
-          this.progressBar.advance();
-        });
-        await NwtTimer.timeout(1000);
-        this.progressBar.advance();
-        test.define("1.2.2 - Global NwtAsserter", async () => {
-          await NwtTimer.timeout(1000);
-          this.progressBar.advance();
-          assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
-          this.progressBar.advance();
-        });
-        await NwtTimer.timeout(1000);
-        this.progressBar.advance();
-        test.define("1.2.3 - Global NwtTester", async () => {
-          await NwtTimer.timeout(1000);
-          this.progressBar.advance();
-          assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
-          this.progressBar.advance();
-        });
+      test.define("Third test", async (tester, assertion) => {
+        const subprogress = progress.subprogress({ total: 5 });
+        assertion(true, "assertion 1");
+        await NwtTimer.timeout(500);
+        subprogress.advance();
+        assertion(true, "assertion 2");
+        await NwtTimer.timeout(500);
+        subprogress.advance();
+        assertion(true, "assertion 3");
+        await NwtTimer.timeout(500);
+        subprogress.advance();
+        assertion(true, "assertion 4");
+        await NwtTimer.timeout(500);
+        subprogress.advance();
+        assertion(true, "assertion 5");
+        await NwtTimer.timeout(500);
+        subprogress.advance();
       });
-      test.define("1.3 - Test de globales 3", async (test, assertion) => {
-        await NwtTimer.timeout(1000);
-        this.progressBar.advance();
-        test.define("1.3.1 - Global NwtFramework", async () => {
-          await NwtTimer.timeout(1000);
-          this.progressBar.advance();
-          assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
-          this.progressBar.advance();
-        });
-        await NwtTimer.timeout(1000);
-        this.progressBar.advance();
-        test.define("1.3.2 - Global NwtAsserter", async () => {
-          await NwtTimer.timeout(1000);
-          this.progressBar.advance();
-          assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
-          this.progressBar.advance();
-        });
-        await NwtTimer.timeout(1000);
-        this.progressBar.advance();
-        test.define("1.3.3 - Global NwtTester", async () => {
-          await NwtTimer.timeout(1000);
-          this.progressBar.advance();
-          assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
-          this.progressBar.advance();
-        });
-      });
-      test.define("1.4 - Test de globales 4", async (test, assertion) => {
-        await NwtTimer.timeout(1000);
-        this.progressBar.advance();
-        test.define("1.4.1 - Global NwtFramework", async () => {
-          await NwtTimer.timeout(1000);
-          this.progressBar.advance();
-          assertion(typeof NwtFramework !== "undefined", "NwtFramework must exist");
-          this.progressBar.advance();
-        });
-        await NwtTimer.timeout(1000);
-        this.progressBar.advance();
-        test.define("1.4.2 - Global NwtAsserter", async () => {
-          await NwtTimer.timeout(1000);
-          this.progressBar.advance();
-          assertion(typeof NwtAsserter !== "undefined", "NwtAsserter must exist");
-          this.progressBar.advance();
-        });
-        await NwtTimer.timeout(1000);
-        this.progressBar.advance();
-        test.define("1.4.3 - Global NwtTester", async () => {
-          await NwtTimer.timeout(1000);
-          this.progressBar.advance();
-          assertion(typeof NwtTester !== "undefined", "NwtTester must exist");
-          this.progressBar.advance();
-        });
-      });
+    
     }, {
       onTestDefined: t => trace(`TEST: ${t.name}`),
       onTestSuccess: t => trace(`OK TEST: ${t.name}`),
@@ -19130,10 +19461,14 @@ Vue.component("MainWindow", {
     return {
       toastCounter: 0,
       currentTester: NwtTester.global,
-      progressBar: new NwtProgressBar({ total: 73, current: 0 }),
+      progressBar: progress,
     };
   },
   methods: {
+    pickToastCounter() {
+      this.toastCounter += 1;
+      return this.toastCounter;
+    },
     showMultipleErrors() {
       trace("MainWindow.methods.showMultipleErrors");
       setTimeout(() => assertion(false, 'Error número 1'), 0);
@@ -19142,6 +19477,23 @@ Vue.component("MainWindow", {
       setTimeout(() => assertion(false, 'Error número 4'), 0);
       setTimeout(() => assertion(false, 'Error número 5'), 0);
     },
+    demoToast() {
+      const counter = this.pickToastCounter();
+      this.$toasts.show({
+        title: `Ejemplo ${ counter }`,
+        text: `Ok, los toasts (${ counter }) solo texto`,
+        footer: "El pie es opcional",
+        timeout: 3000,
+      });
+    },
+    demoDialog() {
+      this.$dialogs.open({
+        title: "Ejemplo de diálogo",
+        template: `<div>
+          <b>Usando marcado</b>, esto debería ser siempre un componente aparte.
+        </div>`,
+      });
+    }
   },
   mounted() {
     trace("MainWindow.mounted");
@@ -19150,4 +19502,4 @@ Vue.component("MainWindow", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css
+// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css

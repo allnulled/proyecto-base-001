@@ -53,6 +53,8 @@
     LazyLoader: NwtLazyLoader,
     Globalizer: NwtGlobalizer,
     Tester: NwtTester,
+    Process: NwtProcess,
+    ProcessManager: NwtProcessManager,
     // Injected later:
     Errors: null,
     Dialogs: null,
