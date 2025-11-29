@@ -1,0 +1,8 @@
+- [ ] API de Dialogs:
+   - [x] Que se autocentre
+   - [x] Con unas dimensiones relativas razonables
+   - [x] Que se cierre el que toca
+   - [ ] Que haga un offset de movimiento para que no se vean todas naciendo con la misma forma y posición
+   - [ ] Que memorice la última posición y dimensiones al dropear la zona draggable
+   - [ ] Que cierre hijos cuando cierra un padre
+   - [ ] Que se pueda ver el árbol en el ProcessViewer de Dialogs

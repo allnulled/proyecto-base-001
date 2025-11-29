@@ -14,10 +14,12 @@
     top: auto;
     left: auto;
     right: auto;
-    bottom: auto;
+    bottom: 10px;
+    overflow: hidden;
 }
 .common_dialogs_window.window > .window-body {
     height: 100%;
+    overflow: scroll;
 }
 
 .window.common_dialogs_window {

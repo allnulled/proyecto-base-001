@@ -23,6 +23,7 @@ module.exports = [
   `${__dirname}/../framework/nwt-injection.js`,
   `${__dirname}/../directives/v-resizable.js`,
   `${__dirname}/../directives/v-draggable.js`,
+  `${__dirname}/../directives/v-autocenter.js`,
   `${__dirname}/../components/common-dialogs/common-dialogs`,
   `${__dirname}/../components/common-toasts/common-toasts`,
   `${__dirname}/../components/common-errors/common-errors`,

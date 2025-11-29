@@ -51,8 +51,7 @@ Vue.component("CommonDialogs", {
     expandDialogDefinition(baseDialog) {
       trace("CommonDialogs.methods.expandDialogDefinition");
       const finalDialog = {};
-      const dialogProcess = NwtProcessManager.dialogs.createProcess();
-      finalDialog.dialogProcess = dialogProcess;
+      const dialogProcess = NwtProcessManager.dialogs.createProcess({ dialog: finalDialog });
       finalDialog.factory = {};
       Expand_name: {
         finalDialog.factory.name = baseDialog.name || "AnonymousDialog" + NwtRandomizer.fromAlphabet(5);
@@ -72,16 +71,19 @@ Vue.component("CommonDialogs", {
           assertion(typeof userData === "object", "Parameter «data» in dialogs must be an object or omitted on «CommonDialogs.methods.expandDialogDefinition»");
           const dialogState = Promise.withResolvers();
           finalDialog.state = dialogState;
-          const defaultData = {
-            // Default data of dialog component:
-            value: undefined,
-            state: dialogState,
-            deepness: 100,
-            // Inject process in data:
-            dialogProcess: dialogProcess,
+          return function () {
+            dialogProcess.dialog = this;
+            const defaultData = {
+              // Default data of dialog component:
+              value: undefined,
+              state: dialogState,
+              deepness: 100,
+              // Inject process in data:
+              ownProcess: dialogProcess,
+            };
+            const finalData = Object.assign({}, defaultData, userData);
+            return finalData;
           };
-          const finalData = Object.assign({}, defaultData, userData);
-          return () => finalData;
         })();
       }
       Expand_methods: {
@@ -144,21 +146,17 @@ Vue.component("CommonDialogs", {
         this.$errors.showError(error);
       }
     },
-    closeDialog(dialog) {
+    closeDialog(currentProcess) {
       trace("CommonDialogs.methods.closeDialog");
-      const pos = this.processManager.$list.indexOf(dialog);
-      this.processManager.$list.splice(pos, 1);
+      currentProcess.close();
     },
-    focusDialog(dialog) {
+    focusDialog(currentProcess) {
       trace("CommonDialogs.methods.focusDialog");
-      for(let index=0; index<this.processManager.$list.length; index++) {
+      for (let index = 0; index < this.processManager.$list.length; index++) {
         const it = this.processManager.$list[index];
-        if(it === dialog) {
-          it.deepness = 101;
-        } else {
-          it.deepness = 100;
-        }
+        it.dialog.deepness--;
       }
+      currentProcess.dialog.deepness = 101;
     }
   },
   mounted() {

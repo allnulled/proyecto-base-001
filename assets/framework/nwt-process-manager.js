@@ -51,10 +51,11 @@
       this.$list = [];
     }
 
-    createProcess() {
+    createProcess(expander = {}) {
       return NwtProcess.create({
         manager: this,
-        parent: null
+        parent: null,
+        ...expander
       });
     }
 

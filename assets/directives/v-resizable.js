@@ -19,6 +19,6 @@
 Vue.directive("resizable", {
   inserted(el) {
     el.style.resize = "both";
-    el.style.overflow = "auto";
+    // el.style.overflow = "auto";
   }
 })

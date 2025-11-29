@@ -6,8 +6,8 @@ Vue.directive("draggable", {
     let startTop = 0;
     const r = el.getBoundingClientRect()
     Fix_draggable_from_the_first_moment: {
-      el.style.width = r.width + "px";
-      el.style.height = r.height + "px";
+      el.style.width = 30 + "%";
+      el.style.height = 30 + "%";
     }
     const onMouseDown = function (e) {
       if (!e.target.classList.contains("drag-handle")) {

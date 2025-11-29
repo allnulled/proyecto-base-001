@@ -42,7 +42,6 @@ Vue.component("NwtBoxViewer", {
 
   methods: {
     validateComponent() {
-      console.log(this.component);
       this.component.name = this.componentId;
       this.component.tagName = this.componentId.replace(/^AnonymousComponent/g, "anonymous-component");
       if(!this.component.props) {
@@ -56,7 +55,6 @@ Vue.component("NwtBoxViewer", {
           return {};
         };
       }
-      console.log(this.component);
       assertion(typeof this.component.name === "string", "Parameter «component.name» must be a string on «NwtBoxViewer.methods.validateComponent»");
       assertion(typeof this.component.template === "string", "Parameter «component.template» must be a string on «NwtBoxViewer.methods.validateComponent»");
       assertion(typeof this.component.props === "object", "Parameter «component.props» must be an object on «NwtBoxViewer.methods.validateComponent»");
