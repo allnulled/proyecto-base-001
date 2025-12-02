@@ -6,7 +6,7 @@
    - [ ] Que memorice la última posición y dimensiones al dropear la zona draggable
    - [x] Que cierre hijos cuando cierra un padre
    - [I] Que se pueda ver el árbol en el ProcessViewer de Dialogs
-   - [ ] Que se pueda acceder con CTRL+SUPR a un process viewer en un diálogo
-      - [ ] Que desde el CommonDialogs se inyecte un evento
-      - [ ] Que se inyecte un evento en el document.body que capture el caso CTRL+SUPR
-      - [ ] Que ese evento inicie un diálogo con el ProcessManagerViewer de dialogos
+   - [x] Que se pueda acceder con CTRL+SUPR a un process viewer en un diálogo
+      - [x] Que desde el CommonDialogs se inyecte un evento
+      - [x] Que se inyecte un evento en el document.body que capture el caso CTRL+SUPR
+      - [x] Que ese evento inicie un diálogo con el ProcessManagerViewer de dialogos

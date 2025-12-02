@@ -51,7 +51,7 @@ const main = async function() {
       to: `${PROJECT_ROOT}/documentation/process-manager-api.md`
     },
     {
-      from: [`${PROJECT_ROOT}/assets/framework/nwt-process-manager-viewer.js`],
+      from: [`${PROJECT_ROOT}/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.js`],
       to: `${PROJECT_ROOT}/documentation/process-manager-viewer-api.md`
     },
     {
