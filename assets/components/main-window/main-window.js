@@ -112,6 +112,32 @@ Vue.component("MainWindow", {
           <b>Usando marcado</b>, esto debería ser siempre un componente aparte.
         </div>`,
       });
+    },
+    demoNestedDialogs() {
+      this.$dialogs.open({
+        title: "Diálogo 1",
+        template: `<div>
+          <div>Para abrir un diálogo hijo:</div>
+          <div>
+            <button v-on:click="demoChild">Abrir</button>
+          </div>
+        </div>`,
+        factory: {
+          data: {
+            children: 0,
+          },
+          methods: {
+            demoChild() {
+              this.subdialog({
+                title: "Hijo " + (++this.children),
+                template: `<div>
+                  <div>Esto es un diálogo hijo</div>
+                </div>`
+              });
+            }
+          }
+        }
+      })
     }
   },
   mounted() {

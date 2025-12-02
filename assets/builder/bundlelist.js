@@ -8,6 +8,7 @@ module.exports = [
   `${__dirname}/../framework/nwt-boot.js`,
   `${__dirname}/../framework/nwt-tracer.js`,
   `${__dirname}/../framework/nwt-asserter.js`,
+  `${__dirname}/../framework/nwt-dialogs/nwt-dialog-definition.js`,
   `${__dirname}/../framework/nwt-importer.js`,
   `${__dirname}/../framework/nwt-lazy-loader.js`,
   `${__dirname}/../framework/nwt-settings.js`,

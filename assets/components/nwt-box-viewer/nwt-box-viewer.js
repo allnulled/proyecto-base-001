@@ -36,36 +36,23 @@ Vue.component("NwtBoxViewer", {
   data() {
     trace("NwtBoxViewer.data");
     return {
-      componentId: "AnonymousComponent" + NwtRandomizer.fromAlphabet(5),
+      
     };
   },
 
   methods: {
     validateComponent() {
-      this.component.name = this.componentId;
-      this.component.tagName = this.componentId.replace(/^AnonymousComponent/g, "anonymous-component");
-      if(!this.component.props) {
-        this.component.props = {};
-      }
-      if(!this.component.methods) {
-        this.component.methods = {};
-      }
-      if(!this.component.data) {
-        this.component.data = function() {
-          return {};
-        };
-      }
+      assertion(typeof this.component === "object", "Parameter «component» must be a object on «NwtBoxViewer.methods.validateComponent»");
       assertion(typeof this.component.name === "string", "Parameter «component.name» must be a string on «NwtBoxViewer.methods.validateComponent»");
       assertion(typeof this.component.template === "string", "Parameter «component.template» must be a string on «NwtBoxViewer.methods.validateComponent»");
-      assertion(typeof this.component.props === "object", "Parameter «component.props» must be an object on «NwtBoxViewer.methods.validateComponent»");
       assertion(typeof this.component.methods === "object", "Parameter «component.methods» must be an object on «NwtBoxViewer.methods.validateComponent»");
       assertion(typeof this.component.data === "function", "Parameter «component.data» must be a function on «NwtBoxViewer.methods.validateComponent»");
     },
     registerComponent() {
-      Vue.component(this.componentId, this.component);
+      Vue.component(this.component.name, this.component);
     },
     unregisterComponent() {
-      delete Vue.options.components[this.componentId];
+      delete Vue.options.components[this.component.name];
     }
   },
 

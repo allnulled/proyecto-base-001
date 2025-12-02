@@ -62,6 +62,10 @@
       }
     }
 
+    expand(obj) {
+      return Object.assign(this, obj);
+    }
+
     createSubprocess() {
       return new this({
         manager: this.$manager,

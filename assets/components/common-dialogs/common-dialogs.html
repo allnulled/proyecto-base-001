@@ -7,7 +7,7 @@
                 v-draggable
                 v-on:mousedown="() => focusDialog(processItem)"
                 v-bind:key="'processItem_' + processItem.$id"
-                :style="{zIndex:processItem.dialog.deepness}">
+                :style="{zIndex:processItem.dialog?.deepness}">
                 <div class="title-bar drag-handle">
                     <div class="title-bar-text drag-handle">{{ processItem.$id }}</div>
                     <div class="title-bar-controls">
@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="window-body has-space">
-                    <nwt-box-viewer :component="processItem.dialog.factory" />
+                    <nwt-box-viewer :component="processItem.definition.$factory" />
                 </div>
             </div>
         </template>

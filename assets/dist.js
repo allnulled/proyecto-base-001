@@ -17106,7 +17106,197 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-importer.js
+// @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-dialogs/nwt-dialog-definition.js
+(function (factory) {
+  const mod = factory();
+  if (typeof window !== 'undefined') {
+    window['NwtDialogDefinition'] = mod;
+  }
+  if (typeof global !== 'undefined') {
+    global['NwtDialogDefinition'] = mod;
+  }
+  if (typeof module !== 'undefined') {
+    module.exports = mod;
+  }
+})(function () {
+
+  const NwtDialogDefinition = class {
+
+    static create(...args) {
+      trace("NwtDialogDefinition.create");
+      return new this(...args);
+    }
+
+    constructor(userDialogDefinition = {}) {
+      trace("NwtDialogDefinition.constructor");
+      this.$original = userDialogDefinition;
+      this.$factory = {};
+      this.$process = null;
+      this.validate();
+    }
+
+    fillBasics() {
+      trace("NwtDialogDefinition.prototype.fillBasics");
+      const that = this;
+      Fill_original: {
+        if (typeof this.$original === "undefined") {
+          this.$original = {};
+        } else if(typeof this.$original !== "object") {
+          throw new Error("Parameter «definition» must be an object on «NwtDialogDefinition.prototype.fillBasics»");
+        }
+      }
+      Fill_original_title: {
+        if (typeof this.$original.title === "undefined") {
+          this.$original.title = "Sin título";
+        } else if(typeof this.$original.title !== "string") {
+          throw new Error("Parameter «definition.title» must be a string on «NwtDialogDefinition.prototype.fillBasics»");
+        }
+      }
+      Fill_original_template: {
+        if (typeof this.$original.template === "undefined") {
+          throw new Error("Parameter «definition.template» must be a string on a dialog definition on «NwtDialogDefinition.prototype.fillBasics»");
+        }
+        this.$factory.template = this.$original.template;
+      }
+      Fill_state: {
+        this.$state = Promise.withResolvers();
+      }
+      Fill_process: {
+        this.$process = NwtProcess.create({
+          manager: NwtProcessManager.dialogs,
+          definition: this,
+          parent: this.$original.parent || null,
+        });
+      }
+      Fill_factory: {
+        if (typeof this.$factory === "undefined") {
+          this.$factory = this.$original.factory || {};
+        } else if(typeof this.$factory !== "object") {
+          throw new Error("Parameter «definition.factory» must be an object on «NwtDialogDefinition.prototype.fillBasics»");
+        }
+      }
+      Fill_factory_name: {
+        this.$factory.name = "AnonymousDialog" + NwtRandomizer.fromAlphabet(10);
+      }
+      Fill_factory_data: {
+        this.$factory.data = function () {
+          trace("NwtDialogDefinition.$factory.data");
+          const userData = (() => {
+            if (typeof that.$original.factory?.data === "function") {
+              return that.$original.factory.data.call(this);
+            } else if (typeof that.$original.factory?.data === "object") {
+              return Object.assign({}, that.$original.factory.data);
+            } else {
+              return {};
+            }
+          })();
+          if (typeof userData.definition !== "undefined") {
+            throw new Error("Parameter «definition.factory.data.definition» cannot be fulfilled on a dialog definition on «NwtDialogDefinition.prototype.fillBasics»");
+          }
+          const finalData = Object.assign({}, {
+            // 1. Propiedades sobreescribibles:
+            value: "",
+          }, userData, {
+            // 2. Propiedades no sobreescribibles:
+            deepness: 101,
+            state: that.$state,
+            process: that.$process,
+            definition: that,
+          });
+          return finalData;
+        }
+      }
+      Fill_factory_methods: {
+        this.$factory.methods = Object.assign({}, this.$original.factory?.methods || {}, {
+          subdialog: function(obj) {
+            trace("NwtDialogDefinition.$factory.methods.subdialog");
+            return NwtDialogs.open({ ...obj, parent: this.process });
+          },
+          accept: function(val) {
+            trace("NwtDialogDefinition.$factory.methods.accept");
+            if(typeof val !== "undefined") {
+              this.value = val;
+            }
+            this.state.resolve(this.value);
+            this.process.close();
+            return this.state.promise;
+          },
+          close: function() {
+            trace("NwtDialogDefinition.$factory.methods.close");
+            this.state.resolve(undefined);
+            this.process.close();
+            return this.state.promise;
+          }
+        });
+      }
+      Fill_factory_lifecycle_and_other_options: {
+        // Automáticamente rellenados:
+        this.$factory.created = function() {
+          trace("NwtDialogDefinition.$factory.created");
+          this.process.expand({ dialog: this });
+          if(typeof that.$original.factory?.created === "function") {
+            return that.$original.factory.created.call(this);
+          }
+        };
+        this.$factory.mounted = function() {
+          trace("NwtDialogDefinition.$factory.mounted");
+          NwtDialogs.focusDialog(this.process);
+          if(typeof that.$original.factory?.mounted === "function") {
+            return that.$original.factory.mounted.call(this);
+          }
+        };
+        // activated
+        // beforeCreate
+        // beforeDestroy
+        // beforeMount
+        // beforeUpdate
+        // comments
+        // components
+        // computed
+        // created
+        // data
+        // deactivated
+        // delimiters
+        // directives
+        // el
+        // errorCaptured
+        // extends
+        // filters
+        // functional
+        // inheritAttrs
+        // inject
+        // mixins
+        // model
+        // mounted
+        // name
+        // parent
+        // props
+        // propsData
+        // provide
+        // render
+        // renderError
+        // template
+        // updated
+        // watch
+      }
+    }
+
+    validate() {
+      trace("NwtDialogDefinition.prototype.validate");
+      this.fillBasics();
+      assertion(typeof this.$original.title === "string", "Parameter «title» must be a string on «NwtDialogDefinition.prototype.validate»");
+      assertion(typeof this.$original.template === "string", "Parameter «template» must be a string on «NwtDialogDefinition.prototype.validate»");
+      assertion(typeof this.$factory === "object", "Parameter «definition.factory» must be an object on «NwtDialogDefinition.prototype.validate»");
+      assertion(typeof this.$factory.methods === "object", "Parameter «definition.factory.methods» must be an object on «NwtDialogDefinition.prototype.validate»");
+    }
+
+  };
+
+  return NwtDialogDefinition;
+
+});
+
+// @vuebundler[Proyecto_base_001][10]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-importer.js
 /**
  * 
  * # Nwt Importer API
@@ -17178,7 +17368,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][10]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-lazy-loader.js
+// @vuebundler[Proyecto_base_001][11]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-lazy-loader.js
 /**
  * 
  * # Nwt Lazy Loader API
@@ -17260,7 +17450,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][11]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-settings.js
+// @vuebundler[Proyecto_base_001][12]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-settings.js
 /**
  * 
  * # Nwt Settings API
@@ -17306,7 +17496,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][12]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-utils.js
+// @vuebundler[Proyecto_base_001][13]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-utils.js
 /**
  * 
  * # Nwt Utils API
@@ -17369,7 +17559,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][13]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-timer.js
+// @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-timer.js
 /**
  * 
  * # Nwt Timer API
@@ -17465,7 +17655,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-randomizer.js
+// @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-randomizer.js
 /**
  * 
  * # Nwt Randomizer API
@@ -17554,7 +17744,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-progress-bar.js
+// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-progress-bar.js
 /**
  * 
  * # Nwt Progress Bar API
@@ -17668,7 +17858,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-globalizer.js
+// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-globalizer.js
 /**
  * 
  * # Nwt Globalizer API
@@ -17728,7 +17918,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tester.js
+// @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tester.js
 /**
  * 
  * # Nwt Tester API
@@ -18060,7 +18250,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-process.js
+// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-process.js
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -18125,6 +18315,10 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
       }
     }
 
+    expand(obj) {
+      return Object.assign(this, obj);
+    }
+
     createSubprocess() {
       return new this({
         manager: this.$manager,
@@ -18138,7 +18332,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-process-manager.js
+// @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-process-manager.js
 /**
  * 
  * # NwtProcessManager
@@ -18209,7 +18403,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js
+// @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js
 /**
  * 
  * # Nwt Framework API
@@ -18276,7 +18470,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 })();
 
-// @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-injection.js
+// @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-injection.js
 /**
  * 
  * # Nwt Injection API
@@ -18310,7 +18504,7 @@ window.addEventListener("load", function () {
     }).$mount("#app");
 });
 
-// @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/directives/v-resizable.js
+// @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/directives/v-resizable.js
 /**
  * 
  * # Nwt V-Resizable Directive - Vue directive
@@ -18337,7 +18531,7 @@ Vue.directive("resizable", {
 })
 
 
-// @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/directives/v-draggable.js
+// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/directives/v-draggable.js
 Vue.directive("draggable", {
   inserted(el) {
     let startX = 0;
@@ -18377,7 +18571,7 @@ Vue.directive("draggable", {
 });
 
 
-// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/directives/v-autocenter.js
+// @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/directives/v-autocenter.js
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -18423,9 +18617,9 @@ Vue.directive("draggable", {
 
 });
 
-// @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html
+// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html
 
-// @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js
+// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js
 /**
  * 
  * # Nwt Dialogs API
@@ -18476,7 +18670,7 @@ Vue.component("CommonDialogs", {
                 v-draggable
                 v-on:mousedown="() => focusDialog(processItem)"
                 v-bind:key="'processItem_' + processItem.\$id"
-                :style="{zIndex:processItem.dialog.deepness}">
+                :style="{zIndex:processItem.dialog?.deepness}">
                 <div class="title-bar drag-handle">
                     <div class="title-bar-text drag-handle">{{ processItem.\$id }}</div>
                     <div class="title-bar-controls">
@@ -18485,7 +18679,7 @@ Vue.component("CommonDialogs", {
                     </div>
                 </div>
                 <div class="window-body has-space">
-                    <nwt-box-viewer :component="processItem.dialog.factory" />
+                    <nwt-box-viewer :component="processItem.definition.\$factory" />
                 </div>
             </div>
         </template>
@@ -18499,103 +18693,10 @@ Vue.component("CommonDialogs", {
     };
   },
   methods: {
-    expandDialogDefinition(baseDialog) {
-      trace("CommonDialogs.methods.expandDialogDefinition");
-      const finalDialog = {};
-      const dialogProcess = NwtProcessManager.dialogs.createProcess({ dialog: finalDialog });
-      finalDialog.factory = {};
-      Expand_name: {
-        finalDialog.factory.name = baseDialog.name || "AnonymousDialog" + NwtRandomizer.fromAlphabet(5);
-      }
-      Expand_props: {
-        finalDialog.factory.props = (function () {
-          const userProps = baseDialog.props || {};
-          const defaultProps = {
-            // Default props of dialog component:
-          };
-          return Object.assign({}, defaultProps, userProps);
-        })();
-      }
-      Expand_data: {
-        finalDialog.factory.data = (() => {
-          const userData = baseDialog.data || {};
-          assertion(typeof userData === "object", "Parameter «data» in dialogs must be an object or omitted on «CommonDialogs.methods.expandDialogDefinition»");
-          const dialogState = Promise.withResolvers();
-          finalDialog.state = dialogState;
-          return function () {
-            dialogProcess.dialog = this;
-            const defaultData = {
-              // Default data of dialog component:
-              value: undefined,
-              state: dialogState,
-              deepness: 100,
-              // Inject process in data:
-              ownProcess: dialogProcess,
-            };
-            const finalData = Object.assign({}, defaultData, userData);
-            return finalData;
-          };
-        })();
-      }
-      Expand_methods: {
-        finalDialog.factory.methods = (() => {
-          const userMethods = baseDialog.methods || {};
-          const defaultMethods = {
-            // Default methods of dialog component:
-            accept(userValue = undefined) {
-              if (typeof userValue !== "undefined") {
-                this.value = userValue;
-              }
-              this.state.resolve(this.value);
-              return this.state.promise;
-            },
-            cancel(error) {
-              this.state.reject(error);
-              return this.state.promise;
-            }
-          };
-          const finalMethods = Object.assign({}, userMethods, defaultMethods);
-          return finalMethods;
-        })();
-      }
-      Expand_title: {
-        finalDialog.title = baseDialog.title || "Sin título";
-      }
-      Expand_footer: {
-        finalDialog.footer = baseDialog.footer || "";
-      }
-      Expand_template: {
-        finalDialog.template = baseDialog.template;
-        finalDialog.factory.template = baseDialog.template;
-      }
-      return finalDialog;
-    },
-    validateDialog(userDialogDefinition) {
-      trace("CommonDialogs.methods.validateDialog");
-      const dialogDefinition = this.expandDialogDefinition(userDialogDefinition);
-      assertion(typeof dialogDefinition === "object", `Parameter «dialogDefinition» must be an object on «CommonDialogs.prototype.validateDialog»`);
-      assertion(typeof dialogDefinition.title === "string", `Parameter «dialogDefinition.title» must be a string on «CommonDialogs.prototype.validateDialog»`);
-      assertion(typeof dialogDefinition.template === "string", `Parameter «dialogDefinition.template» must be a string on «CommonDialogs.prototype.validateDialog»`);
-      assertion(typeof dialogDefinition.footer === "string", `Parameter «dialogDefinition.footer» must be an string on «CommonDialogs.prototype.validateDialog»`);
-      assertion(typeof dialogDefinition.factory === "object", `Parameter «dialogDefinition.factory» must be an object on «CommonDialogs.prototype.validateDialog»`);
-      assertion(typeof dialogDefinition.factory.name === "string", `Parameter «dialogDefinition.factory.name» must be a string on «CommonDialogs.prototype.validateDialog»`);
-      assertion(typeof dialogDefinition.factory.props === "object", `Parameter «dialogDefinition.factory.props» must be an object on «CommonDialogs.prototype.validateDialog»`);
-      assertion(typeof dialogDefinition.factory.methods === "object", `Parameter «dialogDefinition.factory.methods» must be an object on «CommonDialogs.prototype.validateDialog»`);
-      assertion(typeof dialogDefinition.factory.data === "function", `Parameter «dialogDefinition.factory.data» must be a function on «CommonDialogs.prototype.validateDialog»`);
-      assertion(typeof dialogDefinition.state === "object", `Parameter «dialogDefinition.state» must be an object on «CommonDialogs.prototype.validateDialog»`);
-      assertion(typeof dialogDefinition.state.promise === "object", `Parameter «dialogDefinition.state.promise» must be an object on «CommonDialogs.prototype.validateDialog»`);
-      assertion(typeof dialogDefinition.state.resolve === "function", `Parameter «dialogDefinition.state.resolve» must be a function on «CommonDialogs.prototype.validateDialog»`);
-      assertion(typeof dialogDefinition.state.reject === "function", `Parameter «dialogDefinition.state.reject» must be a function on «CommonDialogs.prototype.validateDialog»`);
-      return dialogDefinition;
-    },
     open(userDialogDefinition) {
       trace("CommonDialogs.methods.open");
-      try {
-        const dialogDefinition = this.validateDialog(userDialogDefinition);
-        return dialogDefinition.state.promise;
-      } catch (error) {
-        this.$errors.showError(error);
-      }
+      const dialogDefinition = NwtDialogDefinition.create(userDialogDefinition);
+      return dialogDefinition.$state.promise;
     },
     closeDialog(currentProcess) {
       trace("CommonDialogs.methods.closeDialog");
@@ -18618,11 +18719,11 @@ Vue.component("CommonDialogs", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css
+// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css
 
-// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html
+// @vuebundler[Proyecto_base_001][27]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html
 
-// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js
+// @vuebundler[Proyecto_base_001][27]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js
 /**
  * 
  * # Nwt Toasts API
@@ -18733,11 +18834,11 @@ Vue.component("CommonToasts", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css
+// @vuebundler[Proyecto_base_001][27]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css
 
-// @vuebundler[Proyecto_base_001][27]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html
+// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html
 
-// @vuebundler[Proyecto_base_001][27]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js
+// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js
 /**
  * 
  * # Nwt Errors API
@@ -18921,11 +19022,11 @@ Vue.component("CommonErrors", {
 
 
 
-// @vuebundler[Proyecto_base_001][27]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css
+// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css
 
-// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.html
+// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.html
 
-// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js
+// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js
 /**
  * 
  * # Nwt Tester Viewer API / Componente Vue2
@@ -19010,11 +19111,11 @@ Vue.component("NwtTesterViewer", {
 });
 
 
-// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.css
+// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.css
 
-// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.html
+// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.html
 
-// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.js
+// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.js
 Vue.component("NwtTesterNode", {
   template: `<div class="nwt_tester_node">
     <template v-if="node instanceof \$nwt.Tester.Assertion">
@@ -19110,11 +19211,11 @@ Vue.component("NwtTesterNode", {
 });
 
 
-// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.css
+// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.css
 
-// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.html
+// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.html
 
-// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.js
+// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.js
 /**
  * 
  * # Nwt Progress Bar Viewer API / Componente Vue2
@@ -19176,11 +19277,11 @@ Vue.component("NwtProgressBarViewer", {
 });
 
 
-// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.css
+// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.css
 
-// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.html
+// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.html
 
-// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.js
+// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.js
 /**
  * 
  * # Nwt Box Viewer API / Componente Vue2
@@ -19209,7 +19310,7 @@ Vue.component("NwtProgressBarViewer", {
  */
 Vue.component("NwtBoxViewer", {
   template: `<div>
-    <component v-bind:is="componentId" />
+    <component v-bind:is="component.name" />
 </div>`,
   props: {
     component: {
@@ -19221,36 +19322,23 @@ Vue.component("NwtBoxViewer", {
   data() {
     trace("NwtBoxViewer.data");
     return {
-      componentId: "AnonymousComponent" + NwtRandomizer.fromAlphabet(5),
+      
     };
   },
 
   methods: {
     validateComponent() {
-      this.component.name = this.componentId;
-      this.component.tagName = this.componentId.replace(/^AnonymousComponent/g, "anonymous-component");
-      if(!this.component.props) {
-        this.component.props = {};
-      }
-      if(!this.component.methods) {
-        this.component.methods = {};
-      }
-      if(!this.component.data) {
-        this.component.data = function() {
-          return {};
-        };
-      }
+      assertion(typeof this.component === "object", "Parameter «component» must be a object on «NwtBoxViewer.methods.validateComponent»");
       assertion(typeof this.component.name === "string", "Parameter «component.name» must be a string on «NwtBoxViewer.methods.validateComponent»");
       assertion(typeof this.component.template === "string", "Parameter «component.template» must be a string on «NwtBoxViewer.methods.validateComponent»");
-      assertion(typeof this.component.props === "object", "Parameter «component.props» must be an object on «NwtBoxViewer.methods.validateComponent»");
       assertion(typeof this.component.methods === "object", "Parameter «component.methods» must be an object on «NwtBoxViewer.methods.validateComponent»");
       assertion(typeof this.component.data === "function", "Parameter «component.data» must be a function on «NwtBoxViewer.methods.validateComponent»");
     },
     registerComponent() {
-      Vue.component(this.componentId, this.component);
+      Vue.component(this.component.name, this.component);
     },
     unregisterComponent() {
-      delete Vue.options.components[this.componentId];
+      delete Vue.options.components[this.component.name];
     }
   },
 
@@ -19270,11 +19358,11 @@ Vue.component("NwtBoxViewer", {
 });
 
 
-// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.css
+// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.css
 
-// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.html
+// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.html
 
-// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.js
+// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.js
 /**
  * 
  * # Nwt Process Manager Viewer API / Componente Vue2
@@ -19324,51 +19412,54 @@ Vue.component("NwtProcessManagerViewer", {
             </template>
             <template v-else>
                 <div class="pad_bottom_1">Hay {{ processManager.\$list.length }} diálogos abiertos actualmente:</div>
-                <div v-for="dialogProcess, dialogProcessIndex in processManager.\$list"
+                <div class=""
+                    v-for="dialogProcess, dialogProcessIndex in processManager.\$list"
                     v-bind:key="'process_item_' + dialogProcessIndex">
                     <div class="card">
-                        <table class="width_100">
-                            <tr>
-                                <td style="width: 20%;">
-                                    <div class="title">PID:</div>
-                                </td>
-                                <td>
-                                    <div class="">{{ dialogProcess.\$id }}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="title">Creado en:</div>
-                                </td>
-                                <td>
-                                    <div class="">{{ \$nwt.Timer.fromDateToString(dialogProcess.\$createdAt) }}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="title">Padre:</div>
-                                </td>
-                                <td>
-                                    <div class="">{{ dialogProcess.\$parent }}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="title">Gestor:</div>
-                                </td>
-                                <td>
-                                    <div class="">{{ dialogProcess.\$manager?.\$id }}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="title">Hijos:</div>
-                                </td>
-                                <td>
-                                    <div class="">{{ dialogProcess.\$children.length }}</div>
-                                </td>
-                            </tr>
-                        </table>
+                        <div class="pad_1">
+                            <table class="width_100">
+                                <tr>
+                                    <td style="width: 20%;">
+                                        <div class="title">PID:</div>
+                                    </td>
+                                    <td>
+                                        <div class="">{{ dialogProcess.\$id }}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="title">Creado en:</div>
+                                    </td>
+                                    <td>
+                                        <div class="">{{ \$nwt.Timer.fromDateToString(dialogProcess.\$createdAt) }}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="title">Padre:</div>
+                                    </td>
+                                    <td>
+                                        <div class="">{{ dialogProcess.\$parent?.id }}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="title">Gestor:</div>
+                                    </td>
+                                    <td>
+                                        <div class="">{{ dialogProcess.\$manager?.\$id }}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="title">Hijos:</div>
+                                    </td>
+                                    <td>
+                                        <div class="">{{ dialogProcess.\$children.length }}</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </template>
@@ -19411,11 +19502,11 @@ Vue.component("NwtProcessManagerViewer", {
 });
 
 
-// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.css
+// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.css
 
-// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
+// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
 
-// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
+// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
 /**
  * 
  * 
@@ -19429,6 +19520,9 @@ Vue.component("MainWindow", {
         <div class="card">
             <div class="pad_bottom_1">
                 <button class="width_100 text_align_left" ref="btn1" v-on:click="demoDialog">Mostrar diálogo de ejemplo</button>
+            </div>
+            <div class="pad_bottom_1">
+                <button class="width_100 text_align_left" ref="btn1" v-on:click="demoNestedDialogs">Mostrar diálogos anidados de ejemplo</button>
             </div>
             <div class="pad_bottom_1">
                 <button class="width_100 text_align_left" v-on:click="demoToast">Mostrar toast de
@@ -19560,6 +19654,32 @@ Vue.component("MainWindow", {
           <b>Usando marcado</b>, esto debería ser siempre un componente aparte.
         </div>`,
       });
+    },
+    demoNestedDialogs() {
+      this.$dialogs.open({
+        title: "Diálogo 1",
+        template: `<div>
+          <div>Para abrir un diálogo hijo:</div>
+          <div>
+            <button v-on:click="demoChild">Abrir</button>
+          </div>
+        </div>`,
+        factory: {
+          data: {
+            children: 0,
+          },
+          methods: {
+            demoChild() {
+              this.subdialog({
+                title: "Hijo " + (++this.children),
+                template: `<div>
+                  <div>Esto es un diálogo hijo</div>
+                </div>`
+              });
+            }
+          }
+        }
+      })
     }
   },
   mounted() {
@@ -19569,4 +19689,4 @@ Vue.component("MainWindow", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css
+// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css
