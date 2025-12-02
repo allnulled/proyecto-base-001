@@ -21,18 +21,23 @@
  * ```js
  * Object.assign(NwtFramework, {
  *   // BOOT
- *   Settings: NwtSettings,
- *   Timer: NwtTimer,
- *   Utils: NwtUtils,
  *   Asserter: NwtAsserter,
- *   Randomizer: NwtRandomizer,
+ *   Globalizer: NwtGlobalizer,
  *   Importer: NwtImporter,
  *   LazyLoader: NwtLazyLoader,
- *   Globalizer: NwtGlobalizer,
+ *   ProcessManager: NwtProcessManager,
+ *   Process: NwtProcess,
+ *   ProgressBar: NwtProgressBar,
+ *   Randomizer: NwtRandomizer,
+ *   Settings: NwtSettings,
  *   Tester: NwtTester,
- *   Errors: NwtErrors,
- *   Dialogs: NwtDialogs,
- *   Toasts: NwtToasts,
+ *   Timer: NwtTimer,
+ *   Utils: NwtUtils,
+ *   Tracer: NwtTracer,
+ *   // Injected later:
+ *   Errors: null,
+ *   Dialogs: null,
+ *   Toasts: null,
  *   // PACK
  * });
  * ```
