@@ -55,6 +55,28 @@ Con este otro comando, compilas el código fuente:
 npm run build
 ```
 
+Esto produce los 2 ficheros que te interesan porque recogen todo el framework:
+
+- `assets/dist.css`
+- `assets/dist.js`
+
+Estos son los ficheros que tienes que incluir en cualquier proyecto para importar:
+
+- `win7.css` - para estilos
+- `vue2.js` - para plantillas
+- `socket-io.client.js` - para refrescar automático
+- `reloader` - para refrescar, proyecto embedido
+- `nwt` - todas las APIs
+
+Concretamente, puedes saberlo mejor en:
+
+- `assets/builder/bundlelist.js` - lista de ficheros del framework, por orden
+
+Esto se compila con:
+
+- `assets/builder/bundle.js` que utiliza a
+- `assets/builder/vuebundler.js`
+
 ## Comando para modo desarrollo
 
 Para el modo desarrollo necesitas 3 consolas abiertas.
@@ -84,3 +106,8 @@ Para volver a construir la documentación:
 ```sh
 npm run build:docs
 ```
+
+Esto utiliza:
+
+- `assets/builder/build-docs.js` que por debajo usará
+- [`@allnulled/javadoc-brute`](https://github.com/allnulled/javadoc-brute)
