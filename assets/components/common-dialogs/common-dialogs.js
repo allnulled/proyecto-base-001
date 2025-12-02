@@ -64,6 +64,14 @@ Vue.component("CommonDialogs", {
         it.dialog.deepness--;
       }
       currentProcess.dialog.deepness = 101;
+    },
+    minimizeDialog(currentProcess) {
+      trace("CommonDialogs.methods.minimizeDialog");
+      currentProcess.hide();
+    },
+    maximizeDialog(currentProcess) {
+      trace("CommonDialogs.methods.maximizeDialog");
+      currentProcess.show();
     }
   },
   mounted() {

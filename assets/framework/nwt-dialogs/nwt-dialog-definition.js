@@ -93,6 +93,7 @@
             state: that.$state,
             process: that.$process,
             definition: that,
+            isMinimized: false,
           });
           return finalData;
         }
@@ -109,14 +110,24 @@
               this.value = val;
             }
             this.state.resolve(this.value);
+            const processPromise = this.state.promise;
             this.process.close();
-            return this.state.promise;
+            return processPromise;
           },
-          close: function() {
-            trace("NwtDialogDefinition.$factory.methods.close");
+          cancel: function() {
+            trace("NwtDialogDefinition.$factory.methods.cancel");
             this.state.resolve(undefined);
+            const processPromise = this.state.promise;
             this.process.close();
-            return this.state.promise;
+            return processPromise;
+          },
+          minimize: function() {
+            trace("NwtDialogDefinition.$factory.methods.minimize");
+            this.isMinimized = true;
+          },
+          maximize: function() {
+            trace("NwtDialogDefinition.$factory.methods.maximize");
+            this.isMinimized = false;
           }
         });
       }

@@ -1,5 +1,6 @@
 module.exports = [
   `${__dirname}/../framework/win7/win7.css`,
+  `${__dirname}/../framework/win7/win7-patches.css`,
   `${__dirname}/../css/one-framework/one-framework.css`,
   `${__dirname}/../css/custom/custom.css`,
   `${__dirname}/../framework/vue2/vue2.js`,

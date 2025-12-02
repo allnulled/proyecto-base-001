@@ -54,7 +54,7 @@
 
     // Devuelve un ítem aleatorio de la lista
     static fromList(list) {
-      trace("NwtRandomizer.fromList");
+      // trace("NwtRandomizer.fromList");
       if (!Array.isArray(list)) {
         throw new TypeError("list debe ser un array");
       }

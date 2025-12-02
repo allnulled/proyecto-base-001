@@ -55,6 +55,13 @@ Vue.component("NwtProcessManagerViewer", {
       setTimeout(() => {
         this.isLoaded = true;
       }, 0);
+    },
+    toggleProcess(currentProcess) {
+      if(currentProcess.$isHidden) {
+        currentProcess.show();
+      } else {
+        currentProcess.hide();
+      }
     }
   },
 

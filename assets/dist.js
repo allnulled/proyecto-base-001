@@ -1,11 +1,13 @@
 
 // @vuebundler[Proyecto_base_001][0]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/win7/win7.css
 
-// @vuebundler[Proyecto_base_001][1]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/one-framework/one-framework.css
+// @vuebundler[Proyecto_base_001][1]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/win7/win7-patches.css
 
-// @vuebundler[Proyecto_base_001][2]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/custom/custom.css
+// @vuebundler[Proyecto_base_001][2]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/one-framework/one-framework.css
 
-// @vuebundler[Proyecto_base_001][3]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/vue2/vue2.js
+// @vuebundler[Proyecto_base_001][3]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/custom/custom.css
+
+// @vuebundler[Proyecto_base_001][4]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/vue2/vue2.js
 /*!
  * Vue.js v2.7.16
  * (c) 2014-2023 Evan You
@@ -11940,7 +11942,7 @@
 }));
 
 
-// @vuebundler[Proyecto_base_001][4]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/socket.io-client/socket.io-client.js
+// @vuebundler[Proyecto_base_001][5]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/socket.io-client/socket.io-client.js
 /*!
  * Socket.IO v4.8.1
  * (c) 2014-2024 Guillermo Rauch
@@ -16851,7 +16853,7 @@
 
 
 
-// @vuebundler[Proyecto_base_001][5]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/reloader/reloadable.js
+// @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/reloader/reloadable.js
 // @code.start: LswReloadable injection | @$section: LswReloader API » LswReloadable injection
 const serverUrl = 'http://127.0.0.1';
 const serverPort = 3000;
@@ -16865,7 +16867,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 }
 // @code.end: LswReloadable injection
 
-// @vuebundler[Proyecto_base_001][6]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-boot.js
+// @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-boot.js
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -16889,7 +16891,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][7]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tracer.js
+// @vuebundler[Proyecto_base_001][8]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tracer.js
 /**
  * 
  * # Nwt Tracer API
@@ -16987,7 +16989,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][8]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-asserter.js
+// @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-asserter.js
 /**
  * 
  * # Nwt Asserter API
@@ -17106,7 +17108,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][9]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-dialogs/nwt-dialog-definition.js
+// @vuebundler[Proyecto_base_001][10]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-dialogs/nwt-dialog-definition.js
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -17202,6 +17204,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
             state: that.$state,
             process: that.$process,
             definition: that,
+            isMinimized: false,
           });
           return finalData;
         }
@@ -17218,14 +17221,24 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
               this.value = val;
             }
             this.state.resolve(this.value);
+            const processPromise = this.state.promise;
             this.process.close();
-            return this.state.promise;
+            return processPromise;
           },
-          close: function() {
-            trace("NwtDialogDefinition.$factory.methods.close");
+          cancel: function() {
+            trace("NwtDialogDefinition.$factory.methods.cancel");
             this.state.resolve(undefined);
+            const processPromise = this.state.promise;
             this.process.close();
-            return this.state.promise;
+            return processPromise;
+          },
+          minimize: function() {
+            trace("NwtDialogDefinition.$factory.methods.minimize");
+            this.isMinimized = true;
+          },
+          maximize: function() {
+            trace("NwtDialogDefinition.$factory.methods.maximize");
+            this.isMinimized = false;
           }
         });
       }
@@ -17296,7 +17309,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][10]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-importer.js
+// @vuebundler[Proyecto_base_001][11]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-importer.js
 /**
  * 
  * # Nwt Importer API
@@ -17368,7 +17381,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][11]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-lazy-loader.js
+// @vuebundler[Proyecto_base_001][12]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-lazy-loader.js
 /**
  * 
  * # Nwt Lazy Loader API
@@ -17450,7 +17463,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][12]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-settings.js
+// @vuebundler[Proyecto_base_001][13]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-settings.js
 /**
  * 
  * # Nwt Settings API
@@ -17496,7 +17509,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][13]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-utils.js
+// @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-utils.js
 /**
  * 
  * # Nwt Utils API
@@ -17559,7 +17572,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-timer.js
+// @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-timer.js
 /**
  * 
  * # Nwt Timer API
@@ -17655,7 +17668,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-randomizer.js
+// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-randomizer.js
 /**
  * 
  * # Nwt Randomizer API
@@ -17712,7 +17725,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
     // Devuelve un ítem aleatorio de la lista
     static fromList(list) {
-      trace("NwtRandomizer.fromList");
+      // trace("NwtRandomizer.fromList");
       if (!Array.isArray(list)) {
         throw new TypeError("list debe ser un array");
       }
@@ -17744,7 +17757,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-progress-bar.js
+// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-progress-bar.js
 /**
  * 
  * # Nwt Progress Bar API
@@ -17858,7 +17871,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-globalizer.js
+// @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-globalizer.js
 /**
  * 
  * # Nwt Globalizer API
@@ -17918,7 +17931,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tester.js
+// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tester.js
 /**
  * 
  * # Nwt Tester API
@@ -18250,7 +18263,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-process.js
+// @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-process.js
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -18267,10 +18280,12 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
   const NwtProcess = class {
 
     static create(...args) {
+      trace("NwtProcess.create");
       return new this(...args);
     }
 
     constructor(options = {}) {
+      trace("NwtProcess.constructor");
       this.$id = (options.id || "Sin título") + " - " + NwtRandomizer.fromAlphabet(10);
       this.$manager = options.manager || null;
       delete options.manager;
@@ -18279,12 +18294,14 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
       this.$children = [];
       this.$createdAt = new Date();
       this.$closedAt = null;
+      this.$isHidden = false;
       Object.assign(this, options);
       this._addToProcessManager();
       this._addToParentProcess();
     }
 
     close() {
+      trace("NwtProcess.prototype.close");
       if (this.$closedAt) return; // Ya cerrado, sin repetir
       // 1. Cerrar hijos primero
       for (const child of [...this.$children]) {
@@ -18306,24 +18323,38 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
     }
 
     _addToProcessManager() {
+      trace("NwtProcess.prototype._addToProcessManager");
       this.$manager.$list.push(this);
     }
 
     _addToParentProcess() {
+      trace("NwtProcess.prototype._addToParentProcess");
       if (this.$parent) {
         this.$parent.$children.push(this);
       }
     }
 
     expand(obj) {
+      trace("NwtProcess.prototype.expand");
       return Object.assign(this, obj);
     }
 
     createSubprocess() {
+      trace("NwtProcess.prototype.createSubprocess");
       return new this({
         manager: this.$manager,
         parent: this,
       });
+    }
+
+    hide() {
+      trace("NwtProcess.prototype.hide");
+      this.$isHidden = true;
+    }
+
+    show() {
+      trace("NwtProcess.prototype.show");
+      this.$isHidden = false;
     }
 
   };
@@ -18332,7 +18363,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-process-manager.js
+// @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-process-manager.js
 /**
  * 
  * # NwtProcessManager
@@ -18403,7 +18434,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js
+// @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js
 /**
  * 
  * # Nwt Framework API
@@ -18470,7 +18501,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 })();
 
-// @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-injection.js
+// @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-injection.js
 /**
  * 
  * # Nwt Injection API
@@ -18504,7 +18535,7 @@ window.addEventListener("load", function () {
     }).$mount("#app");
 });
 
-// @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/directives/v-resizable.js
+// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/directives/v-resizable.js
 /**
  * 
  * # Nwt V-Resizable Directive - Vue directive
@@ -18531,7 +18562,7 @@ Vue.directive("resizable", {
 })
 
 
-// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/directives/v-draggable.js
+// @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/directives/v-draggable.js
 Vue.directive("draggable", {
   inserted(el) {
     let startX = 0;
@@ -18571,7 +18602,7 @@ Vue.directive("draggable", {
 });
 
 
-// @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/directives/v-autocenter.js
+// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/directives/v-autocenter.js
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -18617,9 +18648,9 @@ Vue.directive("draggable", {
 
 });
 
-// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html
+// @vuebundler[Proyecto_base_001][27]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html
 
-// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js
+// @vuebundler[Proyecto_base_001][27]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js
 /**
  * 
  * # Nwt Dialogs API
@@ -18662,7 +18693,8 @@ Vue.directive("draggable", {
  */
 Vue.component("CommonDialogs", {
   template: `<div class="common_dialogs_container">
-    <div class="common_dialogs_container_2" v-if="processManager.\$list.length">
+    <div class="common_dialogs_container_2"
+        v-if="processManager.\$list.length">
         <template v-for="processItem, processIndex in processManager.\$list">
             <div class="window common_dialogs_window"
                 v-autocenter
@@ -18670,11 +18702,16 @@ Vue.component("CommonDialogs", {
                 v-draggable
                 v-on:mousedown="() => focusDialog(processItem)"
                 v-bind:key="'processItem_' + processItem.\$id"
-                :style="{zIndex:processItem.dialog?.deepness}">
+                :style="{zIndex:processItem.dialog?.deepness}"
+                v-if="!processItem.\$isHidden">
                 <div class="title-bar drag-handle">
                     <div class="title-bar-text drag-handle">{{ processItem.\$id }}</div>
                     <div class="title-bar-controls">
-                        <button class="drag-handle-excluded" aria-label="Close"
+                        <button class="drag-handle-excluded"
+                            aria-label="Minimize"
+                            v-on:click="() => minimizeDialog(processItem)"></button>
+                        <button class="drag-handle-excluded"
+                            aria-label="Close"
                             v-on:click="() => closeDialog(processItem)"></button>
                     </div>
                 </div>
@@ -18709,6 +18746,14 @@ Vue.component("CommonDialogs", {
         it.dialog.deepness--;
       }
       currentProcess.dialog.deepness = 101;
+    },
+    minimizeDialog(currentProcess) {
+      trace("CommonDialogs.methods.minimizeDialog");
+      currentProcess.hide();
+    },
+    maximizeDialog(currentProcess) {
+      trace("CommonDialogs.methods.maximizeDialog");
+      currentProcess.show();
     }
   },
   mounted() {
@@ -18719,11 +18764,11 @@ Vue.component("CommonDialogs", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css
+// @vuebundler[Proyecto_base_001][27]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css
 
-// @vuebundler[Proyecto_base_001][27]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html
+// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html
 
-// @vuebundler[Proyecto_base_001][27]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js
+// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js
 /**
  * 
  * # Nwt Toasts API
@@ -18834,11 +18879,11 @@ Vue.component("CommonToasts", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][27]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css
+// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css
 
-// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html
+// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html
 
-// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js
+// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js
 /**
  * 
  * # Nwt Errors API
@@ -18888,10 +18933,12 @@ Vue.component("CommonErrors", {
                 <div class="window_box pad_1">
                     <div>
                         <div>Selecciona un error:</div>
+                        <hr />
                         <div>
                             <div class="display_inline_block pad_right_1 pad_bottom_1">
                                 <button class=""
                                     :class="{active: selectedError === -1}"
+                                    style="min-width: 10px;"
                                     v-on:click="() => selectedError = -1">
                                     *
                                 </button>
@@ -18906,16 +18953,16 @@ Vue.component("CommonErrors", {
                                 </button>
                             </div>
                         </div>
-                        <hr />
                     </div>
                     <div class="intermediate_row" v-if="(selectedError === -1) && (activeErrors.length > 1)">
-                        <button class="width_100" v-on:click="copyAllErrorsToClipboard">📄 Copiar todos los errores</button>
                         <hr />
+                        <button class="width_100" v-on:click="copyAllErrorsToClipboard">📄 Copiar todos los errores</button>
                     </div>
                     <div class="error_panel_container" 
                         v-show="(selectedError === errorIndex) || (selectedError === -1)"
                         v-bind:key="'error_panel_' + errorIndex"
                         v-for="error, errorIndex in activeErrors">
+                        <hr />
                         <div class="error_panel">
                             <div class="error_name">
                                 <div class="flex_row centered">
@@ -19022,11 +19069,11 @@ Vue.component("CommonErrors", {
 
 
 
-// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css
+// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css
 
-// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.html
+// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.html
 
-// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js
+// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js
 /**
  * 
  * # Nwt Tester Viewer API / Componente Vue2
@@ -19111,11 +19158,11 @@ Vue.component("NwtTesterViewer", {
 });
 
 
-// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.css
+// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.css
 
-// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.html
+// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.html
 
-// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.js
+// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.js
 Vue.component("NwtTesterNode", {
   template: `<div class="nwt_tester_node">
     <template v-if="node instanceof \$nwt.Tester.Assertion">
@@ -19211,11 +19258,11 @@ Vue.component("NwtTesterNode", {
 });
 
 
-// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.css
+// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.css
 
-// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.html
+// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.html
 
-// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.js
+// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.js
 /**
  * 
  * # Nwt Progress Bar Viewer API / Componente Vue2
@@ -19277,11 +19324,11 @@ Vue.component("NwtProgressBarViewer", {
 });
 
 
-// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.css
+// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.css
 
-// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.html
+// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.html
 
-// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.js
+// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.js
 /**
  * 
  * # Nwt Box Viewer API / Componente Vue2
@@ -19358,11 +19405,11 @@ Vue.component("NwtBoxViewer", {
 });
 
 
-// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.css
+// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.css
 
-// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.html
+// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.html
 
-// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.js
+// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.js
 /**
  * 
  * # Nwt Process Manager Viewer API / Componente Vue2
@@ -19412,56 +19459,46 @@ Vue.component("NwtProcessManagerViewer", {
             </template>
             <template v-else>
                 <div class="pad_bottom_1">Hay {{ processManager.\$list.length }} diálogos abiertos actualmente:</div>
-                <div class=""
-                    v-for="dialogProcess, dialogProcessIndex in processManager.\$list"
-                    v-bind:key="'process_item_' + dialogProcessIndex">
-                    <div class="card">
-                        <div class="pad_1">
-                            <table class="width_100">
-                                <tr>
-                                    <td style="width: 20%;">
-                                        <div class="title">PID:</div>
-                                    </td>
-                                    <td>
-                                        <div class="">{{ dialogProcess.\$id }}</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="title">Creado en:</div>
-                                    </td>
-                                    <td>
-                                        <div class="">{{ \$nwt.Timer.fromDateToString(dialogProcess.\$createdAt) }}</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="title">Padre:</div>
-                                    </td>
-                                    <td>
-                                        <div class="">{{ dialogProcess.\$parent?.id }}</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="title">Gestor:</div>
-                                    </td>
-                                    <td>
-                                        <div class="">{{ dialogProcess.\$manager?.\$id }}</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="title">Hijos:</div>
-                                    </td>
-                                    <td>
-                                        <div class="">{{ dialogProcess.\$children.length }}</div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                <table class="width_100">
+                    <thead>
+                        <tr>
+                            <th>PID</th>
+                            <th>Creado:</th>
+                            <th style="width:60px;">Padre:</th>
+                            <th>Gestor:</th>
+                            <th style="width:60px;">Hijos:</th>
+                            <th style="width:40px;"></th>
+                            <th style="width:40px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class=""
+                            v-for="dialogProcess, dialogProcessIndex in processManager.\$list"
+                            v-bind:key="'process_item_' + dialogProcessIndex">
+                            <td>
+                                <div class="" :title="dialogProcess.\$id">{{ dialogProcess.\$id }}</div>
+                            </td>
+                            <td>
+                                <div class="" :title="\$nwt.Timer.fromDateToString(dialogProcess.\$createdAt)">{{ \$nwt.Timer.fromDateToString(dialogProcess.\$createdAt) }}</div>
+                            </td>
+                            <td>
+                                <div class="" :title="dialogProcess.\$parent?.\$id">{{ dialogProcess.\$parent?.\$id }}</div>
+                            </td>
+                            <td>
+                                <div class="" :title="dialogProcess.\$manager?.\$id">{{ dialogProcess.\$manager?.\$id }}</div>
+                            </td>
+                            <td>
+                                <div class="" :title="dialogProcess.\$children.length">{{ dialogProcess.\$children.length }}</div>
+                            </td>
+                            <td>
+                                <button class="mini" v-on:click="() => toggleProcess(dialogProcess)">{{ dialogProcess.\$isHidden ? "➕" : "➖" }}</button>
+                            </td>
+                            <td>
+                                <button class="mini" v-on:click="() => dialogProcess.close()">❌</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </template>
         </template>
         <template v-else>
@@ -19491,6 +19528,13 @@ Vue.component("NwtProcessManagerViewer", {
       setTimeout(() => {
         this.isLoaded = true;
       }, 0);
+    },
+    toggleProcess(currentProcess) {
+      if(currentProcess.$isHidden) {
+        currentProcess.show();
+      } else {
+        currentProcess.hide();
+      }
     }
   },
 
@@ -19502,11 +19546,11 @@ Vue.component("NwtProcessManagerViewer", {
 });
 
 
-// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.css
+// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.css
 
-// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
+// @vuebundler[Proyecto_base_001][35]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
 
-// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
+// @vuebundler[Proyecto_base_001][35]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
 /**
  * 
  * 
@@ -19689,4 +19733,4 @@ Vue.component("MainWindow", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css
+// @vuebundler[Proyecto_base_001][35]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css

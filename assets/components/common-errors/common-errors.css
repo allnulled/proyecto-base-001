@@ -32,7 +32,9 @@
     color: black;
 }
 .error_panel_container {
-    padding: 8px;
+    padding: 0px;
+    padding-left: 4px;
+    padding-right: 4px;
 }
 .error_panel {
     

@@ -13,10 +13,12 @@
                 <div class="window_box pad_1">
                     <div>
                         <div>Selecciona un error:</div>
+                        <hr />
                         <div>
                             <div class="display_inline_block pad_right_1 pad_bottom_1">
                                 <button class=""
                                     :class="{active: selectedError === -1}"
+                                    style="min-width: 10px;"
                                     v-on:click="() => selectedError = -1">
                                     *
                                 </button>
@@ -31,16 +33,16 @@
                                 </button>
                             </div>
                         </div>
-                        <hr />
                     </div>
                     <div class="intermediate_row" v-if="(selectedError === -1) && (activeErrors.length > 1)">
-                        <button class="width_100" v-on:click="copyAllErrorsToClipboard">📄 Copiar todos los errores</button>
                         <hr />
+                        <button class="width_100" v-on:click="copyAllErrorsToClipboard">📄 Copiar todos los errores</button>
                     </div>
                     <div class="error_panel_container" 
                         v-show="(selectedError === errorIndex) || (selectedError === -1)"
                         v-bind:key="'error_panel_' + errorIndex"
                         v-for="error, errorIndex in activeErrors">
+                        <hr />
                         <div class="error_panel">
                             <div class="error_name">
                                 <div class="flex_row centered">

@@ -14,10 +14,12 @@
   const NwtProcess = class {
 
     static create(...args) {
+      trace("NwtProcess.create");
       return new this(...args);
     }
 
     constructor(options = {}) {
+      trace("NwtProcess.constructor");
       this.$id = (options.id || "Sin título") + " - " + NwtRandomizer.fromAlphabet(10);
       this.$manager = options.manager || null;
       delete options.manager;
@@ -26,12 +28,14 @@
       this.$children = [];
       this.$createdAt = new Date();
       this.$closedAt = null;
+      this.$isHidden = false;
       Object.assign(this, options);
       this._addToProcessManager();
       this._addToParentProcess();
     }
 
     close() {
+      trace("NwtProcess.prototype.close");
       if (this.$closedAt) return; // Ya cerrado, sin repetir
       // 1. Cerrar hijos primero
       for (const child of [...this.$children]) {
@@ -53,24 +57,38 @@
     }
 
     _addToProcessManager() {
+      trace("NwtProcess.prototype._addToProcessManager");
       this.$manager.$list.push(this);
     }
 
     _addToParentProcess() {
+      trace("NwtProcess.prototype._addToParentProcess");
       if (this.$parent) {
         this.$parent.$children.push(this);
       }
     }
 
     expand(obj) {
+      trace("NwtProcess.prototype.expand");
       return Object.assign(this, obj);
     }
 
     createSubprocess() {
+      trace("NwtProcess.prototype.createSubprocess");
       return new this({
         manager: this.$manager,
         parent: this,
       });
+    }
+
+    hide() {
+      trace("NwtProcess.prototype.hide");
+      this.$isHidden = true;
+    }
+
+    show() {
+      trace("NwtProcess.prototype.show");
+      this.$isHidden = false;
     }
 
   };

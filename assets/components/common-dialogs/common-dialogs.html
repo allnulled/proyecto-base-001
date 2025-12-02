@@ -1,5 +1,6 @@
 <div class="common_dialogs_container">
-    <div class="common_dialogs_container_2" v-if="processManager.$list.length">
+    <div class="common_dialogs_container_2"
+        v-if="processManager.$list.length">
         <template v-for="processItem, processIndex in processManager.$list">
             <div class="window common_dialogs_window"
                 v-autocenter
@@ -7,11 +8,16 @@
                 v-draggable
                 v-on:mousedown="() => focusDialog(processItem)"
                 v-bind:key="'processItem_' + processItem.$id"
-                :style="{zIndex:processItem.dialog?.deepness}">
+                :style="{zIndex:processItem.dialog?.deepness}"
+                v-if="!processItem.$isHidden">
                 <div class="title-bar drag-handle">
                     <div class="title-bar-text drag-handle">{{ processItem.$id }}</div>
                     <div class="title-bar-controls">
-                        <button class="drag-handle-excluded" aria-label="Close"
+                        <button class="drag-handle-excluded"
+                            aria-label="Minimize"
+                            v-on:click="() => minimizeDialog(processItem)"></button>
+                        <button class="drag-handle-excluded"
+                            aria-label="Close"
                             v-on:click="() => closeDialog(processItem)"></button>
                     </div>
                 </div>

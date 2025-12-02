@@ -13,56 +13,46 @@
             </template>
             <template v-else>
                 <div class="pad_bottom_1">Hay {{ processManager.$list.length }} diálogos abiertos actualmente:</div>
-                <div class=""
-                    v-for="dialogProcess, dialogProcessIndex in processManager.$list"
-                    v-bind:key="'process_item_' + dialogProcessIndex">
-                    <div class="card">
-                        <div class="pad_1">
-                            <table class="width_100">
-                                <tr>
-                                    <td style="width: 20%;">
-                                        <div class="title">PID:</div>
-                                    </td>
-                                    <td>
-                                        <div class="">{{ dialogProcess.$id }}</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="title">Creado en:</div>
-                                    </td>
-                                    <td>
-                                        <div class="">{{ $nwt.Timer.fromDateToString(dialogProcess.$createdAt) }}</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="title">Padre:</div>
-                                    </td>
-                                    <td>
-                                        <div class="">{{ dialogProcess.$parent?.id }}</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="title">Gestor:</div>
-                                    </td>
-                                    <td>
-                                        <div class="">{{ dialogProcess.$manager?.$id }}</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="title">Hijos:</div>
-                                    </td>
-                                    <td>
-                                        <div class="">{{ dialogProcess.$children.length }}</div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                <table class="width_100">
+                    <thead>
+                        <tr>
+                            <th>PID</th>
+                            <th>Creado:</th>
+                            <th style="width:60px;">Padre:</th>
+                            <th>Gestor:</th>
+                            <th style="width:60px;">Hijos:</th>
+                            <th style="width:40px;"></th>
+                            <th style="width:40px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class=""
+                            v-for="dialogProcess, dialogProcessIndex in processManager.$list"
+                            v-bind:key="'process_item_' + dialogProcessIndex">
+                            <td>
+                                <div class="" :title="dialogProcess.$id">{{ dialogProcess.$id }}</div>
+                            </td>
+                            <td>
+                                <div class="" :title="$nwt.Timer.fromDateToString(dialogProcess.$createdAt)">{{ $nwt.Timer.fromDateToString(dialogProcess.$createdAt) }}</div>
+                            </td>
+                            <td>
+                                <div class="" :title="dialogProcess.$parent?.$id">{{ dialogProcess.$parent?.$id }}</div>
+                            </td>
+                            <td>
+                                <div class="" :title="dialogProcess.$manager?.$id">{{ dialogProcess.$manager?.$id }}</div>
+                            </td>
+                            <td>
+                                <div class="" :title="dialogProcess.$children.length">{{ dialogProcess.$children.length }}</div>
+                            </td>
+                            <td>
+                                <button class="mini" v-on:click="() => toggleProcess(dialogProcess)">{{ dialogProcess.$isHidden ? "➕" : "➖" }}</button>
+                            </td>
+                            <td>
+                                <button class="mini" v-on:click="() => dialogProcess.close()">❌</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </template>
         </template>
         <template v-else>
