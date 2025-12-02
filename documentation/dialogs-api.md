@@ -39,3 +39,5 @@ const respuesta = await CommonDialogs.open({
 });
 ```
 
+Este componente, que se inyecta en el root de la aplicación, inyecta un evento para CTRL+SUPR que muestra un `NwtProcessManagerViewer` mediante un diálogo.
+

@@ -37,6 +37,8 @@
  * });
  * ```
  * 
+ * Este componente, que se inyecta en el root de la aplicación, inyecta un evento para CTRL+SUPR que muestra un `NwtProcessManagerViewer` mediante un diálogo.
+ * 
  */
 Vue.component("CommonDialogs", {
   template: $template,
@@ -45,6 +47,7 @@ Vue.component("CommonDialogs", {
     trace("CommonDialogs.data");
     return {
       processManager: NwtProcessManager.dialogs,
+      isLoaded: false,
     };
   },
   methods: {
@@ -72,6 +75,21 @@ Vue.component("CommonDialogs", {
     maximizeDialog(currentProcess) {
       trace("CommonDialogs.methods.maximizeDialog");
       currentProcess.show();
+    },
+    injectGlobalCtrlSuprEvent() {
+      trace("CommonDialogs.methods.injectGlobalCtrlSuprEvent");
+      if (!this.isLoaded) {
+        window.addEventListener("keydown", (e) => {
+          if (e.ctrlKey && e.key === "Delete") {
+            this.open({
+              title: "Procesos activos",
+              template: `<div>
+                <nwt-process-manager-viewer />
+              </div>`,
+            });
+          }
+        });
+      }
     }
   },
   mounted() {
@@ -79,5 +97,7 @@ Vue.component("CommonDialogs", {
     NwtGlobalizer.exportTo("CommonDialogs", this);
     NwtGlobalizer.exportTo("NwtDialogs", this);
     Vue.prototype.$dialogs = this;
+    this.injectGlobalCtrlSuprEvent();
+    this.isLoaded = true;
   }
 })

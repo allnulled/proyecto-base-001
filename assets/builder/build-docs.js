@@ -43,6 +43,22 @@ const main = async function() {
       to: `${PROJECT_ROOT}/documentation/tester-api.md`
     },
     {
+      from: [`${PROJECT_ROOT}/assets/framework/nwt-process.js`],
+      to: `${PROJECT_ROOT}/documentation/process-api.md`
+    },
+    {
+      from: [`${PROJECT_ROOT}/assets/framework/nwt-process-manager.js`],
+      to: `${PROJECT_ROOT}/documentation/process-manager-api.md`
+    },
+    {
+      from: [`${PROJECT_ROOT}/assets/framework/nwt-process-manager-viewer.js`],
+      to: `${PROJECT_ROOT}/documentation/process-manager-viewer-api.md`
+    },
+    {
+      from: [`${PROJECT_ROOT}/assets/framework/nwt-dialog-definition.js`],
+      to: `${PROJECT_ROOT}/documentation/dialog-definition-api.md`
+    },
+    {
       from: [`${PROJECT_ROOT}/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js`],
       to: `${PROJECT_ROOT}/documentation/tester-viewer-api.md`
     },
@@ -69,6 +85,14 @@ const main = async function() {
     {
       from: [`${PROJECT_ROOT}/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.js`],
       to: `${PROJECT_ROOT}/documentation/progress-bar-viewer-api.md`
+    },
+    {
+      from: [`${PROJECT_ROOT}/assets/directives/v-draggable.js`],
+      to: `${PROJECT_ROOT}/documentation/v-draggable-api.md`
+    },
+    {
+      from: [`${PROJECT_ROOT}/assets/directives/v-resizable.js`],
+      to: `${PROJECT_ROOT}/documentation/v-resizable-api.md`
     },
     {
       from: [`${PROJECT_ROOT}/assets/framework/nwt-injection.js`],

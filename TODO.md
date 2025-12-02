@@ -4,5 +4,9 @@
    - [x] Que se cierre el que toca
    - [ ] Que haga un offset de movimiento para que no se vean todas naciendo con la misma forma y posición
    - [ ] Que memorice la última posición y dimensiones al dropear la zona draggable
-   - [ ] Que cierre hijos cuando cierra un padre
-   - [ ] Que se pueda ver el árbol en el ProcessViewer de Dialogs
+   - [x] Que cierre hijos cuando cierra un padre
+   - [I] Que se pueda ver el árbol en el ProcessViewer de Dialogs
+   - [ ] Que se pueda acceder con CTRL+SUPR a un process viewer en un diálogo
+      - [ ] Que desde el CommonDialogs se inyecte un evento
+      - [ ] Que se inyecte un evento en el document.body que capture el caso CTRL+SUPR
+      - [ ] Que ese evento inicie un diálogo con el ProcessManagerViewer de dialogos

@@ -1,6 +1,6 @@
 # Nwt Progress Bar API
 
-API para gestionar aleatoriedad.
+API para gestionar una barra de progreso.
 
 ## Exposición
 

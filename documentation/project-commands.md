@@ -6,20 +6,40 @@ Los comandos de proyecto son:
 
 - [Nwt Project Commands](#nwt-project-commands)
 - [Índice](#índice)
-  - [Comando 1: iniciar interfaz gráfica](#comando-1-iniciar-interfaz-gráfica)
-  - [Comando 2: compilar los fuentes](#comando-2-compilar-los-fuentes)
-  - [Comando 3: modo desarrollo](#comando-3-modo-desarrollo)
-  - [Comando 4: compilar la documentación](#comando-4-compilar-la-documentación)
+  - [Comando para iniciar servidor](#comando-para-iniciar-servidor)
+  - [Comando para iniciar interfaz gráfica](#comando-para-iniciar-interfaz-gráfica)
+  - [Comando para compilar los fuentes](#comando-para-compilar-los-fuentes)
+  - [Comando para modo desarrollo](#comando-para-modo-desarrollo)
+  - [Comando para compilar la documentación](#comando-para-compilar-la-documentación)
 
-## Comando 1: iniciar interfaz gráfica
+## Comando para iniciar servidor
+
+Si no tienes `nw.js` puedes utilizar un servidor con:
+
+```sh
+npm run ui:server
+```
+
+Este comando utiliza por debajo:
+
+- [`npx`](https://docs.npmjs.com/cli/v8/commands/npx) que viene instalado con `npm`
+- [`npx http-server`](https://www.npmjs.com/package/http-server)
+
+Así que deberían estar accesibles directamente desde línea de comandos.
+
+## Comando para iniciar interfaz gráfica
 
 Con este otro comando, arrancas la aplicación con `nw.js`:
 
 ```sh
-npm start
+npm run ui:desktop
 ```
 
-Este comando requiere de tener `nw` accesible desde línea de comandos.
+Este comando utiliza por debajo:
+
+- [`nw.js`](https://nwjs.io/)
+
+Así que debería estar accesible desde línea de comandos como (`nw`).
 
 Opcionalmente, si quieres personalizar la ruta de `nw`, puedes cambiar el valor de este comando en el `package.json`:
 
@@ -27,7 +47,7 @@ Opcionalmente, si quieres personalizar la ruta de `nw`, puedes cambiar el valor 
 npm run ui:own
 ```
 
-## Comando 2: compilar los fuentes
+## Comando para compilar los fuentes
 
 Con este otro comando, compilas el código fuente:
 
@@ -35,7 +55,7 @@ Con este otro comando, compilas el código fuente:
 npm run build
 ```
 
-## Comando 3: modo desarrollo
+## Comando para modo desarrollo
 
 Para el modo desarrollo necesitas 3 consolas abiertas.
 
@@ -57,7 +77,7 @@ La tercera consola sería para arrancar la interfaz gráfica:
 npm start
 ```
 
-## Comando 4: compilar la documentación
+## Comando para compilar la documentación
 
 Para volver a construir la documentación:
 

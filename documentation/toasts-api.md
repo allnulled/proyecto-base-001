@@ -19,8 +19,8 @@ Vue.prototype.$toasts
 ```js
 CommonToasts.show({
   title: "Titulo",
-  text: "texto",
-  footer: "Pie de texto opcional",
+  template: "<div>Aquí va HTML</div>",
+  footer: "Pie de templateo opcional",
   timeout: 5000,
 });
 ```

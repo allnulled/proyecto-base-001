@@ -25,3 +25,7 @@
 .window.common_dialogs_window {
 
 }
+
+.window.common_dialogs_window .title-bar-text {
+    cursor: default;
+}

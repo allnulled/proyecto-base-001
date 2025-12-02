@@ -3,7 +3,6 @@
         v-if="processManager.$list.length">
         <template v-for="processItem, processIndex in processManager.$list">
             <div class="window common_dialogs_window"
-                v-autocenter
                 v-resizable
                 v-draggable
                 v-on:mousedown="() => focusDialog(processItem)"

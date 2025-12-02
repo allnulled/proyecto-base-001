@@ -44,17 +44,19 @@
   trace("Packing NwtFramework");
   Object.assign(NwtFramework, {
     // BOOT
-    Settings: NwtSettings,
-    Timer: NwtTimer,
-    Utils: NwtUtils,
     Asserter: NwtAsserter,
-    Randomizer: NwtRandomizer,
+    Globalizer: NwtGlobalizer,
     Importer: NwtImporter,
     LazyLoader: NwtLazyLoader,
-    Globalizer: NwtGlobalizer,
-    Tester: NwtTester,
-    Process: NwtProcess,
     ProcessManager: NwtProcessManager,
+    Process: NwtProcess,
+    ProgressBar: NwtProgressBar,
+    Randomizer: NwtRandomizer,
+    Settings: NwtSettings,
+    Tester: NwtTester,
+    Timer: NwtTimer,
+    Utils: NwtUtils,
+    Tracer: NwtTracer,
     // Injected later:
     Errors: null,
     Dialogs: null,

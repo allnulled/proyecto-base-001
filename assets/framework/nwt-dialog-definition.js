@@ -1,3 +1,61 @@
+/**
+ * 
+ * # Nwt Dialog Definition API
+ * 
+ * API de uso interno.
+ * 
+ * Permite crear definiciones abstractas de diálogos.
+ * 
+ * Sirve para vincular:
+ * 
+ *  - `$original`: Definición de usuario de diálogo
+ *  - `$factory`: Definición validada de diálogo
+ *  - `$process`: Proceso representativo del diaĺogo
+ * 
+ *  
+ * ## Exposición
+ * 
+ * Se expone a través de:
+ * 
+ * ```js
+ * NwtDialogDefinition
+ * NwtFramework.DialogDefinition
+ * Vue.prototype.$nwt.DialogDefinition
+ * ```
+ * 
+ * ## Ventajas
+ * 
+ * Permite crear definiciones de diálogo validadas:
+ * 
+ * ```js
+ * const dialogDefinition = NwtDialogDefinition.create({
+ *   title: "Título del diálogo",
+ *   template: `
+ *     <div>
+ *       <div>En el body del diálogo</div>
+ *     </div>
+ *   `,
+ *   factory: {
+ *     data: {},
+ *     methods: {},
+ *     watch: {},
+ *     created: {},
+ *     mounted: {},
+ *     ...
+ *   }
+ * });
+ * ```
+ * 
+ * Esto nos permite luego acceder a:
+ * 
+ * ```js
+ * dialogDefinition.$original; // Parámetros originales
+ * dialogDefinition.$factory; // Parámetros finales
+ * dialogDefinition.$process; // Proceso vinculado al diálogo
+ * await CommonDialogs.open(dialogDefinition.$factory);
+ * ```
+ * 
+ */
 (function (factory) {
   const mod = factory();
   if (typeof window !== 'undefined') {
@@ -30,16 +88,15 @@
       trace("NwtDialogDefinition.prototype.fillBasics");
       const that = this;
       Fill_original: {
-        if (typeof this.$original === "undefined") {
-          this.$original = {};
-        } else if(typeof this.$original !== "object") {
+        if(typeof this.$original !== "object") {
           throw new Error("Parameter «definition» must be an object on «NwtDialogDefinition.prototype.fillBasics»");
         }
       }
       Fill_original_title: {
         if (typeof this.$original.title === "undefined") {
           this.$original.title = "Sin título";
-        } else if(typeof this.$original.title !== "string") {
+        }
+        if(typeof this.$original.title !== "string") {
           throw new Error("Parameter «definition.title» must be a string on «NwtDialogDefinition.prototype.fillBasics»");
         }
       }
@@ -54,6 +111,7 @@
       }
       Fill_process: {
         this.$process = NwtProcess.create({
+          id: this.$original.title,
           manager: NwtProcessManager.dialogs,
           definition: this,
           parent: this.$original.parent || null,

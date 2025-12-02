@@ -9,6 +9,7 @@ Punto de partida para el desarrollo de aplicaciones basadas nw.js.
 - [Dependencias previas](#dependencias-previas)
 - [Instalación](#instalación)
 - [Comandos del proyecto](#comandos-del-proyecto)
+- [Comandos de la aplicación](#comandos-de-la-aplicación)
 - [Referencia de API](#referencia-de-api)
 
 # Dependencias previas
@@ -17,7 +18,7 @@ Se necesita tener accesible desde línea de comandos:
 
 - `git`: [https://git-scm.com/install/](https://git-scm.com/install/)
 - `npm` y `node`: [https://nodejs.org/en/download](https://nodejs.org/en/download)
-- `nw`: [https://nwjs.io/](https://nwjs.io/)
+- `nw` (opcional): [https://nwjs.io/](https://nwjs.io/)
 
 # Instalación
 
@@ -39,12 +40,17 @@ Para consultar los comandos puedes ir a:
 
 - [🎮 Nwt Project Commands](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/project-commands.md)
 
+# Comandos de la aplicación
+
+Pulsando `CTRL+SHIFT` se te abre un gestor de procesos para los diálogos.
+
 # Referencia de API
 
 Las referencias de las APIs para el desarrollo están aquí:
 
 - [🌐 Nwt Globals API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/globals-api.md)
 - [💬 Nwt Dialogs API - Vue2 component](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/dialogs-api.md)
+   - [💬 Nwt Dialog Definition API - Vue2 component](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/dialog-definition-api.md)
 - [💡 Nwt Toasts API - Vue2 component](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/toasts-api.md)
 - [⛔️ Nwt Errors API - Vue2 component](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/errors-api.md)
 - [📦 Nwt Importer API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/importer-api.md)
@@ -59,4 +65,10 @@ Las referencias de las APIs para el desarrollo están aquí:
 - [🏁 Nwt Tracer API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/tracer-api.md)
 - [🪫 Nwt Progress Bar API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/progress-bar-api.md)
    - [🪫🔭 Nwt Progress Bar Viewer API - Vue2 component](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/progress-bar-viewer-api.md)
+- [🔃 Nwt Process API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/process-api.md)
+- [🔃 Nwt Process Manager API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/process-manager-api.md)
+   - [🔃🔭 Nwt Process Manager Viewer API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/process-manager-viewer-api.md)
+- [🪱 Nwt V-Draggable Directive API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/v-draggable-api.md)
+- [◼️ Nwt V-Resizable Directive API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/v-resizable-api.md)
 - [💉 Nwt Injection API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/injection-api.md)
+

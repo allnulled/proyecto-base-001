@@ -36,7 +36,9 @@ Vue.component("NwtProcessManagerViewer", {
   props: {
     processManager: {
       type: Object,
-      required: true
+      default: () => {
+        return NwtProcessManager.dialogs;
+      }
     }
   },
 

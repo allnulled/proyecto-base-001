@@ -15,6 +15,8 @@
     "refresh": "node assets/reloader/starter.js",
     "start": "nw .",
     "ui": "nw .",
+    "ui:desktop": "nw .",
+    "ui:server": "npx http-server -c-1 . -o",
     "ui:own": "~/.node-webkit/nw/nwjs-sdk-v0.82.0-linux-x64/nw ."
   },
   "devDependencies": {
