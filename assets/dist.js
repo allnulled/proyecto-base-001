@@ -17380,6 +17380,8 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
  * 
  * ```js
  * NwtImporter
+ * NwtFramework.Importer
+ * Vue.prototype.$nwt.Importer
  * ```
  * 
  * ## Ventajas

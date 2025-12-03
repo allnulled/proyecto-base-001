@@ -48,7 +48,7 @@ Pulsando `CTRL+SHIFT` se te abre un gestor de procesos para los diálogos.
 
 Si quieres acceder a la documentación de toda la API en 1 solo documento, tienes el:
 
-- [llm.md](https://github.com/allnulled/proyecto-base-001/tree/main/llm.md)
+- [☝️ llm.md](https://github.com/allnulled/proyecto-base-001/tree/main/llm.md)
 
 Las referencias de las APIs para el desarrollo están aquí:
 

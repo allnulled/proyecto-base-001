@@ -10,6 +10,8 @@
  * 
  * ```js
  * NwtImporter
+ * NwtFramework.Importer
+ * Vue.prototype.$nwt.Importer
  * ```
  * 
  * ## Ventajas
