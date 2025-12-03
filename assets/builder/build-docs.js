@@ -163,7 +163,7 @@ const main = async function () {
   }
 
   const tableOfContents = generateTOCFromMarkdown(llmMd);
-  const structureOfProject = generateMarkdownTree(__dirname + "/../..", ["node_modules"]);
+  const structureOfProject = generateMarkdownTree(__dirname + "/../..", ["node_modules", ".git"]);
 
   llmMd = `# Documentación en fichero único
 
