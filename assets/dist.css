@@ -2526,11 +2526,18 @@ div.subcard {
     
 }
 
-/* @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.html*/
+/* @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-injections/common-injections.html*/
 
-/* @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js*/
+/* @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-injections/common-injections.js*/
 
-/* @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.css*/
+/* @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-injections/common-injections.css*/
+
+
+/* @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.html*/
+
+/* @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js*/
+
+/* @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.css*/
 .nwt_tester_viewer {
     
 }
@@ -2555,20 +2562,20 @@ div.subcard {
 
 
 
-/* @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.html*/
+/* @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.html*/
 
-/* @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.js*/
+/* @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.js*/
 
-/* @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.css*/
+/* @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.css*/
 .nwt_tester_node .times_cell {
     font-size: 8px;
 }
 
-/* @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.html*/
+/* @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.html*/
 
-/* @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.js*/
+/* @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.js*/
 
-/* @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.css*/
+/* @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.css*/
 .progress_bar_viewer {}
 .progress_bar_viewer > div {
     position: relative;
@@ -2588,24 +2595,24 @@ div.subcard {
     text-align: center;
 }
 
-/* @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.html*/
+/* @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.html*/
 
-/* @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.js*/
+/* @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.js*/
 
-/* @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.css*/
-
-
-/* @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.html*/
-
-/* @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.js*/
-
-/* @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.css*/
+/* @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.css*/
 
 
-/* @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html*/
+/* @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.html*/
 
-/* @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js*/
+/* @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.js*/
 
-/* @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css*/
+/* @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.css*/
+
+
+/* @vuebundler[Proyecto_base_001][35]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html*/
+
+/* @vuebundler[Proyecto_base_001][35]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js*/
+
+/* @vuebundler[Proyecto_base_001][35]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css*/
 .main_window_container {}
 .main_window {}

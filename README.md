@@ -71,4 +71,5 @@ Las referencias de las APIs para el desarrollo están aquí:
 - [🪱 Nwt V-Draggable Directive API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/v-draggable-api.md)
 - [◼️ Nwt V-Resizable Directive API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/v-resizable-api.md)
 - [💉 Nwt Injection API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/injection-api.md)
+   - [💉 Nwt Common Injections API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/common-injections-api.md)
 

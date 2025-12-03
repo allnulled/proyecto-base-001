@@ -28,6 +28,7 @@ module.exports = [
   `${__dirname}/../components/common-dialogs/common-dialogs`,
   `${__dirname}/../components/common-toasts/common-toasts`,
   `${__dirname}/../components/common-errors/common-errors`,
+  `${__dirname}/../components/common-injections/common-injections`,
   `${__dirname}/../components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer`,
   `${__dirname}/../components/nwt-tester-ui/nwt-tester-node/nwt-tester-node`,
   `${__dirname}/../components/nwt-progress-bar-viewer/nwt-progress-bar-viewer`,

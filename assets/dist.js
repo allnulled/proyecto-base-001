@@ -18666,11 +18666,91 @@ window.addEventListener("load", function () {
  */
 Vue.directive("resizable", {
   inserted(el) {
-    el.style.resize = "both";
-    // el.style.overflow = "auto";
-  }
-})
+    el.style.position = el.style.position || "fixed";
+    el.style.userSelect = "none";
+    const EDGE_SIZE = 10; // píxeles sensibles al resize
 
+    let resizing = false;
+    let resizeDir = null;
+    let startX = 0;
+    let startY = 0;
+    let startW = 0;
+    let startH = 0;
+
+    const onMouseDown = function (e) {
+      const rect = el.getBoundingClientRect();
+      const insideRight = e.clientX >= rect.right - EDGE_SIZE && e.clientX <= rect.right;
+      const insideBottom = e.clientY >= rect.bottom - EDGE_SIZE && e.clientY <= rect.bottom;
+
+      if (!insideRight && !insideBottom) {
+        return;
+      }
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      resizing = true;
+      resizeDir = (insideRight && insideBottom) ? "both"
+        : insideRight ? "right"
+          : "bottom";
+
+      startX = e.clientX;
+      startY = e.clientY;
+      startW = rect.width;
+      startH = rect.height;
+
+      document.addEventListener("mousemove", onMouseMove);
+      document.addEventListener("mouseup", onMouseUp);
+    };
+
+    const onMouseMove = function (e) {
+      if (!resizing) {
+        return;
+      }
+
+      let newW = startW;
+      let newH = startH;
+
+      if (resizeDir === "right" || resizeDir === "both") {
+        newW = startW + (e.clientX - startX);
+      }
+
+      if (resizeDir === "bottom" || resizeDir === "both") {
+        newH = startH + (e.clientY - startY);
+      }
+
+      el.style.width = Math.max(50, newW) + "px";
+      el.style.height = Math.max(50, newH) + "px";
+    };
+
+    const onMouseUp = function () {
+      resizing = false;
+      resizeDir = null;
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+    };
+
+    const onMouseMoveCursor = function (e) {
+      const rect = el.getBoundingClientRect();
+      const insideRight = e.clientX >= rect.right - EDGE_SIZE && e.clientX <= rect.right;
+      const insideBottom = e.clientY >= rect.bottom - EDGE_SIZE && e.clientY <= rect.bottom;
+
+      if (insideRight && insideBottom) {
+        el.style.cursor = "nwse-resize";
+      } else if (insideRight) {
+        el.style.cursor = "ew-resize";
+      } else if (insideBottom) {
+        el.style.cursor = "ns-resize";
+      } else {
+        el.style.cursor = "";
+      }
+    };
+
+    el.addEventListener("mousedown", onMouseDown);
+    el.addEventListener("mousemove", onMouseMoveCursor);
+
+  }
+});
 
 // @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/directives/v-draggable.js
 /**
@@ -19184,9 +19264,75 @@ Vue.component("CommonErrors", {
 
 // @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css
 
-// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.html
+// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-injections/common-injections.html
 
-// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js
+// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-injections/common-injections.js
+/**
+ * 
+ * # Nwt Common Injections API
+ * 
+ * API para inyecciones globales. Se inyecta 1 componente global, `<common-injections />`.
+ * 
+ * ## Exposición
+ * 
+ * Esta API no se expone, solo se inyecta en el DOM.
+ * 
+ * Pero se hace a través del componente vue2 `CommonInjections`.
+ * 
+ * ## Ventajas
+ * 
+ * - Función 1 / `injectTouchability`
+ *    - Hace que los eventos de touch (móvil) funcionen también como eventos click (PC) sin tener que cambiar el código.
+ *    - Esto se consigue con una inyección de eventos del DOM a `document` en el paso del mounted.
+ * 
+ * 
+ */
+Vue.component("CommonInjections", {
+  template: `<div class="common_injections">
+    
+</div>`,
+  props: {},
+  data() {
+    return {};
+  },
+  methods: {
+
+    injectTouchability() {
+      const toMouse = function (e, type) {
+        return new MouseEvent(type, {
+          bubbles: true,
+          cancelable: true,
+          composed: true,
+          clientX: e.touches[0] ? e.touches[0].clientX : e.changedTouches[0].clientX,
+          clientY: e.touches[0] ? e.touches[0].clientY : e.changedTouches[0].clientY,
+          screenX: e.touches[0] ? e.touches[0].screenX : e.changedTouches[0].screenX,
+          screenY: e.touches[0] ? e.touches[0].screenY : e.changedTouches[0].screenY,
+          pageX: e.touches[0] ? e.touches[0].pageX : e.changedTouches[0].pageX,
+          pageY: e.touches[0] ? e.touches[0].pageY : e.changedTouches[0].pageY,
+          button: 0
+        });
+      };
+      const fire = function (type, e) {
+        const evt = toMouse(e, type);
+        e.target.dispatchEvent(evt);
+      };
+      document.addEventListener("touchstart", e => fire("mousedown", e));
+      document.addEventListener("touchmove", e => fire("mousemove", e));
+      document.addEventListener("touchend", e => fire("mouseup", e));
+    }
+
+  },
+  watch: {},
+  mounted() {
+    this.injectTouchability();
+  }
+});
+
+// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-injections/common-injections.css
+
+// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.html
+
+// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js
 /**
  * 
  * # Nwt Tester Viewer API / Componente Vue2
@@ -19271,11 +19417,11 @@ Vue.component("NwtTesterViewer", {
 });
 
 
-// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.css
+// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.css
 
-// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.html
+// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.html
 
-// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.js
+// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.js
 Vue.component("NwtTesterNode", {
   template: `<div class="nwt_tester_node">
     <template v-if="node instanceof \$nwt.Tester.Assertion">
@@ -19371,11 +19517,11 @@ Vue.component("NwtTesterNode", {
 });
 
 
-// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.css
+// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.css
 
-// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.html
+// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.html
 
-// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.js
+// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.js
 /**
  * 
  * # Nwt Progress Bar Viewer API / Componente Vue2
@@ -19437,11 +19583,11 @@ Vue.component("NwtProgressBarViewer", {
 });
 
 
-// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.css
+// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.css
 
-// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.html
+// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.html
 
-// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.js
+// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.js
 /**
  * 
  * # Nwt Box Viewer API / Componente Vue2
@@ -19518,11 +19664,11 @@ Vue.component("NwtBoxViewer", {
 });
 
 
-// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.css
+// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.css
 
-// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.html
+// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.html
 
-// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.js
+// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.js
 /**
  * 
  * # Nwt Process Manager Viewer API / Componente Vue2
@@ -19661,11 +19807,11 @@ Vue.component("NwtProcessManagerViewer", {
 });
 
 
-// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.css
+// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.css
 
-// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
+// @vuebundler[Proyecto_base_001][35]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
 
-// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
+// @vuebundler[Proyecto_base_001][35]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
 /**
  * 
  * 
@@ -19706,6 +19852,7 @@ Vue.component("MainWindow", {
     <common-dialogs />
     <common-toasts />
     <common-errors />
+    <common-injections />
 </div>`,
   props: {},
   data() {
@@ -19848,4 +19995,4 @@ Vue.component("MainWindow", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css
+// @vuebundler[Proyecto_base_001][35]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css
