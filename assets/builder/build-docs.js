@@ -48,6 +48,10 @@ const main = async function () {
       to: `${PROJECT_ROOT}/documentation/settings-api.md`
     },
     {
+      from: [`${PROJECT_ROOT}/assets/components/nwt-settings-viewer/nwt-settings-viewer.js`],
+      to: `${PROJECT_ROOT}/documentation/settings-viewer-api.md`
+    },
+    {
       from: [`${PROJECT_ROOT}/assets/framework/nwt-tester.js`],
       to: `${PROJECT_ROOT}/documentation/tester-api.md`
     },

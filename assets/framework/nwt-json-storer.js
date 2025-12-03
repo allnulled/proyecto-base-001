@@ -23,9 +23,9 @@
  *   file: "/path/to/your/file.json",
  *   storageId: "JSON_STORER_FOR_YOUR_APP_IN_LS",
  * });
- * await storer.initialize(key, value);
- * await storer.save();
  * await storer.load();
+ * await storer.save();
+ * await storer.initialize(key, value);
  * await storer.get(key, defaultValue);
  * await storer.set(key, value);
  * await storer.delete(key);
@@ -50,24 +50,28 @@
     static fs = NwtEnvironment.isNode ? require("fs").promises : null;
 
     static create(...args) {
+      trace("NwtJsonStorer.create");
       return new this(...args);
     }
 
     constructor(options = {}) {
+      trace("NwtJsonStorer.constructor");
       this.$options = Object.assign({}, options);
       this.$file = this.$options.file || null;
       this.$storageId = this.$options.storageId || null;
       this.$data = {};
     }
 
-    async saveInFilesystem() {
+    async saveByFilesystem() {
+      trace("NwtJsonStorer.prototype.saveByFilesystem");
       if (!this.$file) return false;
       const txt = JSON.stringify(this.$data, null, 2);
       await fs.writeFile(this.$file, txt, "utf8");
       return true;
     }
 
-    async loadInFilesystem() {
+    async loadByFilesystem() {
+      trace("NwtJsonStorer.prototype.loadByFilesystem");
       if (!this.$file) return false;
       try {
         const txt = await fs.readFile(this.$file, "utf8");
@@ -79,14 +83,16 @@
       }
     }
 
-    async saveInLocalStorage() {
+    async saveByLocalStorage() {
+      trace("NwtJsonStorer.prototype.saveByLocalStorage");
       if (!this.$storageId) return false;
       if (typeof localStorage === "undefined") return false;
       localStorage.setItem(this.$storageId, JSON.stringify(this.$data));
       return true;
     }
 
-    async loadInLocalStorage() {
+    async loadByLocalStorage() {
+      trace("NwtJsonStorer.prototype.loadByLocalStorage");
       if (!this.$storageId) return false;
       if (typeof localStorage === "undefined") return false;
       const txt = localStorage.getItem(this.$storageId);
@@ -104,6 +110,7 @@
     }
 
     async initialize(key, value = undefined) {
+      trace("NwtJsonStorer.prototype.initialize");
       await this.load();
       if (!(key in this.$data)) {
         if (value !== undefined) {
@@ -115,25 +122,29 @@
     }
 
     async save() {
-      if (this.constructor.isNode) return this.saveInFilesystem();
-      if (!this.constructor.isNode) return this.saveInLocalStorage();
+      trace("NwtJsonStorer.prototype.save");
+      if (this.constructor.isNode) return this.saveByFilesystem();
+      if (!this.constructor.isNode) return this.saveByLocalStorage();
       return false;
     }
 
     async load() {
-      if (this.constructor.isNode) return this.loadInFilesystem();
-      if (!this.constructor.isNode) return this.loadInLocalStorage();
+      trace("NwtJsonStorer.prototype.load");
+      if (this.constructor.isNode) return this.loadByFilesystem();
+      if (!this.constructor.isNode) return this.loadByLocalStorage();
       this.$data = {};
       return false;
     }
 
     async get(key, defaultValue = undefined) {
+      trace("NwtJsonStorer.prototype.get");
       await this.load();
       if (key in this.$data) return this.$data[key];
       return defaultValue;
     }
 
     async set(key, value = undefined) {
+      trace("NwtJsonStorer.prototype.set");
       await this.load();
       this.$data[key] = value;
       await this.save();
@@ -141,6 +152,7 @@
     }
 
     async delete(key) {
+      trace("NwtJsonStorer.prototype.delete");
       await this.load();
       delete this.$data[key];
       await this.save();

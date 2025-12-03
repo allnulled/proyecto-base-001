@@ -1,0 +1,56 @@
+.nwt_settings_viewer {}
+
+.nwt_settings_viewer .settings_table {
+    display: grid;
+    grid-template-columns: 1fr 100fr 50fr 1fr 1fr;
+    /* equivalente a flex 1 / 100 / 1 / 1 */
+    align-items: stretch;
+}
+
+.nwt_settings_viewer .settings_table>.row {
+    display: contents;
+}
+
+.nwt_settings_viewer .settings_table>.row>.cell {
+    align-items: center;
+    padding-top: 4px;
+}
+
+.nwt_settings_viewer .settings_table>.row.last_row_of_list>.cell {
+    padding-bottom: 4px;
+}
+
+.nwt_settings_viewer .settings_table>.row.full_row {
+    display: block;
+    grid-column: 1 / -1;
+    background: #ddd;
+}
+
+.nwt_settings_viewer .settings_table>.row>.cell.value_cell {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nwt_settings_viewer .settings_table>.row>.cell.name_cell {
+    
+}
+
+.nwt_settings_viewer .settings_table>.row>.cell.edit_cell {
+    align-self: stretch;
+    padding-left: 4px;
+    padding-right: 2px;
+    
+}
+
+.nwt_settings_viewer .settings_table>.row>.cell.close_cell {
+    align-self: stretch;
+    padding-left: 2px;
+    padding-right: 4px;
+}
+
+.nwt_settings_viewer .settings_table > .row > .index_cell,
+.nwt_settings_viewer .settings_table > .row > .name_cell {
+    text-align: right;
+}

@@ -76,28 +76,12 @@ Vue.component("CommonDialogs", {
       trace("CommonDialogs.methods.maximizeDialog");
       currentProcess.show();
     },
-    injectGlobalCtrlSuprEvent() {
-      trace("CommonDialogs.methods.injectGlobalCtrlSuprEvent");
-      if (!this.isLoaded) {
-        window.addEventListener("keydown", (e) => {
-          if (e.ctrlKey && e.key === "Delete") {
-            this.open({
-              title: "Procesos activos",
-              template: `<div>
-                <nwt-process-manager-viewer />
-              </div>`,
-            });
-          }
-        });
-      }
-    }
   },
   mounted() {
     trace("CommonDialogs.mounted");
     NwtGlobalizer.exportTo("CommonDialogs", this);
     NwtGlobalizer.exportTo("NwtDialogs", this);
     Vue.prototype.$dialogs = this;
-    this.injectGlobalCtrlSuprEvent();
     this.isLoaded = true;
   }
 })

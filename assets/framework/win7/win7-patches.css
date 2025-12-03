@@ -1,3 +1,34 @@
 .title-bar-controls {
     align-self: flex-start;
 }
+
+.table {
+    background-color: #fff;
+    border: 1px solid #c0c1cd;
+    border-top: 0px;
+}
+
+.table > .row.header_row > .cell.header_cell {
+    background: linear-gradient(180deg, #fff 45%, #fafafa 0, #f0f0f0);
+    border: 1px solid #d7d7d7;
+    border-left: 0px solid #d7d7d7;
+}
+.table > .row.header_row > .cell.header_cell:last-child {
+    border-right: 0px solid #d7d7d7;
+}
+.table > .row > .cell {
+    position: relative;
+}
+.table > .row > .cell > .cell_containter {
+    display: table;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    height: 100%;
+    width: 100%;
+}
+.table > .row > .cell > .cell_containter > .cell_content {
+    display: table-cell;
+}

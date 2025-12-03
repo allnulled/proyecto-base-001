@@ -2173,6 +2173,37 @@ a:hover {
     align-self: flex-start;
 }
 
+.table {
+    background-color: #fff;
+    border: 1px solid #c0c1cd;
+    border-top: 0px;
+}
+
+.table > .row.header_row > .cell.header_cell {
+    background: linear-gradient(180deg, #fff 45%, #fafafa 0, #f0f0f0);
+    border: 1px solid #d7d7d7;
+    border-left: 0px solid #d7d7d7;
+}
+.table > .row.header_row > .cell.header_cell:last-child {
+    border-right: 0px solid #d7d7d7;
+}
+.table > .row > .cell {
+    position: relative;
+}
+.table > .row > .cell > .cell_containter {
+    display: table;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    height: 100%;
+    width: 100%;
+}
+.table > .row > .cell > .cell_containter > .cell_content {
+    display: table-cell;
+}
+
 /* @vuebundler[Proyecto_base_001][2]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/css/one-framework/one-framework.css*/
 html,body {
     margin: 0px;
@@ -2613,10 +2644,72 @@ div.subcard {
 /* @vuebundler[Proyecto_base_001][36]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.css*/
 
 
-/* @vuebundler[Proyecto_base_001][37]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html*/
+/* @vuebundler[Proyecto_base_001][37]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-settings-viewer/nwt-settings-viewer.html*/
 
-/* @vuebundler[Proyecto_base_001][37]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js*/
+/* @vuebundler[Proyecto_base_001][37]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-settings-viewer/nwt-settings-viewer.js*/
 
-/* @vuebundler[Proyecto_base_001][37]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css*/
+/* @vuebundler[Proyecto_base_001][37]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-settings-viewer/nwt-settings-viewer.css*/
+.nwt_settings_viewer {}
+
+.nwt_settings_viewer .settings_table {
+    display: grid;
+    grid-template-columns: 1fr 100fr 50fr 1fr 1fr;
+    /* equivalente a flex 1 / 100 / 1 / 1 */
+    align-items: stretch;
+}
+
+.nwt_settings_viewer .settings_table>.row {
+    display: contents;
+}
+
+.nwt_settings_viewer .settings_table>.row>.cell {
+    align-items: center;
+    padding-top: 4px;
+}
+
+.nwt_settings_viewer .settings_table>.row.last_row_of_list>.cell {
+    padding-bottom: 4px;
+}
+
+.nwt_settings_viewer .settings_table>.row.full_row {
+    display: block;
+    grid-column: 1 / -1;
+    background: #ddd;
+}
+
+.nwt_settings_viewer .settings_table>.row>.cell.value_cell {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nwt_settings_viewer .settings_table>.row>.cell.name_cell {
+    
+}
+
+.nwt_settings_viewer .settings_table>.row>.cell.edit_cell {
+    align-self: stretch;
+    padding-left: 4px;
+    padding-right: 2px;
+    
+}
+
+.nwt_settings_viewer .settings_table>.row>.cell.close_cell {
+    align-self: stretch;
+    padding-left: 2px;
+    padding-right: 4px;
+}
+
+.nwt_settings_viewer .settings_table > .row > .index_cell,
+.nwt_settings_viewer .settings_table > .row > .name_cell {
+    text-align: right;
+}
+
+/* @vuebundler[Proyecto_base_001][38]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html*/
+
+/* @vuebundler[Proyecto_base_001][38]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js*/
+
+/* @vuebundler[Proyecto_base_001][38]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css*/
 .main_window_container {}
 .main_window {}

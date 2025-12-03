@@ -12,5 +12,8 @@ Pero se hace a través del componente vue2 `CommonInjections`.
 
 - Función 1 / `injectTouchability`
    - Hace que los eventos de touch (móvil) funcionen también como eventos click (PC) sin tener que cambiar el código.
-   - Esto se consigue con una inyección de eventos del DOM a `document` en el paso del mounted.
+- Función 2 / `injectKeyEventForProcessManager`
+   - Hace que CTRL+SUPR abra un diálogo con un gestor de procesos
+- Función 3 / `injectKeyEventForSettings`
+   - Hace que ALT+S abra un diálogo de configuraciones globales
 

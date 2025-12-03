@@ -17771,9 +17771,9 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
  *   file: "/path/to/your/file.json",
  *   storageId: "JSON_STORER_FOR_YOUR_APP_IN_LS",
  * });
- * await storer.initialize(key, value);
- * await storer.save();
  * await storer.load();
+ * await storer.save();
+ * await storer.initialize(key, value);
  * await storer.get(key, defaultValue);
  * await storer.set(key, value);
  * await storer.delete(key);
@@ -17798,24 +17798,28 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
     static fs = NwtEnvironment.isNode ? require("fs").promises : null;
 
     static create(...args) {
+      trace("NwtJsonStorer.create");
       return new this(...args);
     }
 
     constructor(options = {}) {
+      trace("NwtJsonStorer.constructor");
       this.$options = Object.assign({}, options);
       this.$file = this.$options.file || null;
       this.$storageId = this.$options.storageId || null;
       this.$data = {};
     }
 
-    async saveInFilesystem() {
+    async saveByFilesystem() {
+      trace("NwtJsonStorer.prototype.saveByFilesystem");
       if (!this.$file) return false;
       const txt = JSON.stringify(this.$data, null, 2);
       await fs.writeFile(this.$file, txt, "utf8");
       return true;
     }
 
-    async loadInFilesystem() {
+    async loadByFilesystem() {
+      trace("NwtJsonStorer.prototype.loadByFilesystem");
       if (!this.$file) return false;
       try {
         const txt = await fs.readFile(this.$file, "utf8");
@@ -17827,14 +17831,16 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
       }
     }
 
-    async saveInLocalStorage() {
+    async saveByLocalStorage() {
+      trace("NwtJsonStorer.prototype.saveByLocalStorage");
       if (!this.$storageId) return false;
       if (typeof localStorage === "undefined") return false;
       localStorage.setItem(this.$storageId, JSON.stringify(this.$data));
       return true;
     }
 
-    async loadInLocalStorage() {
+    async loadByLocalStorage() {
+      trace("NwtJsonStorer.prototype.loadByLocalStorage");
       if (!this.$storageId) return false;
       if (typeof localStorage === "undefined") return false;
       const txt = localStorage.getItem(this.$storageId);
@@ -17852,6 +17858,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
     }
 
     async initialize(key, value = undefined) {
+      trace("NwtJsonStorer.prototype.initialize");
       await this.load();
       if (!(key in this.$data)) {
         if (value !== undefined) {
@@ -17863,25 +17870,29 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
     }
 
     async save() {
-      if (this.constructor.isNode) return this.saveInFilesystem();
-      if (!this.constructor.isNode) return this.saveInLocalStorage();
+      trace("NwtJsonStorer.prototype.save");
+      if (this.constructor.isNode) return this.saveByFilesystem();
+      if (!this.constructor.isNode) return this.saveByLocalStorage();
       return false;
     }
 
     async load() {
-      if (this.constructor.isNode) return this.loadInFilesystem();
-      if (!this.constructor.isNode) return this.loadInLocalStorage();
+      trace("NwtJsonStorer.prototype.load");
+      if (this.constructor.isNode) return this.loadByFilesystem();
+      if (!this.constructor.isNode) return this.loadByLocalStorage();
       this.$data = {};
       return false;
     }
 
     async get(key, defaultValue = undefined) {
+      trace("NwtJsonStorer.prototype.get");
       await this.load();
       if (key in this.$data) return this.$data[key];
       return defaultValue;
     }
 
     async set(key, value = undefined) {
+      trace("NwtJsonStorer.prototype.set");
       await this.load();
       this.$data[key] = value;
       await this.save();
@@ -17889,6 +17900,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
     }
 
     async delete(key) {
+      trace("NwtJsonStorer.prototype.delete");
       await this.load();
       delete this.$data[key];
       await this.save();
@@ -19372,28 +19384,12 @@ Vue.component("CommonDialogs", {
       trace("CommonDialogs.methods.maximizeDialog");
       currentProcess.show();
     },
-    injectGlobalCtrlSuprEvent() {
-      trace("CommonDialogs.methods.injectGlobalCtrlSuprEvent");
-      if (!this.isLoaded) {
-        window.addEventListener("keydown", (e) => {
-          if (e.ctrlKey && e.key === "Delete") {
-            this.open({
-              title: "Procesos activos",
-              template: `<div>
-                <nwt-process-manager-viewer />
-              </div>`,
-            });
-          }
-        });
-      }
-    }
   },
   mounted() {
     trace("CommonDialogs.mounted");
     NwtGlobalizer.exportTo("CommonDialogs", this);
     NwtGlobalizer.exportTo("NwtDialogs", this);
     Vue.prototype.$dialogs = this;
-    this.injectGlobalCtrlSuprEvent();
     this.isLoaded = true;
   }
 })
@@ -19724,7 +19720,10 @@ Vue.component("CommonErrors", {
  * 
  * - Función 1 / `injectTouchability`
  *    - Hace que los eventos de touch (móvil) funcionen también como eventos click (PC) sin tener que cambiar el código.
- *    - Esto se consigue con una inyección de eventos del DOM a `document` en el paso del mounted.
+ * - Función 2 / `injectKeyEventForProcessManager`
+ *    - Hace que CTRL+SUPR abra un diálogo con un gestor de procesos
+ * - Función 3 / `injectKeyEventForSettings`
+ *    - Hace que ALT+S abra un diálogo de configuraciones globales
  * 
  * 
  */
@@ -19760,12 +19759,37 @@ Vue.component("CommonInjections", {
       document.addEventListener("touchstart", e => fire("mousedown", e));
       document.addEventListener("touchmove", e => fire("mousemove", e));
       document.addEventListener("touchend", e => fire("mouseup", e));
+    },
+
+    injectKeyEventForProcessManager() {
+      document.addEventListener("keydown", (e) => {
+        if (e.ctrlKey && e.key === "Delete") {
+          e.preventDefault();
+          this.$dialogs.open({
+            title: "Procesos activos",
+            template: `<nwt-process-manager-viewer />`,
+          });
+        }
+      });
+    },
+
+    injectKeyEventForSettings() {
+      document.addEventListener("keydown", (e) => {
+        if (e.altKey && e.key === "l") {
+          this.$dialogs.open({
+            title: "Configuraciones globales",
+            template: `<nwt-settings-viewer :settings="$nwt.Settings.global" :dialog="this" />`,
+          });
+        }
+      });
     }
 
   },
   watch: {},
   mounted() {
     this.injectTouchability();
+    this.injectKeyEventForProcessManager();
+    this.injectKeyEventForSettings();
   }
 });
 
@@ -20250,9 +20274,245 @@ Vue.component("NwtProcessManagerViewer", {
 
 // @vuebundler[Proyecto_base_001][36]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.css
 
-// @vuebundler[Proyecto_base_001][37]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
+// @vuebundler[Proyecto_base_001][37]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-settings-viewer/nwt-settings-viewer.html
 
-// @vuebundler[Proyecto_base_001][37]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
+// @vuebundler[Proyecto_base_001][37]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-settings-viewer/nwt-settings-viewer.js
+/**
+ * 
+ * # Nwt Settings Viewer API / Componente Vue2
+ * 
+ * La Nwt Settings Viewer API permite sincronizar un widget gráfico con una instancia de `NwtSettings`.
+ * 
+ * ## Exposición
+ * 
+ * La API se expone a través del componente Vue2:
+ * 
+ * ```js
+ * Vue.options.components.NwtSettingsViewer
+ * ```
+ * 
+ * ## Ventajas
+ * 
+ * La API permite cosas como:
+ * 
+ * ```html
+ * <nwt-settings-viewer :settings="settings" :dialog="this" />
+ * ```
+ * 
+ * Donde `dialog` tiene que ser una instancia de `NwtDialog`, pero dentro de la template del diálogo la accedemos con el `this`:
+ * 
+ * ```js
+ * this.$dialogs.open({
+ *   title: "Configuraciones globales",
+ *   template: `<nwt-settings-viewer :settings="$nwt.Settings.global" :dialog="this" />`,
+ * });
+ * ```
+ * 
+ * Donde `settings` tiene que ser una instancia de `NwtSettings`.
+ * 
+ * Por ejemplo:
+ * 
+ * ```js
+ * NwtSettings.global // instancia
+ * ```
+ * 
+ * Se enciende un NwtSettingsViewer si pulsas ALT+L.
+ * 
+ */
+Vue.component("NwtSettingsViewer", {
+  template: `<div class="nwt_settings_viewer">
+    <div class=""
+        v-if="!settingsObject">
+        Cargando...
+    </div>
+    <div class="card"
+        v-else>
+        <div class="table settings_table">
+            <div class="row full_row">
+                <div class="pad_2 pad_top_0">
+                    <button class="width_100"
+                        v-on:click="createNewSetting">➕ Añadir configuración</button>
+                </div>
+            </div>
+            <div class="row header_row">
+                <div class="cell header_cell pad_left_2 pad_right_2 pad_bottom_2">
+                    <button class="mini" v-on:click="reload">🛜</button>
+                </div>
+                <div class="cell header_cell pad_left_2 pad_right_2">
+                    <div class="cell_container">
+                        <div class="cell_content">Nombre</div>
+                    </div>
+                </div>
+                <div class="cell header_cell pad_left_2 pad_right_2">
+                    <div class="cell_container">
+                        <div class="cell_content">Valor</div>
+                    </div>
+                </div>
+                <div class="cell header_cell edit_cell"></div>
+                <div class="cell header_cell close_cell"></div>
+            </div>
+            <div class="row"
+                :class="{'last_row_of_list':settingCounter === (Object.keys(settingsObject).length - 1)}"
+                v-for="settingData, settingId, settingCounter in settingsObject"
+                v-bind:key="'global_setting_' + settingId">
+                <div class="cell pad_left_2 pad_right_2 index_cell">
+                    <span>
+                        {{ settingCounter }}
+                    </span>
+                </div>
+                <div class="cell pad_left_2 pad_right_2 name_cell" :title="settingId">
+                    <span>
+                        {{ settingId }}
+                    </span>
+                </div>
+                <div class="cell pad_left_2 pad_right_2 value_cell" :title="\$nwt.Utils.jsonify(settingData)">
+                    <span>
+                        = {{ settingData }}
+                    </span>
+                </div>
+                <div class="cell edit_cell">
+                    <button class="mini"
+                        v-on:click="() => editSetting(settingId, settingData)">✏️</button>
+                </div>
+                <div class="cell close_cell">
+                    <button class="mini"
+                        v-on:click="() => deleteSetting(settingId)">❌</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>`,
+  props: {
+    settings: {
+      type: Object,
+      default: function() {
+        return this.$nwt.Settings.global;
+      }
+    },
+    dialog: {
+      type: Object,
+      required: true
+    }
+  },
+
+  data() {
+    trace("NwtSettingsViewer.data");
+    return {
+      settingsObject: false,
+    };
+  },
+
+  methods: {
+    async reload() {
+      trace("NwtSettingsViewer.methods.reload");
+      await this.settings.load();
+      this.settingsObject = this.settings.$data;
+    },
+    async createNewSetting() {
+      trace("NwtSettingsViewer.methods.createNewSetting");
+      const settingId = await this.dialog.subdialog({
+        title: "Nombre de la configuración",
+        template: `<div class="pad_2">
+          <div>El nombre de la configuración no se puede cambiar más adelante:</div>
+          <input class="width_100" type="text" v-model="value" v-on:keypress.enter="() => accept()" />
+          <hr/>
+          <div class="flex_row text_align_right">
+            <div class="flex_100"></div>
+            <div class="flex_1 pad_left_1">
+              <button v-on:click="() => accept()">Aceptar</button>
+            </div>
+            <div class="flex_1 pad_left_1">
+              <button v-on:click="() => cancel()">Cancelar</button>
+            </div>
+          </div>
+        </div>`
+      });
+      if(typeof settingId !== "string") {
+        return false;
+      }
+      await this.settings.set(settingId, "");
+      await this.reload();
+    },
+    async editSetting(settingId, settingData) {
+      trace("NwtSettingsViewer.methods.editSetting");
+      const answer = await this.dialog.subdialog({
+        title: "Cambiando valor de configuración",
+        template: `<div class="pad_2">
+          <div>Cambia el valor de la configuración «{{ settingId }}»:</div>
+          <textarea class="width_100" v-model="value" spellcheck="false"></textarea>
+          <hr />
+          <div class="flex_row">
+            <div class="flex_100"></div>
+            <div class="flex_1">
+              <button class="" v-on:click="() => accept(value)">Aceptar</button>
+            </div>
+            <div class="flex_1 pad_left_2">
+              <button class="" v-on:click="() => cancel()">Cancelar</button>
+            </div>
+          </div>
+        </div>`,
+        factory: {
+          data: {
+            settingId,
+            value: typeof settingData === "string" ? settingData : NwtUtils.jsonify(settingData),
+          }
+        }
+      });
+      if(!answer) {
+        return;
+      }
+      await this.settings.set(settingId, answer);
+      await this.reload();
+    },
+    async deleteSetting(settingId) {
+      trace("NwtSettingsViewer.methods.deleteSetting");
+      const answer = await this.dialog.subdialog({
+        title: "Eliminando configuración",
+        template: `<div class="pad_2">
+          <div>¿Seguro que quieres eliminar la configuración «{{ settingId }}»?</div>
+          <hr />
+          <div class="flex_row">
+            <div class="flex_100"></div>
+            <div class="flex_1">
+              <button class="" v-on:click="() => accept(true)">Aceptar</button>
+            </div>
+            <div class="flex_1 pad_left_2">
+              <button class="" v-on:click="() => accept(false)">Cancelar</button>
+            </div>
+          </div>
+        </div>`,
+        factory: {
+          data: {
+            settingId,
+          }
+        }
+      });
+      if(!answer) {
+        return;
+      }
+      await this.settings.delete(settingId);
+      await this.reload();
+    }
+  },
+
+  async mounted() {
+    trace("NwtSettingsViewer.mounted");
+    await this.settings.initialize("org.common.binaries.cordova", "cordova");
+    await this.settings.initialize("org.common.binaries.nw", "nw");
+    await this.settings.initialize("org.common.binaries.node", "node");
+    await this.settings.initialize("org.common.binaries.npm", "npm");
+    await this.settings.initialize("org.common.binaries.git", "git");
+    await this.reload();
+  }
+
+});
+
+
+// @vuebundler[Proyecto_base_001][37]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-settings-viewer/nwt-settings-viewer.css
+
+// @vuebundler[Proyecto_base_001][38]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
+
+// @vuebundler[Proyecto_base_001][38]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
 /**
  * 
  * 
@@ -20436,4 +20696,4 @@ Vue.component("MainWindow", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][37]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css
+// @vuebundler[Proyecto_base_001][38]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css

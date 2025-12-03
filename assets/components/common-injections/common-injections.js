@@ -14,7 +14,10 @@
  * 
  * - Función 1 / `injectTouchability`
  *    - Hace que los eventos de touch (móvil) funcionen también como eventos click (PC) sin tener que cambiar el código.
- *    - Esto se consigue con una inyección de eventos del DOM a `document` en el paso del mounted.
+ * - Función 2 / `injectKeyEventForProcessManager`
+ *    - Hace que CTRL+SUPR abra un diálogo con un gestor de procesos
+ * - Función 3 / `injectKeyEventForSettings`
+ *    - Hace que ALT+S abra un diálogo de configuraciones globales
  * 
  * 
  */
@@ -48,11 +51,36 @@ Vue.component("CommonInjections", {
       document.addEventListener("touchstart", e => fire("mousedown", e));
       document.addEventListener("touchmove", e => fire("mousemove", e));
       document.addEventListener("touchend", e => fire("mouseup", e));
+    },
+
+    injectKeyEventForProcessManager() {
+      document.addEventListener("keydown", (e) => {
+        if (e.ctrlKey && e.key === "Delete") {
+          e.preventDefault();
+          this.$dialogs.open({
+            title: "Procesos activos",
+            template: `<nwt-process-manager-viewer />`,
+          });
+        }
+      });
+    },
+
+    injectKeyEventForSettings() {
+      document.addEventListener("keydown", (e) => {
+        if (e.altKey && e.key === "l") {
+          this.$dialogs.open({
+            title: "Configuraciones globales",
+            template: `<nwt-settings-viewer :settings="$nwt.Settings.global" :dialog="this" />`,
+          });
+        }
+      });
     }
 
   },
   watch: {},
   mounted() {
     this.injectTouchability();
+    this.injectKeyEventForProcessManager();
+    this.injectKeyEventForSettings();
   }
 });

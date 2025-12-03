@@ -42,7 +42,9 @@ Para consultar los comandos puedes ir a:
 
 # Comandos de la aplicación
 
-Pulsando `CTRL+SHIFT` se te abre un gestor de procesos para los diálogos.
+Pulsando `CTRL+SUPR` se te abre el **gestor de procesos** de los diálogos.
+
+Pulsando `ALT+L` se te abre las **configuraciones globales** de la aplicación.
 
 # Referencia de API
 
@@ -65,6 +67,7 @@ Las referencias de las APIs para el desarrollo están aquí:
 - [🌎 Nwt Environment API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/environment-api.md)
 - [🗃️ Nwt JSON Storer API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/json-storer-api.md)
 - [⚙️ Nwt Settings API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/settings-api.md)
+   - [⚙️🔭 Nwt Settings Viewer API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/settings-viewer-api.md)
 - [⏰ Nwt Timer API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/timer-api.md)
 - [🧰 Nwt Utils API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/utils-api.md)
 - [📫 Nwt Lazy Loader API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/lazy-loader-api.md)

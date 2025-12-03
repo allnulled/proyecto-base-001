@@ -1,0 +1,62 @@
+<div class="nwt_settings_viewer">
+    <div class=""
+        v-if="!settingsObject">
+        Cargando...
+    </div>
+    <div class="card"
+        v-else>
+        <div class="table settings_table">
+            <div class="row full_row">
+                <div class="pad_2 pad_top_0">
+                    <button class="width_100"
+                        v-on:click="createNewSetting">➕ Añadir configuración</button>
+                </div>
+            </div>
+            <div class="row header_row">
+                <div class="cell header_cell pad_left_2 pad_right_2 pad_bottom_2">
+                    <button class="mini" v-on:click="reload">🛜</button>
+                </div>
+                <div class="cell header_cell pad_left_2 pad_right_2">
+                    <div class="cell_container">
+                        <div class="cell_content">Nombre</div>
+                    </div>
+                </div>
+                <div class="cell header_cell pad_left_2 pad_right_2">
+                    <div class="cell_container">
+                        <div class="cell_content">Valor</div>
+                    </div>
+                </div>
+                <div class="cell header_cell edit_cell"></div>
+                <div class="cell header_cell close_cell"></div>
+            </div>
+            <div class="row"
+                :class="{'last_row_of_list':settingCounter === (Object.keys(settingsObject).length - 1)}"
+                v-for="settingData, settingId, settingCounter in settingsObject"
+                v-bind:key="'global_setting_' + settingId">
+                <div class="cell pad_left_2 pad_right_2 index_cell">
+                    <span>
+                        {{ settingCounter }}
+                    </span>
+                </div>
+                <div class="cell pad_left_2 pad_right_2 name_cell" :title="settingId">
+                    <span>
+                        {{ settingId }}
+                    </span>
+                </div>
+                <div class="cell pad_left_2 pad_right_2 value_cell" :title="$nwt.Utils.jsonify(settingData)">
+                    <span>
+                        = {{ settingData }}
+                    </span>
+                </div>
+                <div class="cell edit_cell">
+                    <button class="mini"
+                        v-on:click="() => editSetting(settingId, settingData)">✏️</button>
+                </div>
+                <div class="cell close_cell">
+                    <button class="mini"
+                        v-on:click="() => deleteSetting(settingId)">❌</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -38,6 +38,9 @@ Además, hace una tabla de contenidos general e imprime la estructura del proyec
 - [Nwt Settings API](#nwt-settings-api)
   - [Exposición](#exposicin)
   - [Ventajas](#ventajas)
+- [Nwt Settings Viewer API / Componente Vue2](#nwt-settings-viewer-api-componente-vue2)
+  - [Exposición](#exposicin)
+  - [Ventajas](#ventajas)
 - [Nwt Tester API](#nwt-tester-api)
   - [Exposición](#exposicin)
   - [Ventajas](#ventajas)
@@ -108,6 +111,7 @@ Además, hace una tabla de contenidos general e imprime la estructura del proyec
   - 📄 project-commands.md
   - 📄 randomizer-api.md
   - 📄 settings-api.md
+  - 📄 settings-viewer-api.md
   - 📄 tester-api.md
   - 📄 tester-viewer-api.md
   - 📄 timer-api.md
@@ -176,6 +180,10 @@ Además, hace una tabla de contenidos general e imprime la estructura del proyec
         - 📄 nwt-tester-node.css
         - 📄 nwt-tester-node.html
         - 📄 nwt-tester-node.js
+    - 📁 nwt-settings-viewer
+      - 📄 nwt-settings-viewer.css
+      - 📄 nwt-settings-viewer.html
+      - 📄 nwt-settings-viewer.js
     - 📁 nwt-progress-bar-viewer
       - 📄 nwt-progress-bar-viewer.css
       - 📄 nwt-progress-bar-viewer.html
@@ -407,6 +415,8 @@ Se expone a través de:
 
 ```js
 NwtImporter
+NwtFramework.Importer
+Vue.prototype.$nwt.Importer
 ```
 
 ## Ventajas
@@ -509,9 +519,9 @@ const storer = NwtJsonStorer.create({
   file: "/path/to/your/file.json",
   storageId: "JSON_STORER_FOR_YOUR_APP_IN_LS",
 });
-await storer.initialize(key, value);
-await storer.save();
 await storer.load();
+await storer.save();
+await storer.initialize(key, value);
 await storer.get(key, defaultValue);
 await storer.set(key, value);
 await storer.delete(key);
@@ -552,6 +562,45 @@ NwtSettings.global.get(key, defaultValue)
 NwtSettings.global.set(key, value)
 NwtSettings.global.delete(key)
 ```
+
+# Nwt Settings Viewer API / Componente Vue2
+
+La Nwt Settings Viewer API permite sincronizar un widget gráfico con una instancia de `NwtSettings`.
+
+## Exposición
+
+La API se expone a través del componente Vue2:
+
+```js
+Vue.options.components.NwtSettingsViewer
+```
+
+## Ventajas
+
+La API permite cosas como:
+
+```html
+<nwt-settings-viewer :settings="settings" :dialog="this" />
+```
+
+Donde `dialog` tiene que ser una instancia de `NwtDialog`, pero dentro de la template del diálogo la accedemos con el `this`:
+
+```js
+this.$dialogs.open({
+  title: "Configuraciones globales",
+  template: `<nwt-settings-viewer :settings="$nwt.Settings.global" :dialog="this" />`,
+});
+```
+
+Donde `settings` tiene que ser una instancia de `NwtSettings`.
+
+Por ejemplo:
+
+```js
+NwtSettings.global // instancia
+```
+
+Se enciende un NwtSettingsViewer si pulsas ALT+L.
 
 # Nwt Tester API
 
@@ -1134,7 +1183,10 @@ Pero se hace a través del componente vue2 `CommonInjections`.
 
 - Función 1 / `injectTouchability`
    - Hace que los eventos de touch (móvil) funcionen también como eventos click (PC) sin tener que cambiar el código.
-   - Esto se consigue con una inyección de eventos del DOM a `document` en el paso del mounted.
+- Función 2 / `injectKeyEventForProcessManager`
+   - Hace que CTRL+SUPR abra un diálogo con un gestor de procesos
+- Función 3 / `injectKeyEventForSettings`
+   - Hace que ALT+S abra un diálogo de configuraciones globales
 
 # Nwt Injection API
 

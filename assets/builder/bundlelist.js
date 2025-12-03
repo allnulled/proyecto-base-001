@@ -36,5 +36,6 @@ module.exports = [
   `${__dirname}/../components/nwt-progress-bar-viewer/nwt-progress-bar-viewer`,
   `${__dirname}/../components/nwt-box-viewer/nwt-box-viewer`,
   `${__dirname}/../components/nwt-process-manager-viewer/nwt-process-manager-viewer`,
+  `${__dirname}/../components/nwt-settings-viewer/nwt-settings-viewer`,
   `${__dirname}/../components/main-window/main-window`,
 ];

@@ -8,6 +8,8 @@ Se expone a través de:
 
 ```js
 NwtImporter
+NwtFramework.Importer
+Vue.prototype.$nwt.Importer
 ```
 
 ## Ventajas
