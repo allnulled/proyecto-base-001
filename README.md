@@ -46,6 +46,10 @@ Pulsando `CTRL+SHIFT` se te abre un gestor de procesos para los diálogos.
 
 # Referencia de API
 
+Si quieres acceder a la documentación de toda la API en 1 solo documento, tienes el:
+
+- [llm.md](https://github.com/allnulled/proyecto-base-001/tree/main/llm.md)
+
 Las referencias de las APIs para el desarrollo están aquí:
 
 - [🌐 Nwt Globals API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/globals-api.md)
@@ -58,6 +62,8 @@ Las referencias de las APIs para el desarrollo están aquí:
 - [🪖 Nwt Tester API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/tester-api.md)
    - [🪖🔭 Nwt Tester Viewer API - Vue2 component](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/tester-viewer-api.md)
 - [💈 Nwt Randomizer API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/randomizer-api.md)
+- [🌎 Nwt Environment API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/environment-api.md)
+- [🗃️ Nwt JSON Storer API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/json-storer-api.md)
 - [⚙️ Nwt Settings API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/settings-api.md)
 - [⏰ Nwt Timer API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/timer-api.md)
 - [🧰 Nwt Utils API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/utils-api.md)
@@ -66,8 +72,8 @@ Las referencias de las APIs para el desarrollo están aquí:
 - [🪫 Nwt Progress Bar API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/progress-bar-api.md)
    - [🪫🔭 Nwt Progress Bar Viewer API - Vue2 component](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/progress-bar-viewer-api.md)
 - [🔃 Nwt Process API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/process-api.md)
-- [🔃 Nwt Process Manager API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/process-manager-api.md)
-   - [🔃🔭 Nwt Process Manager Viewer API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/process-manager-viewer-api.md)
+- [🤹 Nwt Process Manager API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/process-manager-api.md)
+   - [🤹🔭 Nwt Process Manager Viewer API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/process-manager-viewer-api.md)
 - [🪱 Nwt V-Draggable Directive API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/v-draggable-api.md)
 - [◼️ Nwt V-Resizable Directive API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/v-resizable-api.md)
 - [💉 Nwt Injection API](https://github.com/allnulled/proyecto-base-001/tree/main/documentation/injection-api.md)

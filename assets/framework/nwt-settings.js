@@ -12,11 +12,29 @@
  * NwtSettings
  * NwtFramework.Settings
  * Vue.prototype.$nwt.Settings
+ * NwtSettings.global // instancia
  * ```
  * 
  * ## Ventajas
  * 
- * De momento, no hace nada.
+ * - Guarda en el fichero indicado la caché del programa dependiendo del sistema operativo.
+ * - Carga las configuraciones desde el fichero dependiendo del sistema operativo.
+ * - Si está en navegador, usa localStorage
+ * 
+ * ```js
+ * NwtSettings.global // instancia
+ * // PROPIEDADES:
+ * NwtSettings.global.$file
+ * NwtSettings.global.$storageId
+ * // PERSISTENCIA:
+ * NwtSettings.global.save()
+ * NwtSettings.global.load()
+ * // CRUD:
+ * NwtSettings.global.initialize(key, value)
+ * NwtSettings.global.get(key, defaultValue)
+ * NwtSettings.global.set(key, value)
+ * NwtSettings.global.delete(key)
+ * ```
  * 
  */
 
@@ -32,12 +50,58 @@
     module.exports = mod;
   }
 })(function () {
-  
-  const NwtSettings = class {
 
-    
+  const NwtSettings = class extends NwtJsonStorer {
+
+    // @OK: Settings está OK con la API heredada ya.
 
   };
+
+  const options = {};
+
+  if (NwtEnvironment.isDesktop) {
+
+    if (NwtEnvironment.isLinux) {
+      // Ruta XDG típica para config de usuario
+      // ~/.config/NwtFramework/settings.json
+      options.file = require("path").join(
+        require("os").homedir(),
+        ".config",
+        "NwtFramework",
+        "settings.json"
+      );
+
+    } else if (NwtEnvironment.isWindows) {
+      // Ruta típica de configuración en Windows:
+      // C:\Users\<User>\AppData\Roaming\NwtFramework\settings.json
+      const homedir = require("os").homedir();
+      options.file = require("path").join(
+        homedir,
+        "AppData",
+        "Roaming",
+        "NwtFramework",
+        "settings.json"
+      );
+
+    } else {
+      throw new Error("Plataforma no soportada: solo Windows y Linux");
+    }
+
+  } else if (NwtEnvironment.isBrowser) {
+
+    options.storageId = "NWT_SETTINGS_GLOBAL_STORAGE";
+
+  } else if (NwtEnvironment.isCordova) {
+
+    // Ruta estándar interna para aplicaciones Cordova
+    // Normalmente: /data/data/<app>/files/settings.json
+    // No se usa process.env
+    options.file = "settings.json";
+    options.storageId = "NWT_SETTINGS_GLOBAL_STORAGE";
+
+  }
+
+  NwtSettings.global = NwtSettings.create(options);
 
   return NwtSettings;
 

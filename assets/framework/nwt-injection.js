@@ -18,8 +18,6 @@
  * Pero no se expone una API como tal en este punto.
  * 
  */
-
-
 window.addEventListener("load", function () {
     trace("Nwt injection on Vue.prototype.$*");
     Vue.prototype.$window = window;

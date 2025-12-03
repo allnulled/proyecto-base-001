@@ -17521,7 +17521,384 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][13]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-settings.js
+// @vuebundler[Proyecto_base_001][13]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-environment.js
+/**
+ * 
+ * # Nwt Environment API
+ * 
+ * API para poder discriminar entre diferentes entornos del JavaScript.
+ * 
+ * ## Exposición
+ * 
+ * Se expone a través de:
+ * 
+ * ```js
+ * NwtEnvironment
+ * NwtFramework.Environment
+ * Vue.prototype.$nwt.Environment
+ * ```
+ * 
+ * ## Ventajas
+ * 
+ * Puedes hacer cosas como:
+ * 
+ * ```js
+ * NwtEnvironment.summary() // Object con todas las propiedades
+ * NwtEnvironment.isDesktop // Boolean
+ * NwtEnvironment.isBrowser // Boolean
+ * NwtEnvironment.isMobile // Boolean
+ * NwtEnvironment.isLinux // Boolean
+ * NwtEnvironment.isWindows // Boolean
+ * NwtEnvironment.isMac // Boolean
+ * NwtEnvironment.isAndroid // Boolean
+ * NwtEnvironment.isIOS // Boolean
+ * NwtEnvironment.isElectron // Boolean
+ * NwtEnvironment.isNode // Boolean
+ * NwtEnvironment.isCordova // Boolean
+ * NwtEnvironment.isCapacitor // Boolean
+ * NwtEnvironment.isNWJS // Boolean
+ * NwtEnvironment.isTouchDevice // Boolean
+ * NwtEnvironment.isHeadless // Boolean
+ * NwtEnvironment.canUseLocalStorage // Boolean
+ * NwtEnvironment.canUseFilesystem // Boolean
+ * NwtEnvironment.hasWindow // Boolean
+ * NwtEnvironment.hasDOM // Boolean
+ * NwtEnvironment.hasGlobal // Boolean
+ * NwtEnvironment.hasRequire // Boolean
+ * ```
+ * 
+ */
+(function (factory) {
+  const mod = factory();
+  if (typeof window !== 'undefined') {
+    window['NwtEnvironment'] = mod;
+  }
+  if (typeof global !== 'undefined') {
+    global['NwtEnvironment'] = mod;
+  }
+  if (typeof module !== 'undefined') {
+    module.exports = mod;
+  }
+})(function () {
+
+  const hasGlobal = function() {
+    return typeof global !== "undefined";
+  }
+
+  const hasWindow = function() {
+    return typeof window !== "undefined";
+  }
+
+  const hasDocument = function() {
+    return typeof document !== "undefined";
+  }
+
+  const hasRequire = function() {
+    return typeof require === "function";
+  }
+
+  const detectNode = function() {
+    return hasGlobal() && hasRequire() && typeof process !== "undefined";
+  }
+
+  const detectCordova = function() {
+    return hasWindow() && (window.cordova || window.PhoneGap || window.phonegap);
+  }
+
+  const detectCapacitor = function() {
+    return hasWindow() && window.Capacitor;
+  }
+
+  const detectElectron = function() {
+    return detectNode() && !!process.versions.electron;
+  }
+
+  const detectNWJS = function() {
+    return detectNode() && !!process.versions.nw;
+  }
+
+  const detectOS = function() {
+    if (detectNode()) {
+      const p = process.platform;
+      if (p === "win32") return "windows";
+      if (p === "linux") return "linux";
+      if (p === "darwin") return "macos";
+      if (p === "android") return "android";
+      return p;
+    } else {
+      const ua = navigator.userAgent || "";
+      if (/Windows/i.test(ua)) return "windows";
+      if (/Linux/i.test(ua) && !/Android/i.test(ua)) return "linux";
+      if (/Macintosh|Mac OS X/i.test(ua)) return "macos";
+      if (/Android/i.test(ua)) return "android";
+      if (/iPhone|iPad|iPod/i.test(ua)) return "ios";
+      return "unknown";
+    }
+  }
+
+  const detectTouch = function() {
+    if (!hasWindow()) return false;
+    return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  }
+
+  const detectLocalStorage = function() {
+    try {
+      if (!hasWindow()) return false;
+      const x = "ls_test";
+      localStorage.setItem(x, x);
+      localStorage.removeItem(x);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  const detectFilesystem = function() {
+    if (detectNode()) return true;
+    // Browser FS APIs (File System Access API)
+    if (hasWindow() && window.showOpenFilePicker) return true;
+    return false;
+  }
+
+  const detectHeadless = function() {
+    if (!hasWindow()) return true;
+    if (!hasDocument()) return true;
+    return false;
+  }
+
+  const NwtEnvironment = class {
+
+    static initialize() {
+
+      const isNode = detectNode();
+      const isCordova = !!detectCordova();
+      const isCapacitor = !!detectCapacitor();
+      const os = detectOS();
+
+      this.isDesktop = isNode && !isCordova && !isCapacitor;
+      this.isBrowser = hasWindow() && !isNode && !isCordova && !isCapacitor;
+      this.isMobile = isCordova || isCapacitor || os === "android" || os === "ios";
+
+      this.isLinux = os === "linux";
+      this.isWindows = os === "windows";
+      this.isMac = os === "macos";
+      this.isAndroid = os === "android";
+      this.isIOS = os === "ios";
+
+      this.isElectron = detectElectron();
+      this.isNode = isNode;
+      this.isCordova = isCordova;
+      this.isCapacitor = isCapacitor;
+      this.isNWJS = detectNWJS();
+
+      this.isTouchDevice = detectTouch();
+      this.isHeadless = detectHeadless();
+
+      this.canUseLocalStorage = detectLocalStorage();
+      this.canUseFilesystem = detectFilesystem();
+
+      this.hasDOM = hasDocument();
+      this.hasWindow = hasWindow();
+      this.hasGlobal = hasGlobal();
+      this.hasRequire = hasRequire();
+
+      return this;
+
+    }
+
+    static summary() {
+      return {
+        isDesktop: this.isDesktop,
+        isBrowser: this.isBrowser,
+        isMobile: this.isMobile,
+        isLinux: this.isLinux,
+        isWindows: this.isWindows,
+        isMac: this.isMac,
+        isAndroid: this.isAndroid,
+        isIOS: this.isIOS,
+        isElectron: this.isElectron,
+        isNode: this.isNode,
+        isCordova: this.isCordova,
+        isCapacitor: this.isCapacitor,
+        isNWJS: this.isNWJS,
+        isTouchDevice: this.isTouchDevice,
+        isHeadless: this.isHeadless,
+        canUseLocalStorage: this.canUseLocalStorage,
+        canUseFilesystem: this.canUseFilesystem,
+        hasWindow: this.hasWindow,
+        hasDOM: this.hasDOM,
+        hasGlobal: this.hasGlobal,
+        hasRequire: this.hasRequire
+      };
+    }
+
+
+
+  };
+
+  // Ejecutamos detection automáticamente
+  NwtEnvironment.initialize();
+
+  return NwtEnvironment;
+
+});
+
+// @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-json-storer.js
+/**
+ * 
+ * # Nwt Json Storer API
+ * 
+ * La `Nwt Json Storer API` consiste en la gestión de 1 JSON para PC con **filesystem** y para navegador con **localStorage**.
+ * 
+ * ## Exposición
+ * 
+ * La API se expone en forma de clase con:
+ * 
+ * ```js
+ * NwtJsonStorer
+ * NwtFramework.JsonStorer
+ * Vue.prototype.$nwt.JsonStorer
+ * ```
+ * 
+ * ## Ventajas
+ * 
+ * ```js
+ * NwtJsonStorer.isNode // Boolean
+ * NwtJsonStorer.fs // Object | null
+ * const storer = NwtJsonStorer.create({
+ *   file: "/path/to/your/file.json",
+ *   storageId: "JSON_STORER_FOR_YOUR_APP_IN_LS",
+ * });
+ * await storer.initialize(key, value);
+ * await storer.save();
+ * await storer.load();
+ * await storer.get(key, defaultValue);
+ * await storer.set(key, value);
+ * await storer.delete(key);
+ * ```
+ * 
+ */
+(function (factory) {
+  const mod = factory();
+  if (typeof window !== 'undefined') {
+    window['NwtJsonStorer'] = mod;
+  }
+  if (typeof global !== 'undefined') {
+    global['NwtJsonStorer'] = mod;
+  }
+  if (typeof module !== 'undefined') {
+    module.exports = mod;
+  }
+})(function () {
+
+  const NwtJsonStorer = class {
+
+    static fs = NwtEnvironment.isNode ? require("fs").promises : null;
+
+    static create(...args) {
+      return new this(...args);
+    }
+
+    constructor(options = {}) {
+      this.$options = Object.assign({}, options);
+      this.$file = this.$options.file || null;
+      this.$storageId = this.$options.storageId || null;
+      this.$data = {};
+    }
+
+    async saveInFilesystem() {
+      if (!this.$file) return false;
+      const txt = JSON.stringify(this.$data, null, 2);
+      await fs.writeFile(this.$file, txt, "utf8");
+      return true;
+    }
+
+    async loadInFilesystem() {
+      if (!this.$file) return false;
+      try {
+        const txt = await fs.readFile(this.$file, "utf8");
+        this.$data = JSON.parse(txt);
+        return true;
+      } catch (err) {
+        this.$data = {};
+        return false;
+      }
+    }
+
+    async saveInLocalStorage() {
+      if (!this.$storageId) return false;
+      if (typeof localStorage === "undefined") return false;
+      localStorage.setItem(this.$storageId, JSON.stringify(this.$data));
+      return true;
+    }
+
+    async loadInLocalStorage() {
+      if (!this.$storageId) return false;
+      if (typeof localStorage === "undefined") return false;
+      const txt = localStorage.getItem(this.$storageId);
+      if (!txt) {
+        this.$data = {};
+        return false;
+      }
+      try {
+        this.$data = JSON.parse(txt);
+        return true;
+      } catch (err) {
+        this.$data = {};
+        return false;
+      }
+    }
+
+    async initialize(key, value = undefined) {
+      await this.load();
+      if (!(key in this.$data)) {
+        if (value !== undefined) {
+          this.$data[key] = value;
+          await this.save();
+        }
+      }
+      return this.$data[key];
+    }
+
+    async save() {
+      if (this.constructor.isNode) return this.saveInFilesystem();
+      if (!this.constructor.isNode) return this.saveInLocalStorage();
+      return false;
+    }
+
+    async load() {
+      if (this.constructor.isNode) return this.loadInFilesystem();
+      if (!this.constructor.isNode) return this.loadInLocalStorage();
+      this.$data = {};
+      return false;
+    }
+
+    async get(key, defaultValue = undefined) {
+      await this.load();
+      if (key in this.$data) return this.$data[key];
+      return defaultValue;
+    }
+
+    async set(key, value = undefined) {
+      await this.load();
+      this.$data[key] = value;
+      await this.save();
+      return value;
+    }
+
+    async delete(key) {
+      await this.load();
+      delete this.$data[key];
+      await this.save();
+    }
+
+  };
+
+  return NwtJsonStorer;
+
+});
+
+// @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-settings.js
 /**
  * 
  * # Nwt Settings API
@@ -17536,11 +17913,29 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
  * NwtSettings
  * NwtFramework.Settings
  * Vue.prototype.$nwt.Settings
+ * NwtSettings.global // instancia
  * ```
  * 
  * ## Ventajas
  * 
- * De momento, no hace nada.
+ * - Guarda en el fichero indicado la caché del programa dependiendo del sistema operativo.
+ * - Carga las configuraciones desde el fichero dependiendo del sistema operativo.
+ * - Si está en navegador, usa localStorage
+ * 
+ * ```js
+ * NwtSettings.global // instancia
+ * // PROPIEDADES:
+ * NwtSettings.global.$file
+ * NwtSettings.global.$storageId
+ * // PERSISTENCIA:
+ * NwtSettings.global.save()
+ * NwtSettings.global.load()
+ * // CRUD:
+ * NwtSettings.global.initialize(key, value)
+ * NwtSettings.global.get(key, defaultValue)
+ * NwtSettings.global.set(key, value)
+ * NwtSettings.global.delete(key)
+ * ```
  * 
  */
 
@@ -17556,18 +17951,64 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
     module.exports = mod;
   }
 })(function () {
-  
-  const NwtSettings = class {
 
-    
+  const NwtSettings = class extends NwtJsonStorer {
+
+    // @OK: Settings está OK con la API heredada ya.
 
   };
+
+  const options = {};
+
+  if (NwtEnvironment.isDesktop) {
+
+    if (NwtEnvironment.isLinux) {
+      // Ruta XDG típica para config de usuario
+      // ~/.config/NwtFramework/settings.json
+      options.file = require("path").join(
+        require("os").homedir(),
+        ".config",
+        "NwtFramework",
+        "settings.json"
+      );
+
+    } else if (NwtEnvironment.isWindows) {
+      // Ruta típica de configuración en Windows:
+      // C:\Users\<User>\AppData\Roaming\NwtFramework\settings.json
+      const homedir = require("os").homedir();
+      options.file = require("path").join(
+        homedir,
+        "AppData",
+        "Roaming",
+        "NwtFramework",
+        "settings.json"
+      );
+
+    } else {
+      throw new Error("Plataforma no soportada: solo Windows y Linux");
+    }
+
+  } else if (NwtEnvironment.isBrowser) {
+
+    options.storageId = "NWT_SETTINGS_GLOBAL_STORAGE";
+
+  } else if (NwtEnvironment.isCordova) {
+
+    // Ruta estándar interna para aplicaciones Cordova
+    // Normalmente: /data/data/<app>/files/settings.json
+    // No se usa process.env
+    options.file = "settings.json";
+    options.storageId = "NWT_SETTINGS_GLOBAL_STORAGE";
+
+  }
+
+  NwtSettings.global = NwtSettings.create(options);
 
   return NwtSettings;
 
 });
 
-// @vuebundler[Proyecto_base_001][14]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-utils.js
+// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-utils.js
 /**
  * 
  * # Nwt Utils API
@@ -17630,7 +18071,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][15]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-timer.js
+// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-timer.js
 /**
  * 
  * # Nwt Timer API
@@ -17726,7 +18167,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][16]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-randomizer.js
+// @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-randomizer.js
 /**
  * 
  * # Nwt Randomizer API
@@ -17815,7 +18256,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][17]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-progress-bar.js
+// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-progress-bar.js
 /**
  * 
  * # Nwt Progress Bar API
@@ -17929,7 +18370,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][18]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-globalizer.js
+// @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-globalizer.js
 /**
  * 
  * # Nwt Globalizer API
@@ -17989,7 +18430,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][19]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tester.js
+// @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-tester.js
 /**
  * 
  * # Nwt Tester API
@@ -18321,7 +18762,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][20]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-process.js
+// @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-process.js
 /**
  * 
  * # Nwt Process API
@@ -18466,7 +18907,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][21]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-process-manager.js
+// @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-process-manager.js
 /**
  * 
  * # NwtProcessManager
@@ -18537,7 +18978,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 });
 
-// @vuebundler[Proyecto_base_001][22]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js
+// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-pack.js
 /**
  * 
  * # Nwt Framework API
@@ -18611,7 +19052,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
 })();
 
-// @vuebundler[Proyecto_base_001][23]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-injection.js
+// @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/framework/nwt-injection.js
 /**
  * 
  * # Nwt Injection API
@@ -18632,8 +19073,6 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
  * Pero no se expone una API como tal en este punto.
  * 
  */
-
-
 window.addEventListener("load", function () {
     trace("Nwt injection on Vue.prototype.$*");
     Vue.prototype.$window = window;
@@ -18645,7 +19084,7 @@ window.addEventListener("load", function () {
     }).$mount("#app");
 });
 
-// @vuebundler[Proyecto_base_001][24]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/directives/v-resizable.js
+// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/directives/v-resizable.js
 /**
  * 
  * # Nwt V-Resizable Directive - Vue directive
@@ -18752,7 +19191,7 @@ Vue.directive("resizable", {
   }
 });
 
-// @vuebundler[Proyecto_base_001][25]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/directives/v-draggable.js
+// @vuebundler[Proyecto_base_001][27]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/directives/v-draggable.js
 /**
  * 
  * 
@@ -18822,9 +19261,9 @@ Vue.directive("draggable", {
   }
 });
 
-// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html
+// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.html
 
-// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js
+// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.js
 /**
  * 
  * # Nwt Dialogs API
@@ -18957,11 +19396,11 @@ Vue.component("CommonDialogs", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][26]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css
+// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-dialogs/common-dialogs.css
 
-// @vuebundler[Proyecto_base_001][27]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html
+// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.html
 
-// @vuebundler[Proyecto_base_001][27]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js
+// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.js
 /**
  * 
  * # Nwt Toasts API
@@ -19072,11 +19511,11 @@ Vue.component("CommonToasts", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][27]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css
+// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-toasts/common-toasts.css
 
-// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html
+// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.html
 
-// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js
+// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.js
 /**
  * 
  * # Nwt Errors API
@@ -19262,11 +19701,11 @@ Vue.component("CommonErrors", {
 
 
 
-// @vuebundler[Proyecto_base_001][28]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css
+// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-errors/common-errors.css
 
-// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-injections/common-injections.html
+// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-injections/common-injections.html
 
-// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-injections/common-injections.js
+// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-injections/common-injections.js
 /**
  * 
  * # Nwt Common Injections API
@@ -19328,11 +19767,11 @@ Vue.component("CommonInjections", {
   }
 });
 
-// @vuebundler[Proyecto_base_001][29]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-injections/common-injections.css
+// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/common-injections/common-injections.css
 
-// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.html
+// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.html
 
-// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js
+// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.js
 /**
  * 
  * # Nwt Tester Viewer API / Componente Vue2
@@ -19417,11 +19856,11 @@ Vue.component("NwtTesterViewer", {
 });
 
 
-// @vuebundler[Proyecto_base_001][30]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.css
+// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-viewer/nwt-tester-viewer.css
 
-// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.html
+// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.html
 
-// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.js
+// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.js
 Vue.component("NwtTesterNode", {
   template: `<div class="nwt_tester_node">
     <template v-if="node instanceof \$nwt.Tester.Assertion">
@@ -19517,11 +19956,11 @@ Vue.component("NwtTesterNode", {
 });
 
 
-// @vuebundler[Proyecto_base_001][31]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.css
+// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-tester-ui/nwt-tester-node/nwt-tester-node.css
 
-// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.html
+// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.html
 
-// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.js
+// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.js
 /**
  * 
  * # Nwt Progress Bar Viewer API / Componente Vue2
@@ -19583,11 +20022,11 @@ Vue.component("NwtProgressBarViewer", {
 });
 
 
-// @vuebundler[Proyecto_base_001][32]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.css
+// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-progress-bar-viewer/nwt-progress-bar-viewer.css
 
-// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.html
+// @vuebundler[Proyecto_base_001][35]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.html
 
-// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.js
+// @vuebundler[Proyecto_base_001][35]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.js
 /**
  * 
  * # Nwt Box Viewer API / Componente Vue2
@@ -19664,11 +20103,11 @@ Vue.component("NwtBoxViewer", {
 });
 
 
-// @vuebundler[Proyecto_base_001][33]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.css
+// @vuebundler[Proyecto_base_001][35]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-box-viewer/nwt-box-viewer.css
 
-// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.html
+// @vuebundler[Proyecto_base_001][36]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.html
 
-// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.js
+// @vuebundler[Proyecto_base_001][36]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.js
 /**
  * 
  * # Nwt Process Manager Viewer API / Componente Vue2
@@ -19807,11 +20246,11 @@ Vue.component("NwtProcessManagerViewer", {
 });
 
 
-// @vuebundler[Proyecto_base_001][34]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.css
+// @vuebundler[Proyecto_base_001][36]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-process-manager-viewer/nwt-process-manager-viewer.css
 
-// @vuebundler[Proyecto_base_001][35]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
+// @vuebundler[Proyecto_base_001][37]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
 
-// @vuebundler[Proyecto_base_001][35]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
+// @vuebundler[Proyecto_base_001][37]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
 /**
  * 
  * 
@@ -19995,4 +20434,4 @@ Vue.component("MainWindow", {
   }
 })
 
-// @vuebundler[Proyecto_base_001][35]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css
+// @vuebundler[Proyecto_base_001][37]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css

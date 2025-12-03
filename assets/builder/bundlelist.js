@@ -12,6 +12,8 @@ module.exports = [
   `${__dirname}/../framework/nwt-dialog-definition.js`,
   `${__dirname}/../framework/nwt-importer.js`,
   `${__dirname}/../framework/nwt-lazy-loader.js`,
+  `${__dirname}/../framework/nwt-environment.js`,
+  `${__dirname}/../framework/nwt-json-storer.js`,
   `${__dirname}/../framework/nwt-settings.js`,
   `${__dirname}/../framework/nwt-utils.js`,
   `${__dirname}/../framework/nwt-timer.js`,
