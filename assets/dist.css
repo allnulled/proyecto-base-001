@@ -2584,7 +2584,7 @@ div.subcard {
     background-color: #EEE;
     box-shadow: 2px 2px 0px black;
     padding: 4px;
-    max-height: 300px;
+    /*max-height: 300px;*/
     overflow: scroll;
 }
 .nwt_tester_viewer .tester_viewer_box.all_passed {
@@ -2706,10 +2706,12 @@ div.subcard {
     text-align: right;
 }
 
-/* @vuebundler[Proyecto_base_001][38]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html*/
+/* @vuebundler[Proyecto_base_001][38]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/app/app-root.js*/
 
-/* @vuebundler[Proyecto_base_001][38]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js*/
+/* @vuebundler[Proyecto_base_001][39]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html*/
 
-/* @vuebundler[Proyecto_base_001][38]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css*/
+/* @vuebundler[Proyecto_base_001][39]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js*/
+
+/* @vuebundler[Proyecto_base_001][39]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css*/
 .main_window_container {}
 .main_window {}

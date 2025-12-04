@@ -18322,31 +18322,32 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
   const NwtProgressBar = class {
 
     static create(...args) {
+      trace("NwtProgressBar.create");
       return new this(...args);
     }
 
     constructor({ total = 1, current = 0 } = {}, parent = null, weight = 1) {
+      trace("NwtProgressBar.constructor");
       this.total = total;
       this.current = current;
       this.parent = parent;
       this.weight = weight;
       this.children = [];
-      if (!this.parent) {
-        this._updatePercentage();
-      }
+      this._updatePercentage();
     }
 
     advance(n = 1) {
+      trace("NwtProgressBar.prototype.advance");
       this.current += n;
       if (this.current > this.total) this.current = this.total;
+      this._updatePercentage();
       if (this.parent) {
         this.parent._updateFromChild();
-      } else {
-        this._updatePercentage();
       }
     }
 
     subprogress({ total = 1, current = 0, weight = 1 } = {}) {
+      trace("NwtProgressBar.prototype.subprogress");
       const fraction = weight / this.total;
       const child = new NwtProgressBar({ total, current }, this, fraction);
       this._registerChild(child);
@@ -18354,29 +18355,41 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
     }
 
     _getRelativeProgress() {
+      trace("NwtProgressBar.prototype._getRelativeProgress");
       return this.total === 0 ? 0 : this.current / this.total;
     }
 
     _updateFromChild() {
+      trace("NwtProgressBar.prototype._updateFromChild");
       let sum = 0;
       for (const child of this.children) {
-        sum += child._getRelativeProgress() * child.weight;
+        sum += child._getRelativeProgress() * child.weightFraction;
       }
       this.current = sum * this.total;
       if (this.parent) {
         this.parent._updateFromChild();
-      } else {
-        this._updatePercentage();
       }
+      this._updatePercentage();
     }
 
     _updatePercentage() {
+      trace("NwtProgressBar.prototype._updatePercentage");
       this.percent = (this._getRelativeProgress() * 100).toFixed(2) + "%";
     }
 
     _registerChild(child) {
+      trace("NwtProgressBar.prototype._registerChild");
       this.children.push(child);
+      this._recalculateChildFractions();
     }
+
+    _recalculateChildFractions() {
+      const sumWeights = this.children.reduce((a, c) => a + c.weight, 0);
+      for (const child of this.children) {
+        child.weightFraction = child.weight / sumWeights;
+      }
+    }
+
 
   };
 
@@ -18641,8 +18654,6 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
   }
 })(function () {
 
-  let NwtTester = undefined;
-
   const NwtTesterAssertion = class {
 
     static create(...args) {
@@ -18667,7 +18678,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
 
   };
   
-  NwtTester = class {
+  const NwtTester = class {
 
     static Assertion = NwtTesterAssertion;
 
@@ -18697,11 +18708,13 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
       this.accumulatedErrors = [];
       this.status = "pending";
       this.startedAt = null;
+      this.progressBar = this.parent ? this.parent.progressBar.subprogress({ total: 1, current: 0, weight: 1 }) : NwtProgressBar.create({ total: 1, current: 0, weight: 1 });
     }
 
     define(name, callback) {
       const test = new NwtTester(name, callback, this.hooks, this, this.root || this, this.level+1);
       this.children.push(test);
+      this.progressBar.total = this.children.length;
       this.hooks.onTestDefined?.(test);
       return test;
     }
@@ -18742,7 +18755,7 @@ if (window.location.href.startsWith("http://") || window.location.href.startsWit
         if (this.status === "pending") {
           try {
             this.status = "running";
-            await this.callback(this, assertion);
+            await this.callback(this, assertion, this.progressBar);
           } catch (error) {
             this.failBranch(this, error);
           }
@@ -19953,6 +19966,9 @@ Vue.component("NwtTesterNode", {
                 </div>
             </div>
         </div>
+        <div class="progress">
+            <nwt-progress-bar-viewer :progress-bar="node.progressBar" />
+        </div>
         <div class="children">
             <nwt-tester-node v-for="(child,i) in node.children"
                 v-bind:key="'node_' + node.name + '_child_' + i"
@@ -20015,7 +20031,7 @@ Vue.component("NwtTesterNode", {
  */
 Vue.component("NwtProgressBarViewer", {
   template: `<div class="progress_bar_viewer">
-    <div role="progressbar" class="animate">
+    <div role="progressbar" :class="{animate: progressBar.percent !== '100.00%'}">
         <div :style="{width: progressBar.percent}">
             <div class="progress_bar_message">
                 <div>{{ progressBar.percent }}</div>
@@ -20510,9 +20526,46 @@ Vue.component("NwtSettingsViewer", {
 
 // @vuebundler[Proyecto_base_001][37]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/nwt-settings-viewer/nwt-settings-viewer.css
 
-// @vuebundler[Proyecto_base_001][38]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
+// @vuebundler[Proyecto_base_001][38]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/app/app-root.js
+/**
+ * 
+ * # App Root API
+ * 
+ * Sirve como ejemplo de API de aplicación.
+ * 
+ * Funcionalmente, solo deja acceso a `AppRoot.$component`.
+ * 
+ */
+(function (factory) {
+  const mod = factory();
+  if (typeof window !== 'undefined') {
+    window['AppRoot'] = mod;
+  }
+  if (typeof global !== 'undefined') {
+    global['AppRoot'] = mod;
+  }
+  if (typeof module !== 'undefined') {
+    module.exports = mod;
+  }
+})(function () {
+  
+  const AppRoot = class {
 
-// @vuebundler[Proyecto_base_001][38]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
+    static $component = null;
+
+    static initialize(component) {
+      this.$component = component;
+    }
+
+  };
+
+  return AppRoot;
+
+});
+
+// @vuebundler[Proyecto_base_001][39]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.html
+
+// @vuebundler[Proyecto_base_001][39]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.js
 /**
  * 
  * 
@@ -20525,29 +20578,38 @@ Vue.component("MainWindow", {
         <div class="title">Botones para ventanas:</div>
         <div class="card">
             <div class="pad_bottom_1">
-                <button class="width_100 text_align_left" ref="btn1" v-on:click="demoDialog">Mostrar diálogo de ejemplo</button>
+                <button class="width_100 text_align_left"
+                    ref="btn1"
+                    v-on:click="demoDialog">Mostrar diálogo de ejemplo</button>
             </div>
             <div class="pad_bottom_1">
-                <button class="width_100 text_align_left" ref="btn1" v-on:click="demoNestedDialogs">Mostrar diálogos anidados de ejemplo</button>
+                <button class="width_100 text_align_left"
+                    ref="btn1"
+                    v-on:click="demoNestedDialogs">Mostrar diálogos anidados de ejemplo</button>
             </div>
             <div class="pad_bottom_1">
-                <button class="width_100 text_align_left" v-on:click="demoToast">Mostrar toast de
+                <button class="width_100 text_align_left"
+                    v-on:click="demoToast">Mostrar toast de
                     ejemplo</button>
             </div>
             <div class="pad_bottom_1">
-                <button class="width_100 text_align_left" v-on:click="() => \$errors.showError(new \$window.Error('Algo fue mal'))">Mostrar error de ejemplo</button>
+                <button class="width_100 text_align_left"
+                    v-on:click="() => \$errors.showError(new \$window.Error('Algo fue mal'))">Mostrar error de ejemplo</button>
             </div>
             <div class="pad_bottom_1">
-                <button class="width_100 text_align_left" v-on:click="showMultipleErrors">Mostrar múltiples errores simultáneos</button>
+                <button class="width_100 text_align_left"
+                    v-on:click="showMultipleErrors">Mostrar múltiples errores simultáneos</button>
             </div>
         </div>
         <div class="">
             <nwt-process-manager-viewer :process-manager="\$nwt.ProcessManager.dialogs" />
         </div>
-        <nwt-tester-viewer :tester="currentTester"
-            title="Test global de prueba:" />
-        <div class="pad_top_1">
+        <div class="">
             <nwt-progress-bar-viewer :progress-bar="progressBar" />
+        </div>
+        <div class="">
+            <nwt-tester-viewer :tester="currentTester"
+                title="Test global de prueba:" />
         </div>
     </div>
     <common-dialogs />
@@ -20558,11 +20620,10 @@ Vue.component("MainWindow", {
   props: {},
   data() {
     trace("MainWindow.data");
-    const progress = new NwtProgressBar({ total: 3 });
-    progress.total = 3;
-    NwtTester.global.define("Global test", async test => {
-      test.define("First test", async (tester, assertion) => {
-        const subprogress = progress.subprogress({ total: 8 });
+    NwtTester.global.progressBar.total = 3;
+    NwtTester.global.define("Global test", async (test, assertion, subprogress) => {
+      test.define("First test", async (tester, assertion, subprogress) => {
+        subprogress.total = 8;
         assertion(true, "assertion 1");
         await NwtTimer.timeout(500);
         subprogress.advance();
@@ -20588,8 +20649,8 @@ Vue.component("MainWindow", {
         await NwtTimer.timeout(500);
         subprogress.advance();
       });
-      test.define("Second test", async (tester, assertion) => {
-        const subprogress = progress.subprogress({ total: 3 });
+      test.define("Second test", async (tester, assertion, subprogress) => {
+        subprogress.total = 3;
         assertion(true, "assertion 1");
         await NwtTimer.timeout(500);
         subprogress.advance();
@@ -20600,8 +20661,8 @@ Vue.component("MainWindow", {
         await NwtTimer.timeout(500);
         subprogress.advance();
       });
-      test.define("Third test", async (tester, assertion) => {
-        const subprogress = progress.subprogress({ total: 5 });
+      test.define("Third test", async (tester, assertion, subprogress) => {
+        subprogress.total = 5;
         assertion(true, "assertion 1");
         await NwtTimer.timeout(500);
         subprogress.advance();
@@ -20618,7 +20679,69 @@ Vue.component("MainWindow", {
         await NwtTimer.timeout(500);
         subprogress.advance();
       });
-    
+      test.define("Fourth test", async (tester, assertion, subprogress) => {
+        tester.define("Fourth test - Part 1/5", async (tester, assertion, subprogress) => {
+          subprogress.total = 3;
+          assertion(true, "assertion 1");
+          await NwtTimer.timeout(500);
+          subprogress.advance();
+          assertion(true, "assertion 2");
+          await NwtTimer.timeout(500);
+          subprogress.advance();
+          assertion(true, "assertion 3");
+          await NwtTimer.timeout(500);
+          subprogress.advance();
+        });
+        tester.define("Fourth test - Part 2/5", async (tester, assertion, subprogress) => {
+          subprogress.total = 3;
+          assertion(true, "assertion 1");
+          await NwtTimer.timeout(500);
+          subprogress.advance();
+          assertion(true, "assertion 2");
+          await NwtTimer.timeout(500);
+          subprogress.advance();
+          assertion(true, "assertion 3");
+          await NwtTimer.timeout(500);
+          subprogress.advance();
+        });
+        tester.define("Fourth test - Part 3/5", async (tester, assertion, subprogress) => {
+          subprogress.total = 3;
+          assertion(true, "assertion 1");
+          await NwtTimer.timeout(500);
+          subprogress.advance();
+          assertion(true, "assertion 2");
+          await NwtTimer.timeout(500);
+          subprogress.advance();
+          assertion(true, "assertion 3");
+          await NwtTimer.timeout(500);
+          subprogress.advance();
+        });
+        tester.define("Fourth test - Part 4/5", async (tester, assertion, subprogress) => {
+          subprogress.total = 3;
+          assertion(true, "assertion 1");
+          await NwtTimer.timeout(500);
+          subprogress.advance();
+          assertion(true, "assertion 2");
+          await NwtTimer.timeout(500);
+          subprogress.advance();
+          assertion(true, "assertion 3");
+          await NwtTimer.timeout(500);
+          subprogress.advance();
+        });
+        tester.define("Fourth test - Part 5/5", async (tester, assertion, subprogress) => {
+          subprogress.total = 3;
+          assertion(true, "assertion 1");
+          await NwtTimer.timeout(500);
+          subprogress.advance();
+          assertion(true, "assertion 2");
+          await NwtTimer.timeout(500);
+          subprogress.advance();
+          assertion(true, "assertion 3");
+          await NwtTimer.timeout(500);
+          subprogress.advance();
+        });
+      });
+
     }, {
       onTestDefined: t => trace(`TEST: ${t.name}`),
       onTestSuccess: t => trace(`OK TEST: ${t.name}`),
@@ -20629,7 +20752,7 @@ Vue.component("MainWindow", {
     return {
       toastCounter: 0,
       currentTester: NwtTester.global,
-      progressBar: progress,
+      progressBar: NwtTester.global.progressBar,
     };
   },
   methods: {
@@ -20648,8 +20771,8 @@ Vue.component("MainWindow", {
     demoToast() {
       const counter = this.pickToastCounter();
       this.$toasts.show({
-        title: `Ejemplo ${ counter }`,
-        text: `Ok, los toasts (${ counter }) solo texto`,
+        title: `Ejemplo ${counter}`,
+        text: `Ok, los toasts (${counter}) solo texto`,
         footer: "El pie es opcional",
         timeout: 3000,
       });
@@ -20693,7 +20816,10 @@ Vue.component("MainWindow", {
     trace("MainWindow.mounted");
     //this.$refs.btn1.click();
     this.currentTester.start();
+    if (window.AppRoot && window.AppRoot.initialize) {
+      window.AppRoot.initialize(this);
+    }
   }
 })
 
-// @vuebundler[Proyecto_base_001][38]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css
+// @vuebundler[Proyecto_base_001][39]=/home/carlos/Escritorio/Alvaro/proyecto-base-001/assets/components/main-window/main-window.css

@@ -1,12 +1,2 @@
-- [ ] API de Dialogs:
-   - [x] Que se autocentre
-   - [x] Con unas dimensiones relativas razonables
-   - [x] Que se cierre el que toca
-   - [ ] Que haga un offset de movimiento para que no se vean todas naciendo con la misma forma y posición
-   - [ ] Que memorice la última posición y dimensiones al dropear la zona draggable
-   - [x] Que cierre hijos cuando cierra un padre
-   - [I] Que se pueda ver el árbol en el ProcessViewer de Dialogs
-   - [x] Que se pueda acceder con CTRL+SUPR a un process viewer en un diálogo
-      - [x] Que desde el CommonDialogs se inyecte un evento
-      - [x] Que se inyecte un evento en el document.body que capture el caso CTRL+SUPR
-      - [x] Que ese evento inicie un diálogo con el ProcessManagerViewer de dialogos
+- [x] Hacer que TesterViewer muestre un ProgressBarViewer recursivamente
+- [x] Permitir inyectar ficheros externos al framework en el bundler

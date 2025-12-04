@@ -219,11 +219,16 @@ Además, hace una tabla de contenidos general e imprime la estructura del proyec
   - 📁 builder
     - 📄 build-docs.js
     - 📄 bundle.js
+    - 📄 bundlelist-external.js
     - 📄 bundlelist.js
     - 📄 vuebundler.js
+  - 📁 app
+    - 📄 app-root.js
   - 📄 dist.css
   - 📄 dist.js
 - 📄 .gitignore
+- 📄 README-APP.md
+- 📄 README-NWT.md
 - 📄 README.md
 - 📄 TODO.md
 - 📄 index.html

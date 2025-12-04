@@ -3,29 +3,38 @@
         <div class="title">Botones para ventanas:</div>
         <div class="card">
             <div class="pad_bottom_1">
-                <button class="width_100 text_align_left" ref="btn1" v-on:click="demoDialog">Mostrar diálogo de ejemplo</button>
+                <button class="width_100 text_align_left"
+                    ref="btn1"
+                    v-on:click="demoDialog">Mostrar diálogo de ejemplo</button>
             </div>
             <div class="pad_bottom_1">
-                <button class="width_100 text_align_left" ref="btn1" v-on:click="demoNestedDialogs">Mostrar diálogos anidados de ejemplo</button>
+                <button class="width_100 text_align_left"
+                    ref="btn1"
+                    v-on:click="demoNestedDialogs">Mostrar diálogos anidados de ejemplo</button>
             </div>
             <div class="pad_bottom_1">
-                <button class="width_100 text_align_left" v-on:click="demoToast">Mostrar toast de
+                <button class="width_100 text_align_left"
+                    v-on:click="demoToast">Mostrar toast de
                     ejemplo</button>
             </div>
             <div class="pad_bottom_1">
-                <button class="width_100 text_align_left" v-on:click="() => $errors.showError(new $window.Error('Algo fue mal'))">Mostrar error de ejemplo</button>
+                <button class="width_100 text_align_left"
+                    v-on:click="() => $errors.showError(new $window.Error('Algo fue mal'))">Mostrar error de ejemplo</button>
             </div>
             <div class="pad_bottom_1">
-                <button class="width_100 text_align_left" v-on:click="showMultipleErrors">Mostrar múltiples errores simultáneos</button>
+                <button class="width_100 text_align_left"
+                    v-on:click="showMultipleErrors">Mostrar múltiples errores simultáneos</button>
             </div>
         </div>
         <div class="">
             <nwt-process-manager-viewer :process-manager="$nwt.ProcessManager.dialogs" />
         </div>
-        <nwt-tester-viewer :tester="currentTester"
-            title="Test global de prueba:" />
-        <div class="pad_top_1">
+        <div class="">
             <nwt-progress-bar-viewer :progress-bar="progressBar" />
+        </div>
+        <div class="">
+            <nwt-tester-viewer :tester="currentTester"
+                title="Test global de prueba:" />
         </div>
     </div>
     <common-dialogs />

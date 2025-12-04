@@ -63,6 +63,9 @@
                 </div>
             </div>
         </div>
+        <div class="progress">
+            <nwt-progress-bar-viewer :progress-bar="node.progressBar" />
+        </div>
         <div class="children">
             <nwt-tester-node v-for="(child,i) in node.children"
                 v-bind:key="'node_' + node.name + '_child_' + i"

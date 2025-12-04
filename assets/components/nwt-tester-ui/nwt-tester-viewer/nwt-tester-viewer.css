@@ -9,7 +9,7 @@
     background-color: #EEE;
     box-shadow: 2px 2px 0px black;
     padding: 4px;
-    max-height: 300px;
+    /*max-height: 300px;*/
     overflow: scroll;
 }
 .nwt_tester_viewer .tester_viewer_box.all_passed {

@@ -194,8 +194,6 @@
   }
 })(function () {
 
-  let NwtTester = undefined;
-
   const NwtTesterAssertion = class {
 
     static create(...args) {
@@ -220,7 +218,7 @@
 
   };
   
-  NwtTester = class {
+  const NwtTester = class {
 
     static Assertion = NwtTesterAssertion;
 
@@ -250,11 +248,13 @@
       this.accumulatedErrors = [];
       this.status = "pending";
       this.startedAt = null;
+      this.progressBar = this.parent ? this.parent.progressBar.subprogress({ total: 1, current: 0, weight: 1 }) : NwtProgressBar.create({ total: 1, current: 0, weight: 1 });
     }
 
     define(name, callback) {
       const test = new NwtTester(name, callback, this.hooks, this, this.root || this, this.level+1);
       this.children.push(test);
+      this.progressBar.total = this.children.length;
       this.hooks.onTestDefined?.(test);
       return test;
     }
@@ -295,7 +295,7 @@
         if (this.status === "pending") {
           try {
             this.status = "running";
-            await this.callback(this, assertion);
+            await this.callback(this, assertion, this.progressBar);
           } catch (error) {
             this.failBranch(this, error);
           }
